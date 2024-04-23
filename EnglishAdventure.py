@@ -29,9 +29,9 @@ def render_nome_texto():
     tela.blit(nome_jogador, nome_jogador_retangulo)
 
 
-def render_intro_texto():
+def render_texto(t):
     y = 100
-    for linha in intro_texto:
+    for linha in t:
         texto = fonte2.render(linha, False, 'Black')
         texto_retangulo = texto.get_rect(center=(625, y))
         tela.blit(texto, texto_retangulo)
@@ -72,7 +72,7 @@ while True:
     render_nome_texto()
     if nome_usuario:
         tela.fill((255, 255, 255))
-        render_intro_texto()
+        render_texto(intro_texto)
     sair()
     pygame.display.update()
     clock.tick(60)
