@@ -98,6 +98,8 @@ class Phase1Screen(BaseScreen):
 class CreditsScreen(BaseScreen):
     def __init__(self):
         super().__init__()
+        # Criando os botões
+        self.voltar_button = Button(1, 1, 200, 50, "Voltar")
 
     def update(self):
         pass
@@ -111,6 +113,8 @@ class CreditsScreen(BaseScreen):
             name_rect = name_text.get_rect(center=(SCREEN_WIDTH // 2, y))
             screen.blit(name_text, name_rect)
             y += 50
+
+        self.voltar_button.draw(screen)
 
 
 def main():
@@ -137,6 +141,9 @@ def main():
                     elif main_menu_screen.credits_button.is_clicked(pygame.mouse.get_pos()):
                         # Transição para a tela de créditos ao clicar em "Créditos"
                         current_screen = credits_screen
+                if current_screen == credits_screen:
+                    if credits_screen.voltar_button.is_clicked(pygame.mouse.get_pos()):
+                        current_screen = main_menu_screen
             elif event.type == pygame.KEYDOWN:
                 if current_screen == main_menu_screen:  # Verifica se está na tela inicial
                     # Verifica se o evento de tecla é um caractere imprimível e se o cursor está no retângulo de
