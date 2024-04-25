@@ -45,7 +45,7 @@ class MainMenuScreen(BaseScreen):
 
     def draw(self, screen):
         # Desenha o cenário inicial
-        background_image = pygame.image.load("imagens/cenario1.jpg").convert()
+        background_image = (pygame.image.load("imagens/cenario1.jpg").convert())
         screen.blit(background_image, (0, 0))
 
         # Desenha o título do jogo
@@ -117,11 +117,24 @@ class CreditsScreen(BaseScreen):
         self.voltar_button.draw(screen)
 
 
+class Cenario2(BaseScreen):
+    def __init__(self):
+        super().__init__()
+
+    def update(self):
+        pass
+
+    def draw(self, screen):
+        cenario2 = (pygame.image.load("imagens/castelodentro.jpg").convert())
+        screen.blit(cenario2, (0, 0))
+
+
 def main():
     # Criando as telas do jogo
     main_menu_screen = MainMenuScreen()
     phase1_screen = Phase1Screen()
     credits_screen = CreditsScreen()
+    cenario2 = Cenario2()
 
     current_screen = main_menu_screen  # Define a tela inicial como a tela atual
 
@@ -144,6 +157,7 @@ def main():
                 if current_screen == credits_screen:
                     if credits_screen.voltar_button.is_clicked(pygame.mouse.get_pos()):
                         current_screen = main_menu_screen
+
             elif event.type == pygame.KEYDOWN:
                 if current_screen == main_menu_screen:  # Verifica se está na tela inicial
                     # Verifica se o evento de tecla é um caractere imprimível e se o cursor está no retângulo de
@@ -151,6 +165,9 @@ def main():
                     if event.unicode.isprintable() and main_menu_screen.nickname_input.collidepoint(
                             pygame.mouse.get_pos()):
                         nickname += event.unicode
+                if current_screen == phase1_screen:
+                    if event.key == pygame.K_SPACE:
+                        current_screen = cenario2
 
         # Atualiza e desenha a tela atual
         screen.fill(BLACK)  # Preenche a tela com preto
