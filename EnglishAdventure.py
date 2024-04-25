@@ -36,10 +36,11 @@ class MainMenuScreen(BaseScreen):
     def __init__(self):
         super().__init__()
         # Criando os botões
-        self.start_button = Button(SCREEN_WIDTH // 2 - 100, 400, 200, 50, "Iniciar Jogo")
-        self.credits_button = Button(SCREEN_WIDTH // 2 - 100, 470, 200, 50, "Créditos")
+        self.start_button = Button(SCREEN_WIDTH // 2 - 100, 400, 200, 50, "START")
+        self.credits_button = Button(SCREEN_WIDTH // 2 - 100, 470, 200, 50, "Credits")
         # Criando o campo de entrada para o nickname
         self.nickname_input = pygame.Rect(SCREEN_WIDTH // 2 - 100, 270, 200, 30)
+        self.nickname = ''
 
     def update(self):
         pass
@@ -63,6 +64,25 @@ class MainMenuScreen(BaseScreen):
         nickname_text = nickname_font.render("Nickname:", True, WHITE)
         screen.blit(nickname_text, (SCREEN_WIDTH // 2 - 100, 250))
         pygame.draw.rect(screen, WHITE, self.nickname_input, 2)  # Desenhando o retângulo de entrada do nickname
+
+        # Renderiza dinamicamente o nome do usuário no retângulo de entrada de texto
+        nickname_input_text = nickname_font.render(self.nickname, True, WHITE)
+        screen.blit(nickname_input_text, (SCREEN_WIDTH // 2 - 90, 275))
+
+    # Dentro do loop principal (while running), no bloco de eventos KEYDOWN
+    # Verifica se o evento de tecla é um caractere imprimível e se o cursor está no retângulo de entrada de texto
+    def handle_keydown_event(self, event):
+        if event.unicode.isprintable() and self.nickname_input.collidepoint(pygame.mouse.get_pos()):
+            self.nickname += event.unicode
+        elif event.key == pygame.K_BACKSPACE:
+            self.nickname = self.nickname[:-1]  # Remove o último caractere do nome, se houver algum
+
+    # Dentro do bloco de eventos MOUSEBUTTONDOWN, após a verificação para o botão "START" ser clicado
+    # Adiciona a linha para salvar o nome atual do usuário na variável nickname
+    def handle_mouse_button_down_event(self, pos):
+        if self.start_button.is_clicked(pos):
+            self.nickname = self.nickname.strip()  # Remove espaços em branco do início e do fim
+            nickname = self.nickname  # Salva o nome na variável nickname
 
 
 class Button:
@@ -104,20 +124,21 @@ class CreditsScreen(BaseScreen):
     def __init__(self):
         super().__init__()
         # Criando os botões
-        self.voltar_button = Button(1, 1, 200, 50, "Voltar")
+        self.voltar_button = Button(1, 1, 200, 50, "Return")
 
     def update(self):
         pass
 
     def draw(self, screen):
         screen.fill(BLACK)  # Preenche a tela com preto
-        text = ["Jeann", "Joao Vitor", "Joao Pedro", "Kauan", "Jhenifer", "Thamiris"]
-        y = 50
+        text = ["Jeann Garçoni Alves", "Jhenifer Gonçalves Januário", "João Pedro de Oliveira Peres",
+                "João Vitor Gaiato", "Kauan Omura Lopes", "Tamires Ledo da Silva Alves"]
+        y = 100
         for name in text:
             name_text = font.render(name, True, WHITE)
             name_rect = name_text.get_rect(center=(SCREEN_WIDTH // 2, y))
             screen.blit(name_text, name_rect)
-            y += 50
+            y += 100
 
         self.voltar_button.draw(screen)
 
@@ -140,10 +161,7 @@ def main():
     phase1_screen = Phase1Screen()
     credits_screen = CreditsScreen()
     cenario2 = Cenario2()
-
     current_screen = main_menu_screen  # Define a tela inicial como a tela atual
-
-    nickname = ""  # Definindo a variável nickname
 
     running = True
     while running:
@@ -155,6 +173,7 @@ def main():
                 if current_screen == main_menu_screen:  # Verifica se está na tela inicial
                     if main_menu_screen.start_button.is_clicked(pygame.mouse.get_pos()):
                         # Transição para a tela da fase 1 ao clicar em "Iniciar Jogo"
+                        main_menu_screen.handle_mouse_button_down_event(pygame.mouse.get_pos())
                         current_screen = phase1_screen
                     elif main_menu_screen.credits_button.is_clicked(pygame.mouse.get_pos()):
                         # Transição para a tela de créditos ao clicar em "Créditos"
@@ -164,12 +183,8 @@ def main():
                         current_screen = main_menu_screen
 
             elif event.type == pygame.KEYDOWN:
-                if current_screen == main_menu_screen:  # Verifica se está na tela inicial
-                    # Verifica se o evento de tecla é um caractere imprimível e se o cursor está no retângulo de
-                    # entrada de texto
-                    if event.unicode.isprintable() and main_menu_screen.nickname_input.collidepoint(
-                            pygame.mouse.get_pos()):
-                        nickname += event.unicode
+                main_menu_screen.handle_keydown_event(event)  # Chama o método para lidar com eventos KEYDOWN
+
                 if current_screen == phase1_screen:
                     if event.key == pygame.K_SPACE:
                         current_screen = cenario2
