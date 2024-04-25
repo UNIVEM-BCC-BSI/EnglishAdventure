@@ -17,6 +17,7 @@ GRAY = (150, 150, 150)
 
 # Definindo a fonte
 font = pygame.font.Font(None, 48)  # Aumentando o tamanho da fonte do nome do jogo
+font2 = pygame.font.Font(None, 40)
 nickname_font = pygame.font.Font(None, 24)  # Aumentando um pouco a fonte do Nickname
 
 
@@ -93,6 +94,10 @@ class Phase1Screen(BaseScreen):
         title_text = font.render("FASE 1", True, WHITE)
         title_rect = title_text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
         screen.blit(title_text, title_rect)
+
+        title_text2 = font2.render("Press SPACE to continue...", True, WHITE)
+        title_rect2 = title_text2.get_rect(center=(SCREEN_WIDTH // 2, 550))
+        screen.blit(title_text2, title_rect2)
 
 
 class CreditsScreen(BaseScreen):
