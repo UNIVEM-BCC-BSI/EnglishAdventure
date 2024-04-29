@@ -20,6 +20,9 @@ font = pygame.font.Font(None, 48)  # Aumentando o tamanho da fonte do nome do jo
 font2 = pygame.font.Font(None, 40)
 nickname_font = pygame.font.Font(None, 24)  # Aumentando um pouco a fonte do Nickname
 
+# Definindo a variável global player_name
+player_name = ''
+
 
 class BaseScreen:
     def __init__(self):
@@ -47,13 +50,12 @@ class MainMenuScreen(BaseScreen):
 
     def draw(self, screen):
         # Desenha o cenário inicial
-        background_image = (pygame.image.load("imagens/cenario1.jpg").convert())
+        background_image = pygame.image.load("imagens/cenario1.jpg").convert()
         screen.blit(background_image, (0, 0))
 
         # Desenha o título do jogo
         title_text = font.render("English Adventure", True, WHITE)
-        title_rect = title_text.get_rect(
-            center=(SCREEN_WIDTH // 2, 150))  # Centralizando e posicionando na parte superior
+        title_rect = title_text.get_rect(center=(SCREEN_WIDTH // 2, 150))  # Centralizando e posicionando na parte superior
         screen.blit(title_text, title_rect)
 
         # Desenha os botões
@@ -80,9 +82,10 @@ class MainMenuScreen(BaseScreen):
     # Dentro do bloco de eventos MOUSEBUTTONDOWN, após a verificação para o botão "START" ser clicado
     # Adiciona a linha para salvar o nome atual do usuário na variável nickname
     def handle_mouse_button_down_event(self, pos):
+        global player_name
         if self.start_button.is_clicked(pos):
             self.nickname = self.nickname.strip()  # Remove espaços em branco do início e do fim
-            nickname = self.nickname  # Salva o nome na variável nickname
+            player_name = self.nickname  # Salva o nome na variável player_name
 
 
 class Button:
@@ -105,19 +108,44 @@ class Button:
 class Phase1Screen(BaseScreen):
     def __init__(self):
         super().__init__()
+        self.text_index = 0  # Índice do texto atual
+        self.texts = [
+            ("FASE 1", "Press SPACE to continue..."),
+            (f'{player_name}, é um(a) jovem determinado(a) e com um grande espírito aventureiro',
+             f'que nasceu em uma cidade pequena no interior do São Paulo, ',
+             f'ele(a) tinha o sonho de viajar pelo mundo e conhecer novas culturas.',
+             f'Em um certo dia, {player_name} acaba se inscrevendo em um concurso',
+             f'que daria como prêmio uma longa viagem pelos países., ',
+             f'Para a surpresa de todos e de si próprio(a),',
+             f'{player_name} acaba ganhando e então embarca na maior aventura de sua vida.',
+             f'Mas espera aí...  {player_name} não sabe inglês, ',
+             f'então essa viagem também será uma grande aprendizagem.')
+        ]
 
     def update(self):
         pass
 
     def draw(self, screen):
         screen.fill(BLACK)  # Preenche a tela com preto
-        title_text = font.render("FASE 1", True, WHITE)
-        title_rect = title_text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
-        screen.blit(title_text, title_rect)
 
-        title_text2 = font2.render("Press SPACE to continue...", True, WHITE)
-        title_rect2 = title_text2.get_rect(center=(SCREEN_WIDTH // 2, 550))
-        screen.blit(title_text2, title_rect2)
+        if self.text_index == 0:  # Se for o primeiro texto
+            text1 = font.render(self.texts[self.text_index][0], True, WHITE)
+            text1_rect = text1.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+            screen.blit(text1, text1_rect)
+
+            text2 = font2.render(self.texts[self.text_index][1], True, WHITE)
+            text2_rect = text2.get_rect(center=(SCREEN_WIDTH // 2, 550))
+            screen.blit(text2, text2_rect)
+        elif self.text_index == 1:
+            y = 50
+            for texto in self.texts[self.text_index]:
+                text3 = font.render(texto, True, WHITE)
+                text3_rect = text3.get_rect(center=(SCREEN_WIDTH // 2, y))
+                screen.blit(text3, text3_rect)
+                y += 50
+
+    def change_text(self):
+        self.text_index = (self.text_index + 1) % len(self.texts)  # Avança para o próximo texto
 
 
 class CreditsScreen(BaseScreen):
@@ -146,16 +174,57 @@ class CreditsScreen(BaseScreen):
 class Cenario2(BaseScreen):
     def __init__(self):
         super().__init__()
+        self.text_index = 0  # Índice do texto atual
+        self.texts = [
+            ("O seu primeiro destino será Londres, Inglaterra.",
+             "Lá você vai conhecer vários monumentos turísticos. ",
+             "E aprender muito com personagens locais históricos!"),
+            ('Bem-vindo a Londres, capital da Inglaterra e do Reino Unido,',
+             'é uma cidade do século 21 com uma história que remonta à era romana.',
+             'Seu centro abriga as sedes imponentes do Parlamento ',
+             'e a famosa torre do relógio do Big Ben.'),
+            (f'Parabéns, você recebeu o convite para um tour pelo palacio real',
+             'acompanhado(a) pessoalmente pela própria Rainha,',
+             'essa é uma oportunidade muito especial e única!'),
+            ('Welcome to the Buckingham Palace! I am Queen Elizabeth,',
+             'e estou aqui para ensinar-lhes várias importantes em inglês.',
+             "Let's start with the greetings, as saudações, ",
+             "que são essenciais para qualquer conversa educada. ",
+             "'Hello' significa 'Olá'. Temos também 'Good morning' para desejar um bom dia.",
+             "And 'Good afternoon' para dizer boa tarde. Very good!!!Muito bem!!!"),
+            ('Agora, para um rápido desafio, vou fazer algumas perguntas simples,',
+             'vamos ver se você se lembra:')
+        ]
+        self.text_surface = None
 
     def update(self):
         pass
 
     def draw(self, screen):
-        cenario2 = (pygame.image.load("imagens/castelodentro.jpg").convert())
+        cenario2 = pygame.image.load("imagens/castelodentro.jpg").convert()
         screen.blit(cenario2, (0, 0))
+        text_width = max(len(text) for text in self.texts[self.text_index]) * 20
+        text_height = len(self.texts[self.text_index]) * 30
+        self.text_surface = pygame.Surface((text_width, text_height)).convert_alpha()
+        self.text_surface.fill((30, 30, 30, 150))  # Cor do retângulo com transparência
+
+        # Desenha os textos sobre a superfície
+        y = 17
+        for texto in self.texts[self.text_index]:
+            text = font2.render(texto, True, WHITE)
+            text_rect = text.get_rect(center=(text_width // 2, y))
+            self.text_surface.blit(text, text_rect)
+            y += 30
+
+        # Desenha a superfície sobre a tela principal
+        screen.blit(self.text_surface, (SCREEN_WIDTH // 2 - text_width // 2, SCREEN_HEIGHT // 2 - text_height // 2))
+
+    def change_text(self):
+        self.text_index = (self.text_index + 1) % len(self.texts)  # Avança para o próximo texto
 
 
 def main():
+    global player_name
     # Criando as telas do jogo
     main_menu_screen = MainMenuScreen()
     phase1_screen = Phase1Screen()
@@ -187,7 +256,15 @@ def main():
 
                 if current_screen == phase1_screen:
                     if event.key == pygame.K_SPACE:
+                        phase1_screen.change_text()
+
+                if current_screen == phase1_screen:
+                    if event.key == pygame.K_c:
                         current_screen = cenario2
+
+                if current_screen == cenario2:
+                    if event.key == pygame.K_SPACE:
+                        cenario2.change_text()
 
         # Atualiza e desenha a tela atual
         screen.fill(BLACK)  # Preenche a tela com preto
