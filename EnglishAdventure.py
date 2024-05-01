@@ -18,6 +18,7 @@ GRAY = (150, 150, 150)
 font = pygame.font.Font(None, 48)
 font2 = pygame.font.Font(None, 40)
 font3 = pygame.font.Font(None, 36)
+font4 = pygame.font.Font(None, 33)
 nickname_font = pygame.font.Font(None, 24)
 
 player_name = ""
@@ -94,6 +95,28 @@ class Button:
         return self.rect.collidepoint(pos)
 
 
+class CreditsScreen(BaseScreen):
+    def __init__(self):
+        super().__init__()
+        self.voltar_button = Button(1, 1, 200, 50, "Return")
+
+    def update(self):
+        pass
+
+    def draw(self, screen):
+        screen.fill(BLACK)
+        text = ["Jeann Garçoni Alves", "Jhenifer Gonçalves Januário", "João Pedro de Oliveira Peres",
+                "João Vitor Gaiato", "Kauan Omura Lopes", "Tamires Ledo da Silva Alves"]
+        y = 100
+        for name in text:
+            name_text = font.render(name, True, WHITE)
+            name_rect = name_text.get_rect(center=(SCREEN_WIDTH // 2, y))
+            screen.blit(name_text, name_rect)
+            y += 100
+
+        self.voltar_button.draw(screen)
+
+
 class Phase1Screen(BaseScreen):
     def __init__(self):
         super().__init__()
@@ -118,8 +141,11 @@ class Phase1Screen(BaseScreen):
              "e a famosa torre do relógio do Big Ben."),
             (f"Parabéns, você recebeu o convite para um tour pelo palacio real",
              "acompanhado(a) pessoalmente pela própria Rainha,",
-             "essa é uma oportunidade muito especial e única!")
+             "essa é uma oportunidade muito especial e única!",
+             "Press RIGHT(->) to continue... ")
         ]
+
+        self.requires_transition = [4]  # Índices dos textos que exigem transição para outra tela
 
     def update(self):
         pass
@@ -135,38 +161,30 @@ class Phase1Screen(BaseScreen):
             text2 = font2.render(self.texts[self.text_index][1], True, WHITE)
             text2_rect = text2.get_rect(center=(SCREEN_WIDTH // 2, 550))
             screen.blit(text2, text2_rect)
-        else:
+        elif 0 < self.text_index < 4:
             y = 50
             for texto in self.texts[self.text_index]:
                 text3 = font.render(texto, True, WHITE)
                 text3_rect = text3.get_rect(center=(SCREEN_WIDTH // 2, y))
                 screen.blit(text3, text3_rect)
                 y += 50
+        elif self.text_index >= 4:
+            if self.text_index == 4:
+                y = 50
+                for texto in self.texts[self.text_index][0:3]:
+                    text3 = font.render(texto, True, WHITE)
+                    text3_rect = text3.get_rect(center=(SCREEN_WIDTH // 2, y))
+                    screen.blit(text3, text3_rect)
+                    y += 50
+
+                text4 = font2.render(self.texts[self.text_index][3], True, WHITE)
+                text4_rect = text4.get_rect(center=(SCREEN_WIDTH // 2, 550))
+                screen.blit(text4, text4_rect)
 
     def change_text(self):
+        if self.text_index in self.requires_transition:
+            return  # Não muda mais o texto se for um texto que requer transição
         self.text_index = (self.text_index + 1) % len(self.texts)
-
-
-class CreditsScreen(BaseScreen):
-    def __init__(self):
-        super().__init__()
-        self.voltar_button = Button(1, 1, 200, 50, "Return")
-
-    def update(self):
-        pass
-
-    def draw(self, screen):
-        screen.fill(BLACK)
-        text = ["Jeann Garçoni Alves", "Jhenifer Gonçalves Januário", "João Pedro de Oliveira Peres",
-                "João Vitor Gaiato", "Kauan Omura Lopes", "Tamires Ledo da Silva Alves"]
-        y = 100
-        for name in text:
-            name_text = font.render(name, True, WHITE)
-            name_rect = name_text.get_rect(center=(SCREEN_WIDTH // 2, y))
-            screen.blit(name_text, name_rect)
-            y += 100
-
-        self.voltar_button.draw(screen)
 
 
 class Cenario2(BaseScreen):
@@ -186,6 +204,7 @@ class Cenario2(BaseScreen):
         ]
         self.persona_image = pygame.image.load("imagens/Personagem.png").convert_alpha()
         self.rainha_image = pygame.image.load("imagens/Rainha (1).png").convert_alpha()
+        self.requires_transition = [3]
 
     def update(self):
         pass
@@ -207,7 +226,8 @@ class Cenario2(BaseScreen):
         text_width = min(max(len(text) for text in self.texts[self.text_index]) * 17, max_text_width)
         text_height = len(self.texts[self.text_index]) * 55
         x = margin + self.persona_image.get_width() + (
-                    SCREEN_WIDTH - 2 * margin - self.persona_image.get_width() - self.rainha_image.get_width() - text_width) // 2
+                SCREEN_WIDTH - 2 * margin - self.persona_image.get_width() -
+                self.rainha_image.get_width() - text_width) // 2
         y = SCREEN_HEIGHT - self.rainha_image.get_height() - text_height - 80
 
         # Desenhar balão de fala
@@ -222,7 +242,14 @@ class Cenario2(BaseScreen):
             screen.blit(text, text_rect)
             y_offset += 45
 
+        if self.text_index == 3:
+            text2 = font4.render("Press -> to continue...", True, BLACK)
+            text2_rect = text2.get_rect(center=(1100, 605))
+            screen.blit(text2, text2_rect)
+
     def change_text(self):
+        if self.text_index in self.requires_transition:
+            return  # Não muda mais o texto se for um texto que requer transição
         self.text_index = (self.text_index + 1) % len(self.texts)
 
 
@@ -257,14 +284,16 @@ def main():
                 if current_screen == phase1_screen:
                     if event.key == pygame.K_SPACE:
                         phase1_screen.change_text()
-
-                if current_screen == phase1_screen:
-                    if event.key == pygame.K_RIGHT:
-                        current_screen = cenario2
+                    elif event.key == pygame.K_RIGHT:  # Adicionamos essa verificação para a tecla "right"
+                        if phase1_screen.text_index in phase1_screen.requires_transition:
+                            current_screen = cenario2  # Transição para a próxima tela
 
                 if current_screen == cenario2:
                     if event.key == pygame.K_SPACE:
                         cenario2.change_text()
+                    elif event.key == pygame.K_RIGHT:  # Adicionamos essa verificação para a tecla "right"
+                        if cenario2.text_index in cenario2.requires_transition:
+                            current_screen = cenario2
 
         screen.fill(BLACK)
         current_screen.draw(screen)
