@@ -200,11 +200,13 @@ class Cenario2(BaseScreen):
              "para desejar um bom dia.",
              "And 'Good afternoon' para dizer boa tarde. Very good!!!Muito bem!!!"),
             ("Agora, para um rápido desafio, vou fazer algumas perguntas simples,",
-             "vamos ver se você se lembra:")
+             "vamos ver se você se lembra:"),
+            ("Para selecionar a resposta que deseja, aperte as teclas: ",
+             "1, 2 ou 3")
         ]
         self.persona_image = pygame.image.load("imagens/Personagem.png").convert_alpha()
         self.rainha_image = pygame.image.load("imagens/Rainha (1).png").convert_alpha()
-        self.requires_transition = [3]
+        self.requires_transition = [4]
 
     def update(self):
         pass
@@ -242,15 +244,104 @@ class Cenario2(BaseScreen):
             screen.blit(text, text_rect)
             y_offset += 45
 
-        if self.text_index == 3:
+        if self.text_index == 4:
             text2 = font4.render("Press -> to continue...", True, BLACK)
             text2_rect = text2.get_rect(center=(1100, 605))
             screen.blit(text2, text2_rect)
 
     def change_text(self):
         if self.text_index in self.requires_transition:
-            return  # Não muda mais o texto se for um texto que requer transição
+            return
         self.text_index = (self.text_index + 1) % len(self.texts)
+
+
+class Desafio1(BaseScreen):
+    def __init__(self):
+        super().__init__()
+        self.current_question = 0
+        self.questions = [
+            {
+                "enunciado": "Preencha as lacunas com as saudações corretas:",
+                "pergunta": "___ significa 'Olá'",
+                "opcoes": ["Hello", "Bye Bye", "Queen"],
+                "resposta_correta": 0
+            },
+            {
+                "enunciado": "Preencha as lacunas com as saudações corretas:",
+                "pergunta": "___ é usado para desejar um bom dia.",
+                "opcoes": ["Good afternoon", "Good Morning", "Queen"],
+                "resposta_correta": 1
+            },
+            {
+                "enunciado": "Preencha as lacunas com as saudações corretas:",
+                "pergunta": "___ é utilizado para cumprimentar alguém à noite.",
+                "opcoes": ["Hello", "Good Morning", "Good Night"],
+                "resposta_correta": 2
+            }
+        ]
+        self.persona_image = pygame.image.load("imagens/Personagem.png").convert_alpha()
+        self.current_choice = None
+
+    def update(self):
+        pass
+
+    def draw(self, screen):
+        cenario2 = pygame.image.load("imagens/castelo4.png").convert()
+        screen.blit(cenario2, (0, 0))
+        screen.blit(self.persona_image, (50, SCREEN_HEIGHT - self.persona_image.get_height() - 50))
+
+        num_opcoes = len(self.questions[self.current_question]["opcoes"])
+        question_rect_height = num_opcoes * 80 + 160
+        question_rect_width = 800
+        question_rect_x = (SCREEN_WIDTH - question_rect_width) // 2
+        question_rect_y = (SCREEN_HEIGHT - question_rect_height) // 2
+
+        transparent_surface = pygame.Surface((question_rect_width, question_rect_height), pygame.SRCALPHA)
+        transparent_surface.fill((0, 0, 0, 128))  # Cor preta com um valor de alfa de 128 (semi-transparente)
+        screen.blit(transparent_surface, (question_rect_x, question_rect_y))
+
+        enunciado_text = font2.render(self.questions[self.current_question]["enunciado"], True, BLACK)
+        screen.blit(enunciado_text, (question_rect_x + 20, question_rect_y + 20))
+
+        pergunta_text = font2.render(self.questions[self.current_question]["pergunta"], True, BLACK)
+        screen.blit(pergunta_text, (question_rect_x + 20, question_rect_y + 60))
+
+        y = question_rect_y + 120
+        for index, opcao in enumerate(self.questions[self.current_question]["opcoes"]):
+            opcao_text = font2.render(opcao, True, BLACK)
+            screen.blit(opcao_text, (question_rect_x + 40, y))
+            y += 80
+
+    def handle_mouse_button_down_event(self, pos):
+        pass
+
+    def handle_keydown_event(self, event):
+        if event.key == pygame.K_1:
+            self.current_choice = 0
+            if self.current_choice == self.questions[self.current_question]["resposta_correta"]:
+                self.current_question = (self.current_question + 1) % len(self.questions)
+        elif event.key == pygame.K_2:
+            self.current_choice = 1
+            if self.current_choice == self.questions[self.current_question]["resposta_correta"]:
+                self.current_question = (self.current_question + 1) % len(self.questions)
+        elif event.key == pygame.K_3:
+            self.current_choice = 2
+            if self.current_choice == self.questions[self.current_question]["resposta_correta"]:
+                self.current_question = (self.current_question + 1) % len(self.questions)
+
+
+class Cenario3(BaseScreen):
+    def __init__(self):
+        super().__init__()
+        self.persona_image = pygame.image.load("imagens/Personagem.png").convert_alpha()
+
+    def update(self):
+        pass
+
+    def draw(self, screen):
+        cenario2 = pygame.image.load("imagens/castelo4.png").convert()
+        screen.blit(cenario2, (0, 0))
+        screen.blit(self.persona_image, (50, SCREEN_HEIGHT - self.persona_image.get_height() - 50))
 
 
 def main():
@@ -259,6 +350,8 @@ def main():
     phase1_screen = Phase1Screen()
     credits_screen = CreditsScreen()
     cenario2 = Cenario2()
+    desafio1 = Desafio1()
+    cenario3 = Cenario3()
     current_screen = main_menu_screen
 
     running = True
@@ -277,23 +370,25 @@ def main():
                 if current_screen == credits_screen:
                     if credits_screen.voltar_button.is_clicked(pygame.mouse.get_pos()):
                         current_screen = main_menu_screen
-
+                if current_screen == desafio1:
+                    desafio1.handle_mouse_button_down_event(pygame.mouse.get_pos())
             elif event.type == pygame.KEYDOWN:
                 main_menu_screen.handle_keydown_event(event)
-
                 if current_screen == phase1_screen:
                     if event.key == pygame.K_SPACE:
                         phase1_screen.change_text()
-                    elif event.key == pygame.K_RIGHT:  # Adicionamos essa verificação para a tecla "right"
+                    elif event.key == pygame.K_RIGHT:
                         if phase1_screen.text_index in phase1_screen.requires_transition:
-                            current_screen = cenario2  # Transição para a próxima tela
-
-                if current_screen == cenario2:
+                            current_screen = cenario2
+                elif current_screen == cenario2:
                     if event.key == pygame.K_SPACE:
                         cenario2.change_text()
-                    elif event.key == pygame.K_RIGHT:  # Adicionamos essa verificação para a tecla "right"
+                    if event.key == pygame.K_RIGHT:
                         if cenario2.text_index in cenario2.requires_transition:
-                            current_screen = cenario2
+                            current_screen = desafio1
+                elif current_screen == desafio1:
+                    if current_screen == desafio1:
+                        desafio1.handle_keydown_event(event)
 
         screen.fill(BLACK)
         current_screen.draw(screen)
