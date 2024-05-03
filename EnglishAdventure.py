@@ -1,18 +1,19 @@
+
 import pygame
 import sys
 
 pygame.init()
 
 # Tela
-SCREEN_WIDTH = 1250
-SCREEN_HEIGHT = 650
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+TELA_LARG = 1250
+TELA_ALT = 650
+tela = pygame.display.set_mode((TELA_LARG, TELA_ALT))
 pygame.display.set_caption("English Adventure")
 
 # Cores
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-GRAY = (150, 150, 150)
+BRANCA = (255, 255, 255)
+PRETO = (0, 0, 0)
+CINZA = (150, 150, 150)
 
 # Fontes
 font = pygame.font.Font(None, 48)
@@ -21,120 +22,121 @@ font3 = pygame.font.Font(None, 36)
 font4 = pygame.font.Font(None, 33)
 nickname_font = pygame.font.Font(None, 24)
 
-player_name = ""
-
-garota = pygame.image.load("imagens/Personagem.png").convert_alpha()
-rainha = pygame.image.load("imagens/Rainha (1).png").convert_alpha()
-background_image = pygame.image.load("imagens/cenario1.jpg").convert()
-cenario = pygame.image.load("imagens/castelo4.png").convert()
+jogador_nome = ""
 
 
-class BaseScreen:
+garota = pygame.image.load("imagem/garoto.png").convert_alpha()
+rainha = pygame.image.load("imagem/rainha.png").convert_alpha()
+imagem_fundo = pygame.image.load("imagem/Cenarioinicio.jpg").convert_alpha()
+cenario = pygame.image.load("imagem/cenario1.png").convert_alpha()
+
+
+class TelaBase:
     def __init__(self):
         pass
 
     def update(self):
         pass
 
-    def draw(self, screen):
+    def draw(self, tela):
         pass
 
 
-class MainMenuScreen(BaseScreen):
+class MenuPrincipal(TelaBase):
     def __init__(self):
         super().__init__()
-        self.start_button = Button(SCREEN_WIDTH // 2 - 100, 400, 200, 50, "START")
-        self.credits_button = Button(SCREEN_WIDTH // 2 - 100, 470, 200, 50, "Credits")
-        self.nickname_input = pygame.Rect(SCREEN_WIDTH // 2 - 100, 270, 200, 30)
+        self.botao_start = Button(TELA_LARG // 2 - 100, 400, 200, 50, "START")
+        self.botao_credito = Button(TELA_LARG // 2 - 100, 470, 200, 50, "Credits")
+        self.nickname_input = pygame.Rect(TELA_LARG // 2 - 100, 270, 200, 30)
         self.nickname = ''
 
     def update(self):
         pass
 
-    def draw(self, screen):
-        screen.blit(background_image, (0, 0))
+    def draw(self, tela):
+        tela.blit(imagem_fundo, (0, 0))
 
-        title_text = font.render("English Adventure", True, BLACK)
-        title_rect = title_text.get_rect(center=(SCREEN_WIDTH // 2, 150))
-        screen.blit(title_text, title_rect)
+        titulo_texto = font.render("English Adventure", True, PRETO)
+        titulo_retangulo = titulo_texto.get_rect(center=(TELA_LARG // 2, 150))
+        tela.blit(titulo_texto, titulo_retangulo)
 
         # Desenha os botões
-        self.start_button.draw(screen)
-        self.credits_button.draw(screen)
+        self.botao_start.draw(tela)
+        self.botao_credito.draw(tela)
 
-        nickname_text = nickname_font.render("Nickname:", True, BLACK)
-        screen.blit(nickname_text, (SCREEN_WIDTH // 2 - 100, 250))
-        pygame.draw.rect(screen, BLACK, self.nickname_input, 2)
+        nickname_text = nickname_font.render("Nickname:", True, PRETO)
+        tela.blit(nickname_text, (TELA_LARG // 2 - 100, 250))
+        pygame.draw.rect(tela, PRETO, self.nickname_input, 2)
 
-        nickname_input_text = nickname_font.render(self.nickname, True, BLACK)
-        screen.blit(nickname_input_text, (SCREEN_WIDTH // 2 - 90, 275))
+        nickname_input_text = nickname_font.render(self.nickname, True, PRETO)
+        tela.blit(nickname_input_text, (TELA_LARG // 2 - 90, 275))
 
-    def handle_keydown_event(self, event):
+    def lidar_keydown_event(self, event):
         if event.unicode.isprintable() and self.nickname_input.collidepoint(pygame.mouse.get_pos()):
             self.nickname += event.unicode
         elif event.key == pygame.K_BACKSPACE:
             self.nickname = self.nickname[:-1]
 
-    def handle_mouse_button_down_event(self, pos):
-        global player_name
-        if self.start_button.is_clicked(pos):
+    def lidar_mouse_button_down_event(self, pos):
+        global jogador_nome
+        if self.botao_start.is_clicked(pos):
             self.nickname = self.nickname.strip()
-            player_name = self.nickname
+            jogador_nome = self.nickname
 
 
 class Button:
     def __init__(self, x, y, width, height, text, action=None):
-        self.rect = pygame.Rect(x, y, width, height)
-        self.color = GRAY
-        self.text = text
-        self.action = action
+        self.ret = pygame.Rect(x, y, width, height)
+        self.cor = CINZA
+        self.texto = text
+        self.acao = action
 
-    def draw(self, screen):
-        pygame.draw.rect(screen, self.color, self.rect)
-        text_surface = font.render(self.text, True, BLACK)
-        text_rect = text_surface.get_rect(center=self.rect.center)
-        screen.blit(text_surface, text_rect)
+    def draw(self, tela):
+        pygame.draw.rect(tela, self.cor, self.ret)
+        superficie_texto = font.render(self.texto, True, PRETO)
+        texto_ret = superficie_texto.get_rect(center=self.ret.center)
+        tela.blit(superficie_texto, texto_ret)
 
     def is_clicked(self, pos):
-        return self.rect.collidepoint(pos)
+        return self.ret.collidepoint(pos)
 
 
-class CreditsScreen(BaseScreen):
+class TelaCreditos(TelaBase):
     def __init__(self):
         super().__init__()
-        self.voltar_button = Button(1, 1, 200, 50, "Return")
+        self.voltar_butao = Button(1, 1, 200, 50, "Return")
 
     def update(self):
         pass
 
-    def draw(self, screen):
-        screen.fill(BLACK)
-        text = ["Jeann Garçoni Alves", "Jhenifer Gonçalves Januário", "João Pedro de Oliveira Peres",
+    def draw(self, tela):
+        tela.fill(PRETO)
+        texto = ["Jeann Garçoni Alves", "Jhenifer Gonçalves Januário", "João Pedro de Oliveira Peres",
                 "João Vitor Gaiato", "Kauan Omura Lopes", "Tamires Ledo da Silva Alves"]
         y = 100
-        for name in text:
-            name_text = font.render(name, True, WHITE)
-            name_rect = name_text.get_rect(center=(SCREEN_WIDTH // 2, y))
-            screen.blit(name_text, name_rect)
+        for nome in texto:
+            nome_texto = font.render(nome, True, BRANCA)
+            nome_ret = nome_texto.get_rect(center=(TELA_LARG // 2, y))
+            tela.blit(nome_texto, nome_ret)
             y += 100
 
-        self.voltar_button.draw(screen)
+        self.voltar_butao.draw(tela)
 
 
-class Phase1Screen(BaseScreen):
+class TelaIntro(TelaBase):
     def __init__(self):
         super().__init__()
-        self.text_index = 0
-        self.texts = [
+        self.indice_texto = 0
+        self.textos = [
             ("FASE 1", "Press SPACE to continue..."),
-            (f"{player_name}, é um(a) jovem determinado(a) e com um grande espírito aventureiro",
+            (f"{jogador_nome}, é um(a) jovem determinado(a) e com um grande espírito aventureiro",
              f"que nasceu em uma cidade pequena no interior do São Paulo, ",
              f"ele(a) tinha o sonho de viajar pelo mundo e conhecer novas culturas.",
-             f"Em um certo dia, {player_name} acaba se inscrevendo em um concurso",
+             f"Em um certo dia, {jogador_nome} acaba se inscrevendo em um concurso",
              f"que daria como prêmio uma longa viagem pelos países., ",
              f"Para a surpresa de todos e de si próprio(a),",
-             f"{player_name} acaba ganhando e então embarca na maior aventura de sua vida.",
-             f"Mas espera aí...  {player_name} não sabe inglês, ",
+             f"{jogador_nome} acaba ganhando e então embarca na maior aventura de sua vida.",
+             f"Mas espera aí...  {jogador_nome} não sabe inglês, ",
              f"então essa viagem também será uma grande aprendizagem."),
             ("O seu primeiro destino será Londres, Inglaterra.",
              "Lá você vai conhecer vários monumentos turísticos. ",
@@ -149,76 +151,76 @@ class Phase1Screen(BaseScreen):
              "Press RIGHT(->) to continue... ")
         ]
 
-        self.requires_transition = [4]  # Índices dos textos que exigem transição para outra tela
+        self.requere_transicao = [4]  # Índices dos textos que exigem transição para outra tela
 
     def update(self):
         pass
 
-    def draw(self, screen):
-        screen.fill(BLACK)
+    def draw(self, tela):
+        tela.fill(PRETO)
 
-        if self.text_index == 0:
-            text1 = font.render(self.texts[self.text_index][0], True, WHITE)
-            text1_rect = text1.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
-            screen.blit(text1, text1_rect)
+        if self.indice_texto == 0:
+            texto1 = font.render(self.textos[self.indice_texto][0], True, BRANCA)
+            texto1_ret = texto1.get_rect(center=(TELA_LARG // 2, TELA_ALT // 2))
+            tela.blit(texto1, texto1_ret)
 
-            text2 = font2.render(self.texts[self.text_index][1], True, WHITE)
-            text2_rect = text2.get_rect(center=(SCREEN_WIDTH // 2, 550))
-            screen.blit(text2, text2_rect)
-        elif 0 < self.text_index < 4:
+            texto2 = font2.render(self.textos[self.indice_texto][1], True, BRANCA)
+            texto2_ret = texto2.get_rect(center=(TELA_LARG // 2, 550))
+            tela.blit(texto2, texto2_ret)
+        elif 0 < self.indice_texto < 4:
             y = 50
-            for texto in self.texts[self.text_index]:
-                text3 = font.render(texto, True, WHITE)
-                text3_rect = text3.get_rect(center=(SCREEN_WIDTH // 2, y))
-                screen.blit(text3, text3_rect)
+            for texto1_ret in self.textos[self.indice_texto]:
+                texto3 = font.render(texto1_ret, True, BRANCA)
+                texto3_ret = texto3.get_rect(center=(TELA_LARG // 2, y))
+                tela.blit(texto3, texto3_ret)
                 y += 50
-        elif self.text_index >= 4:
-            if self.text_index == 4:
+        elif self.indice_texto >= 4:
+            if self.indice_texto == 4:
                 y = 50
-                for texto in self.texts[self.text_index][0:3]:
-                    text3 = font.render(texto, True, WHITE)
-                    text3_rect = text3.get_rect(center=(SCREEN_WIDTH // 2, y))
-                    screen.blit(text3, text3_rect)
+                for texto1_ret in self.textos[self.indice_texto][0:3]:
+                    texto3 = font.render(texto1_ret, True, BRANCA)
+                    texto3_ret = texto3.get_rect(center=(TELA_LARG // 2, y))
+                    tela.blit(texto3, texto3_ret)
                     y += 50
 
-                text4 = font2.render(self.texts[self.text_index][3], True, WHITE)
-                text4_rect = text4.get_rect(center=(SCREEN_WIDTH // 2, 550))
-                screen.blit(text4, text4_rect)
+                texto4 = font2.render(self.textos[self.indice_texto][3], True, BRANCA)
+                texto4_ret = texto4.get_rect(center=(TELA_LARG // 2, 550))
+                tela.blit(texto4, texto4_ret)
 
     def change_text(self):
-        if self.text_index in self.requires_transition:
+        if self.indice_texto in self.requere_transicao:
             return  # Não muda mais o texto se for um texto que requer transição
-        self.text_index = (self.text_index + 1) % len(self.texts)
+        self.indice_texto = (self.indice_texto + 1) % len(self.textos)
 
 
-class Hearts:
+class Vidas:
     def __init__(self):
-        self.max_lives = 5
-        self.current_lives = self.max_lives
-        self.heart_full_image = pygame.image.load("imagens/heartfull.png").convert_alpha()
-        self.heart_empty_image = pygame.image.load("imagens/heartempty.jpg").convert_alpha()
-        self.heart_width = self.heart_full_image.get_width()
-        self.heart_height = self.heart_full_image.get_height()
-        self.spacing = 10
-        self.position = (SCREEN_WIDTH - self.max_lives * (self.heart_width + self.spacing), 10)
+        self.max_vidas = 5
+        self.vidas_atual = self.max_vidas
+        self.coracao_cheio = pygame.image.load("imagem/coracaocheio.png").convert_alpha()
+        self.coracao_vazio = pygame.image.load("imagem/coracaovazio.png").convert_alpha()
+        self.coracao_larg = self.coracao_cheio.get_width()
+        self.coracao_alt = self.coracao_cheio.get_height()
+        self.espacamento = 10
+        self.posicao = (TELA_LARG - self.max_vidas * (self.coracao_larg + self.espacamento), 10)
 
-    def draw(self, screen):
-        x, y = self.position
-        for i in range(self.current_lives):
-            screen.blit(self.heart_full_image, (x + i * (self.heart_width + self.spacing), y))
-        for i in range(self.current_lives, self.max_lives):
-            screen.blit(self.heart_empty_image, (x + i * (self.heart_width + self.spacing), y))
+    def draw(self, tela):
+        x, y = self.posicao
+        for i in range(self.vidas_atual):
+            tela.blit(self.coracao_cheio, (x + i * (self.coracao_larg + self.espacamento), y))
+        for i in range(self.vidas_atual, self.max_vidas):
+            tela.blit(self.coracao_vazio, (x + i * (self.coracao_larg + self.espacamento), y))
 
-    def lose_life(self):
-        if self.current_lives > 0:
-            self.current_lives -= 1
+    def perder_vida(self):
+        if self.vidas_atual > 0:
+            self.vidas_atual -= 1
 
 
-class Cenario2(BaseScreen):
+class Cenario2(TelaBase):
     def __init__(self):
         super().__init__()
-        self.text_index = 0
-        self.texts = [
+        self.indice_texto = 0
+        self.textos = [
             ("Welcome to the Buckingham Palace! I am Queen Elizabeth,",
              "e estou aqui para ensinar-lhes várias importantes em inglês."),
             ("Let's start with the greetings, as saudações, ",
@@ -231,61 +233,61 @@ class Cenario2(BaseScreen):
             ("Para selecionar a resposta que deseja, aperte as teclas: ",
              "1, 2 ou 3")
         ]
-        self.persona_image = garota
-        self.rainha_image = rainha
-        self.requires_transition = [4]
+        self.personagem_imagem = garota
+        self.rainha_imagem = rainha
+        self.requere_transicao = [4]
 
     def update(self):
         pass
 
-    def draw(self, screen):
-        screen.blit(cenario, (0, 0))
+    def draw(self, tela):
+        tela.blit(cenario, (0, 0))
 
         # Define a margem lateral
-        margin = 50
+        margem = 50
 
         # Desenhar personagens
-        screen.blit(self.persona_image, (margin, SCREEN_HEIGHT - self.persona_image.get_height() - 50))
-        screen.blit(self.rainha_image, (
-            SCREEN_WIDTH - self.rainha_image.get_width() - margin, SCREEN_HEIGHT - self.rainha_image.get_height() - 50))
+        tela.blit(self.personagem_imagem, (margem, TELA_ALT - self.personagem_imagem.get_height() - 50))
+        tela.blit(self.rainha_imagem, (
+            TELA_LARG - self.rainha_imagem.get_width() - margem, TELA_ALT - self.rainha_imagem.get_height() - 50))
 
         # Calcular posição do balão de fala
-        max_text_width = 1200
-        text_width = min(max(len(text) for text in self.texts[self.text_index]) * 17, max_text_width)
-        text_height = len(self.texts[self.text_index]) * 55
-        x = margin + self.persona_image.get_width() + (
-                SCREEN_WIDTH - 2 * margin - self.persona_image.get_width() -
-                self.rainha_image.get_width() - text_width) // 2
-        y = SCREEN_HEIGHT - self.rainha_image.get_height() - text_height - 80
+        max_texto_larg = 1200
+        texto_larg = min(max(len(text) for text in self.textos[self.indice_texto]) * 17, max_texto_larg)
+        texto_alt = len(self.textos[self.indice_texto]) * 55
+        x = margem + self.personagem_imagem.get_width() + (
+                TELA_LARG - 2 * margem - self.personagem_imagem.get_width() -
+                self.rainha_imagem.get_width() - texto_larg) // 2
+        y = TELA_ALT - self.rainha_imagem.get_height() - texto_alt - 80
 
         # Desenhar balão de fala
-        pygame.draw.rect(screen, BLACK, (x - 5, y - 5, text_width + 10, text_height + 10), border_radius=25)
-        pygame.draw.rect(screen, WHITE, (x, y, text_width, text_height), border_radius=25)
+        pygame.draw.rect(tela, PRETO, (x - 5, y - 5, texto_larg + 10, texto_alt + 10), border_radius=25)
+        pygame.draw.rect(tela, BRANCA, (x, y, texto_larg, texto_alt), border_radius=25)
 
         # Desenhar texto no balão de fala
         y_offset = 0
-        for texto in self.texts[self.text_index]:
-            text = font.render(texto, True, BLACK)
-            text_rect = text.get_rect(topleft=(x + 20, y + 20 + y_offset))
-            screen.blit(text, text_rect)
+        for texto in self.textos[self.indice_texto]:
+            texto = font.render(texto, True, PRETO)
+            texto_ret = texto.get_rect(topleft=(x + 20, y + 20 + y_offset))
+            tela.blit(texto, texto_ret)
             y_offset += 45
 
-        if self.text_index == 4:
-            text2 = font4.render("Press -> to continue...", True, BLACK)
-            text2_rect = text2.get_rect(center=(1100, 605))
-            screen.blit(text2, text2_rect)
+        if self.indice_texto == 4:
+            texto2 = font4.render("Press -> to continue...", True, PRETO)
+            texto2_ret = texto2.get_rect(center=(1100, 605))
+            tela.blit(texto2, texto2_ret)
 
     def change_text(self):
-        if self.text_index in self.requires_transition:
+        if self.indice_texto in self.requere_transicao:
             return
-        self.text_index = (self.text_index + 1) % len(self.texts)
+        self.indice_texto = (self.indice_texto + 1) % len(self.textos)
 
 
-class Desafio1(BaseScreen):
+class Desafio1(TelaBase):
     def __init__(self):
         super().__init__()
-        self.current_question = 0
-        self.questions = [
+        self.pergunta_atual = 0
+        self.perguntas = [
             {
                 "enunciado": "Preencha as lacunas com as saudações corretas:",
                 "pergunta": "___ significa 'Olá'",
@@ -323,91 +325,91 @@ class Desafio1(BaseScreen):
                 "resp_correta": 1
             }
         ]
-        self.persona_image = garota
-        self.current_choice = None
+        self.personagem_imagem = garota
+        self.escolha_atual = None
 
     def update(self):
         pass
 
-    def draw(self, screen):
-        global current_screen
-        screen.blit(cenario, (0, 0))
-        screen.blit(self.persona_image, (50, SCREEN_HEIGHT - self.persona_image.get_height() - 50))
+    def draw(self, tela):
+        global tela_atual
+        tela.blit(cenario, (0, 0))
+        tela.blit(self.personagem_imagem, (50, TELA_ALT - self.personagem_imagem.get_height() - 50))
 
-        if self.current_question < len(self.questions):
-            num_opcoes = len(self.questions[self.current_question]["opcoes"])
-            question_rect_height = num_opcoes * 80 + 160
-            question_rect_width = 800
-            question_rect_x = (SCREEN_WIDTH - question_rect_width) // 2
-            question_rect_y = (SCREEN_HEIGHT - question_rect_height) // 2
+        if self.pergunta_atual < len(self.perguntas):
+            num_opcoes = len(self.perguntas[self.pergunta_atual]["opcoes"])
+            ret_pergunta_altura = num_opcoes * 80 + 160
+            ret_pergunta_largura = 800
+            pergunta_ret_x = (TELA_LARG - ret_pergunta_largura) // 2
+            pergunta_ret_y = (TELA_ALT - ret_pergunta_altura) // 2
 
-            transparent_surface = pygame.Surface((question_rect_width, question_rect_height), pygame.SRCALPHA)
-            transparent_surface.fill((0, 0, 0, 128))
-            screen.blit(transparent_surface, (question_rect_x, question_rect_y))
+            superficie_transparente = pygame.Surface((ret_pergunta_largura, ret_pergunta_altura), pygame.SRCALPHA)
+            superficie_transparente.fill((0, 0, 0, 128))
+            tela.blit(superficie_transparente, (pergunta_ret_x, pergunta_ret_y))
 
-            enunciado_text = font2.render(self.questions[self.current_question]["enunciado"], True, BLACK)
-            screen.blit(enunciado_text, (question_rect_x + 20, question_rect_y + 20))
+            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, PRETO)
+            tela.blit(enunciado_texto, (pergunta_ret_x + 20, pergunta_ret_y + 20))
 
-            pergunta_text = font2.render(self.questions[self.current_question]["pergunta"], True, BLACK)
-            screen.blit(pergunta_text, (question_rect_x + 20, question_rect_y + 60))
+            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, PRETO)
+            tela.blit(pergunta_texto, (pergunta_ret_x + 20, pergunta_ret_y + 60))
 
-            y = question_rect_y + 120
-            for index, opcao in enumerate(self.questions[self.current_question]["opcoes"]):
-                opcao_text = font2.render(opcao, True, BLACK)
-                screen.blit(opcao_text, (question_rect_x + 40, y))
+            y = pergunta_ret_y + 120
+            for indice, opcao in enumerate(self.perguntas[self.pergunta_atual]["opcoes"]):
+                opcao_texto = font2.render(opcao, True, PRETO)
+                tela.blit(opcao_texto, (pergunta_ret_x + 40, y))
                 y += 80
         else:
-            current_screen = cenario3  # Avança para o Cenario3
+            tela_atual = cenario3  # Avança para o Cenario3
 
-    def handle_mouse_button_down_event(self, pos):
+    def lidar_mouse_button_down_event(self, pos):
         pass
 
-    def handle_keydown_event(self, event):
-        global current_screen
+    def lidar_keydown_event(self, event):
+        global tela_atual
         if event.key == pygame.K_1:
-            self.current_choice = 0
-            if self.current_choice != self.questions[self.current_question]["resp_correta"]:
-                hearts.lose_life()  # Subtrai uma vida ao errar a pergunta
+            self.escolha_atual = 0
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()  # Subtrai uma vida ao errar a pergunta
         elif event.key == pygame.K_2:
-            self.current_choice = 1
-            if self.current_choice != self.questions[self.current_question]["resp_correta"]:
-                hearts.lose_life()
+            self.escolha_atual = 1
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
         elif event.key == pygame.K_3:
-            self.current_choice = 2
-            if self.current_choice != self.questions[self.current_question]["resp_correta"]:
-                hearts.lose_life()
+            self.escolha_atual = 2
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
 
         # Avança para a próxima pergunta
-        self.current_question = (self.current_question + 1) % len(self.questions)
+        self.pergunta_atual = (self.pergunta_atual + 1) % len(self.perguntas)
 
         # Verifica se todas as perguntas foram respondidas
-        if self.current_question == 0:  # Se a próxima pergunta for a primeira, significa que todas foram respondidas
-            current_screen = cenario3
+        if self.pergunta_atual == 0:  # Se a próxima pergunta for a primeira, significa que todas foram respondidas
+            tela_atual = cenario3
 
 
-class Cenario3(BaseScreen):
+class Cenario3(TelaBase):
     def __init__(self):
         super().__init__()
 
     def update(self):
         pass
 
-    def draw(self, screen):
-        screen.blit(cenario, (0, 0))
+    def draw(self, tela):
+        tela.blit(cenario, (0, 0))
 
 
-hearts = Hearts()
-main_menu_screen = MainMenuScreen()
-phase1_screen = Phase1Screen()
-credits_screen = CreditsScreen()
+vidas = Vidas()
+menu_principal = MenuPrincipal()
+tela_intro = TelaIntro()
+tela_creditos = TelaCreditos()
 cenario2 = Cenario2()
 desafio1 = Desafio1()
 cenario3 = Cenario3()
-current_screen = main_menu_screen
+tela_atual = menu_principal
 
 
 def main():
-    global player_name, current_screen
+    global jogador_nome, tela_atual
 
     running = True
     while running:
@@ -416,41 +418,41 @@ def main():
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if current_screen == main_menu_screen:
-                    if main_menu_screen.start_button.is_clicked(pygame.mouse.get_pos()):
-                        main_menu_screen.handle_mouse_button_down_event(pygame.mouse.get_pos())
-                        current_screen = phase1_screen
-                    elif main_menu_screen.credits_button.is_clicked(pygame.mouse.get_pos()):
-                        current_screen = credits_screen
-                if current_screen == credits_screen:
-                    if credits_screen.voltar_button.is_clicked(pygame.mouse.get_pos()):
-                        current_screen = main_menu_screen
-                if current_screen == desafio1:
-                    desafio1.handle_mouse_button_down_event(pygame.mouse.get_pos())
+                if tela_atual == menu_principal:
+                    if menu_principal.botao_start.is_clicked(pygame.mouse.get_pos()):
+                        menu_principal.lidar_mouse_button_down_event(pygame.mouse.get_pos())
+                        tela_atual = tela_intro
+                    elif menu_principal.botao_credito.is_clicked(pygame.mouse.get_pos()):
+                        tela_atual = tela_creditos
+                if tela_atual == tela_creditos:
+                    if tela_creditos.voltar_butao.is_clicked(pygame.mouse.get_pos()):
+                        tela_atual = menu_principal
+                if tela_atual == desafio1:
+                    desafio1.lidar_mouse_button_down_event(pygame.mouse.get_pos())
             elif event.type == pygame.KEYDOWN:
-                main_menu_screen.handle_keydown_event(event)
-                if current_screen == phase1_screen:
+                menu_principal.lidar_keydown_event(event)
+                if tela_atual == tela_intro:
                     if event.key == pygame.K_SPACE:
-                        phase1_screen.change_text()
+                        tela_intro.change_text()
                     elif event.key == pygame.K_RIGHT:
-                        if phase1_screen.text_index in phase1_screen.requires_transition:
-                            current_screen = cenario2
-                elif current_screen == cenario2:
+                        if tela_intro.indice_texto in tela_intro.requere_transicao:
+                            tela_atual = cenario2
+                elif tela_atual == cenario2:
                     if event.key == pygame.K_SPACE:
                         cenario2.change_text()
                     if event.key == pygame.K_RIGHT:
-                        if cenario2.text_index in cenario2.requires_transition:
-                            current_screen = desafio1
-                elif current_screen == desafio1:
+                        if cenario2.indice_texto in cenario2.requere_transicao:
+                            tela_atual = desafio1
+                elif tela_atual == desafio1:
                     if event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3:
-                        desafio1.handle_keydown_event(event)
-                elif current_screen == cenario3:
+                        desafio1.lidar_keydown_event(event)
+                elif tela_atual == cenario3:
                     if event.key == pygame.K_RIGHT:
-                        current_screen = cenario2
+                        tela_atual = cenario2
 
-        screen.fill(BLACK)
-        current_screen.draw(screen)
-        hearts.draw(screen)
+        tela.fill(PRETO)
+        tela_atual.draw(tela)
+        vidas.draw(tela)
         pygame.display.flip()
 
 
