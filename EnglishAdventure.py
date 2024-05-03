@@ -1,3 +1,4 @@
+
 import pygame
 import sys
 
@@ -13,19 +14,21 @@ pygame.display.set_caption("English Adventure")
 BRANCA = (255, 255, 255)
 PRETO = (0, 0, 0)
 CINZA = (150, 150, 150)
-TRANSP = (0, 0, 0, 128)
 
 # Fontes
 font = pygame.font.Font(None, 48)
 font2 = pygame.font.Font(None, 40)
 font3 = pygame.font.Font(None, 36)
 font4 = pygame.font.Font(None, 33)
+nickname_font = pygame.font.Font(None, 24)
 
-# Imagens
+global jogador_nome
+jogador_nome = ''
+
 garota = pygame.image.load("imagens/garota.png").convert_alpha()
 garoto = pygame.image.load("imagens/garoto.png").convert_alpha()
 rainha = pygame.image.load("imagens/rainha.png").convert_alpha()
-imagem_fundo = pygame.image.load("imagens/cenario_inicio.jpeg").convert_alpha()
+imagem_fundo = pygame.image.load("imagens/cenario_inicio.jpg").convert_alpha()
 cenario = pygame.image.load("imagens/cenario1.png").convert_alpha()
 
 
@@ -43,15 +46,11 @@ class TelaBase:
 class MenuPrincipal(TelaBase):
     def __init__(self):
         super().__init__()
-        self.personagem_garota = garota
-        self.personagem_garoto = garoto
-        self.nome_personagem_selecionado = None  # Adicionamos um atributo para armazenar o nome do personagem selecion
-        self.garota_rect = self.personagem_garota.get_rect(topleft=(300, 250))
-        self.garoto_rect = self.personagem_garoto.get_rect(topleft=(850, 250))
-        self.botao_garota = Button(300, 250, 130, 225, TRANSP)
-        self.botao_garoto = Button(850, 250, 130, 225, TRANSP)
-        self.botao_credito = Button(TELA_LARG // 2 - 100, 470, 200, 50, CINZA, "Credits")
-        self.personagem_selecionado = None
+        self.botao_start = Button(TELA_LARG // 2 - 100, 400, 200, 50, "START")
+        self.botao_credito = Button(TELA_LARG // 2 - 100, 470, 200, 50, "Credits")
+        self.nickname_input = pygame.Rect(TELA_LARG // 2 - 100, 270, 200, 30)
+        jogador_nome = self.nickname_input
+        self.nickname = ''
 
     def update(self):
         pass
@@ -63,18 +62,33 @@ class MenuPrincipal(TelaBase):
         titulo_retangulo = titulo_texto.get_rect(center=(TELA_LARG // 2, 150))
         tela.blit(titulo_texto, titulo_retangulo)
 
-        # Desenha os personagens
-        self.botao_garota.draw(tela)
-        self.botao_garoto.draw(tela)
+        # Desenha os botões
+        self.botao_start.draw(tela)
         self.botao_credito.draw(tela)
-        tela.blit(self.personagem_garota, self.garota_rect)
-        tela.blit(self.personagem_garoto, self.garoto_rect)
+
+        nickname_text = nickname_font.render("Nickname:".join(jogador_nome), True, PRETO)
+        tela.blit(nickname_text, (TELA_LARG // 2 - 100, 250))
+        pygame.draw.rect(tela, PRETO, self.nickname_input, 2)
+
+        nickname_input_text = nickname_font.render(self.nickname, True, PRETO)
+        tela.blit(nickname_input_text, (TELA_LARG // 2 - 90, 275))
+
+    def lidar_keydown_event(self, event):
+        if event.unicode.isprintable() and self.nickname_input.collidepoint(pygame.mouse.get_pos()):
+            self.nickname += event.unicode
+        elif event.key == pygame.K_BACKSPACE:
+            self.nickname = self.nickname[:-1]
+
+    def lidar_mouse_button_down_event(self, pos):
+        if self.botao_start.is_clicked(pos):
+            self.nickname = self.nickname.strip()
+            #jogador_nome = self.nickname
 
 
 class Button:
-    def __init__(self, x, y, width, height, cor, text='', action=None):
+    def __init__(self, x, y, width, height, text, action=None):
         self.ret = pygame.Rect(x, y, width, height)
-        self.cor = cor
+        self.cor = CINZA
         self.texto = text
         self.acao = action
 
@@ -91,7 +105,7 @@ class Button:
 class TelaCreditos(TelaBase):
     def __init__(self):
         super().__init__()
-        self.voltar_butao = Button(1, 1, 200, 50, CINZA, "Return")
+        self.voltar_butao = Button(1, 1, 200, 50, "Return")
 
     def update(self):
         pass
@@ -99,7 +113,7 @@ class TelaCreditos(TelaBase):
     def draw(self, tela):
         tela.fill(PRETO)
         texto = ["Jeann Garçoni Alves", "Jhenifer Gonçalves Januário", "João Pedro de Oliveira Peres",
-                 "João Vitor Gaiato", "Kauan Omura Lopes", "Tamires Ledo da Silva Alves"]
+                "João Vitor Gaiato", "Kauan Omura Lopes", "Tamires Ledo da Silva Alves"]
         y = 100
         for nome in texto:
             nome_texto = font.render(nome, True, BRANCA)
@@ -116,23 +130,23 @@ class TelaIntro(TelaBase):
         self.indice_texto = 0
         self.textos = [
             ("FASE 1", "Press SPACE to continue..."),
-            (f"John, é determinada(o) e com um grande espírito aventureiro",
-             "que nasceu em uma cidade pequena no interior do São Paulo, ",
-             "e tinha o sonho de viajar pelo mundo e conhecer novas culturas.",
-             f"Em um certo dia, John acaba se inscrevendo em um concurso",
-             "que daria como prêmio uma longa viagem pelos países., ",
-             f"Para a surpresa de todos e de si própria,  John",
-             "acaba ganhando e então embarca na maior aventura de sua vida.",
-             f"Mas espera aí...  John não sabe inglês, ",
-             "então essa viagem também será uma grande aprendizagem."),
+            (f"{jogador_nome}, é um(a) jovem determinado(a) e com um grande espírito aventureiro",
+             f"que nasceu em uma cidade pequena no interior do São Paulo, ",
+             f"ele(a) tinha o sonho de viajar pelo mundo e conhecer novas culturas.",
+             f"Em um certo dia, {jogador_nome} acaba se inscrevendo em um concurso",
+             f"que daria como prêmio uma longa viagem pelos países., ",
+             f"Para a surpresa de todos e de si próprio(a),",
+             f"{jogador_nome} acaba ganhando e então embarca na maior aventura de sua vida.",
+             f"Mas espera aí...  {jogador_nome} não sabe inglês, ",
+             f"então essa viagem também será uma grande aprendizagem."),
             ("O seu primeiro destino será Londres, Inglaterra.",
-             f"Lá você, John, vai conhecer vários monumentos turísticos. ",
+             "Lá você vai conhecer vários monumentos turísticos. ",
              "E aprender muito com personagens locais históricos!"),
             ("Bem-vindo a Londres, capital da Inglaterra e do Reino Unido,",
              "é uma cidade do século 21 com uma história que remonta à era romana.",
              "Seu centro abriga as sedes imponentes do Parlamento ",
              "e a famosa torre do relógio do Big Ben."),
-            ("Parabéns, você recebeu o convite para um tour pelo palácio real",
+            (f"Parabéns, você recebeu o convite para um tour pelo palacio real",
              "acompanhado(a) pessoalmente pela própria Rainha,",
              "essa é uma oportunidade muito especial e única!",
              "Press RIGHT(->) to continue... ")
@@ -220,7 +234,7 @@ class Cenario2(TelaBase):
             ("Para selecionar a resposta que deseja, aperte as teclas: ",
              "1, 2 ou 3")
         ]
-        self.personagem_imagem = garoto
+        self.personagem_imagem = garota
         self.rainha_imagem = rainha
         self.requere_transicao = [4]
 
@@ -312,7 +326,7 @@ class Desafio1(TelaBase):
                 "resp_correta": 1
             }
         ]
-        self.personagem_imagem = garoto
+        self.personagem_imagem = garota
         self.escolha_atual = None
 
     def update(self):
@@ -396,7 +410,7 @@ tela_atual = menu_principal
 
 
 def main():
-    global tela_atual
+    global jogador_nome, tela_atual
 
     running = True
     while running:
@@ -406,8 +420,8 @@ def main():
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if tela_atual == menu_principal:
-                    if (menu_principal.botao_garota.is_clicked(pygame.mouse.get_pos()) or
-                            menu_principal.botao_garoto.is_clicked(pygame.mouse.get_pos())):
+                    if menu_principal.botao_start.is_clicked(pygame.mouse.get_pos()):
+                        menu_principal.lidar_mouse_button_down_event(pygame.mouse.get_pos())
                         tela_atual = tela_intro
                     elif menu_principal.botao_credito.is_clicked(pygame.mouse.get_pos()):
                         tela_atual = tela_creditos
@@ -417,6 +431,7 @@ def main():
                 if tela_atual == desafio1:
                     desafio1.lidar_mouse_button_down_event(pygame.mouse.get_pos())
             elif event.type == pygame.KEYDOWN:
+                menu_principal.lidar_keydown_event(event)
                 if tela_atual == tela_intro:
                     if event.key == pygame.K_SPACE:
                         tela_intro.change_text()
