@@ -1180,7 +1180,7 @@ class Cenario6(TelaBase):
             ("Guard: Hey you!! STOP!!! Pare de incomodar a rainha e ",
              "venha comigo agora!"),
             ("Rainha: Calm down Guard! He is with me! This is John,",
-             "e está aprendendo inglês aqui comigo, e agora está a "
+             "e está aprendendo inglês aqui comigo, e agora está a ",
              "caminho de conhecer the wonderful city of London!"),
             ("Talvez, no caminho do portão você possa ensiná-lo ",
              "alguma coisa também! E depois guiá-lo para os melhores ",
@@ -1189,13 +1189,25 @@ class Cenario6(TelaBase):
              "pelo visto você aprendeu muitas coisas com a rainha, e já que",
              "você vai sair cidade a fora, vou te ajudar a melhorar as suas ",
              "perguntas, para que você chegue aos seus destinos desejados!"),
-            ("Vamos ver agora as 'WH questions', vou te apresentar ela e "
+            ("Vamos ver agora as 'WH questions', vou te apresentar ela e ",
              "você ira praticando em seguida!"),
+            ("The first one is 'WHAT', podemos usar para: O que e Qual:",
+             "Exemplo: 'What is your favorite color?' (Qual é a sua cor favorita?)"),
+            ("The second is 'WHICH', usamos na maioria das vezes como qual e",
+             "com exemplos sendo dado: 'Which do you prefer: cake or pizza?'",
+             "(Qual você prefere: bolo ou pizza?)"),
+            ("The next one is 'WHERE', que significa 'Onde e aonde'. ",
+             "Ex: Where do you live? I live in Brazil!"),
+            ("Same thing, mesma coisa para quando usarmos 'WHEN' que significa ",
+             "'Quando'."),
+            ("Guarda Real: Very good!! Now, para que você possa sair do castelo precisa ",
+             "completar o Grande desafio 1! E se você passar com uma porcentagem boa, você",
+             "terá uma surpresa! Good Luck!!!!")
         ]
         self.personagem_imagem = garoto
         self.rainha_imagem = rainha
         self.guarda_imagem = guarda
-        self.requere_transicao = [4]
+        self.requere_transicao = [9]
 
     def update(self):
         pass
@@ -1208,7 +1220,7 @@ class Cenario6(TelaBase):
 
         # Desenhar personagens
         tela.blit(self.personagem_imagem, (margem, TELA_ALT - self.personagem_imagem.get_height() - 50))
-        tela.blit(self.guarda_imagem, (margem + 200, TELA_ALT - self.guarda_imagem.get_height() - 50))
+        tela.blit(self.guarda_imagem, (margem + 500, TELA_ALT - self.guarda_imagem.get_height() - 50))
         tela.blit(self.rainha_imagem, (
             TELA_LARG - self.rainha_imagem.get_width() - margem, TELA_ALT - self.rainha_imagem.get_height() - 50))
 
@@ -1233,7 +1245,7 @@ class Cenario6(TelaBase):
             tela.blit(texto, texto_ret)
             y_offset += 45
 
-        if self.indice_texto == 4:
+        if self.indice_texto == 9:
             texto2 = font4.render("Press -> to continue...", True, PRETO)
             texto2_ret = texto2.get_rect(center=(1100, 605))
             tela.blit(texto2, texto2_ret)
@@ -1250,81 +1262,27 @@ class Desafio6(TelaBase):
         self.pergunta_atual = 0
         self.perguntas = [
             {
-                "enunciado": "Complete as lacunas com as formas corretas para 'he', 'she' e 'it':",
-                "pergunta": "He ___ the Queen.",
-                "opcoes": ["1.protect", "2.protects", "3.like"],
+                "enunciado": "Qual seria a melhor opção para perguntar:",
+                "pergunta": "'O que você gosta de comer?'",
+                "opcoes": ["1.A-What is your name?   B- My name is Peter.", "2.A-What do you like to eat?   B- I like "
+                                                                            "to eat fish and chips."],
                 "resp_correta": 1
             },
             {
-                "enunciado": "Complete as lacunas com as formas corretas para 'he', 'she' e 'it':",
-                "pergunta": "She ___ the grass.",
-                "opcoes": ["1.cuts", "2.cleans", "3.plays"],
+                "enunciado": "Qual é a pergunta para a seguinte resposta?",
+                "pergunta": "B- They prefer to drink water.",
+                "opcoes": ["1.A- Which do they prefer to drink: milk or water?", "2.A- Which does they prefer: milk "
+                                                                                 "or water?"],
                 "resp_correta": 0
             },
             {
-                "enunciado": "Complete as lacunas com as formas corretas para 'he', 'she' e 'it':",
-                "pergunta": "It ___ to play with a ball.",
-                "opcoes": ["1.want", "2.like", "3.loves"],
-                "resp_correta": 2
-            },
-            {
-                "enunciado": "Complete as lacunas com as formas corretas para 'he', 'she' e 'it':",
-                "pergunta": "The queen __ a crown!(curiosidade,To have(ter) vira 'HAS'!)",
-                "opcoes": ["1.to have", "2.have", "3.has"],
-                "resp_correta": 2
-            },
-            {
-                "enunciado": "Transforme as frases afirmativas em frases negativas:",
-                "pergunta": "He rules the kingdom",
-                "opcoes": ["1.He don’t rules the kingdom.", "2.He doesn’t kingdom.", "3.He doesn’t rule the kingdom."],
-                "resp_correta": 2
-            },
-            {
-                "enunciado": "Transforme as frases afirmativas em frases negativas:",
-                "pergunta": "She admires the architecture.",
-                "opcoes": ["1.She doesn’t admire the architecture.", "2.He admire doesn’t the architecture.",
-                           "3.She don’t admire the architecture"],
-                "resp_correta": 0
-            },
-            {
-                "enunciado": "Transforme as frases afirmativas em frases negativas:",
-                "pergunta": "It guards the gates.",
-                "opcoes": ["1.It don’t guard!", "2.It doesn’t guard the gates.", "3.It guards doesn’t the gates."],
+                "enunciado": "Como você falaria:",
+                "pergunta": "Olá, boa tarde. Onde voce come fish and chips em Londres?",
+                "opcoes": ["1.Hello, good morning. Where do we eat fish and chips in London?", "2.Hello, good "
+                                                                                               "afternoon. Where do "
+                                                                                               "you eat fish and "
+                                                                                               "chips in London?"],
                 "resp_correta": 1
-            },
-            {
-                "enunciado": "Transforme as frases afirmativas em frases negativas:",
-                "pergunta": "The queen __ a crown!",
-                "opcoes": ["1.The queen doesn’t have a crown!", "2.The queen don’t has a crown!",
-                           "3.The queen doesn’t has a crown!"],
-                "resp_correta": 0
-            },
-            {
-                "enunciado": "Forme perguntas com as frases dadas:",
-                "pergunta": "He protects the queen.",
-                "opcoes": ["1.He protect the queen?", "2.Do he protects the queen?", "3.Does he protect the queen?"],
-                "resp_correta": 2
-            },
-            {
-                "enunciado": "Forme perguntas com as frases dadas:",
-                "pergunta": "She admires the architecture.",
-                "opcoes": ["1.Do she admire architecture?", "2.Does she admire the architecture.",
-                           "3.Does she admires the architecture?"],
-                "resp_correta": 1
-            },
-            {
-                "enunciado": "Forme perguntas com as frases dadas:",
-                "pergunta": "It loves to play with a ball.",
-                "opcoes": ["1.It love play with a ball?", "2.Does it love to play with a ball?",
-                           "3.Do it loves to ball?"],
-                "resp_correta": 1
-            },
-            {
-                "enunciado": "Forme perguntas com as frases dadas:",
-                "pergunta": "The queen has a crown.",
-                "opcoes": ["1.Does the queen have a crown?", "2.Does the queen has a crown?",
-                           "3.Do queen haves a crown?"],
-                "resp_correta": 0
             }
         ]
         self.personagem_imagem = garoto
@@ -1376,10 +1334,6 @@ class Desafio6(TelaBase):
             self.escolha_atual = 1
             if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
                 vidas.perder_vida()
-        elif event.key == pygame.K_3:
-            self.escolha_atual = 2
-            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
-                vidas.perder_vida()
 
         self.pergunta_atual = (self.pergunta_atual + 1) % len(self.perguntas)
 
@@ -1403,7 +1357,7 @@ cenario5 = Cenario5()
 desafio5 = Desafio5()
 cenario6 = Cenario6()
 desafio6 = Desafio6()
-tela_atual = menu_principal
+tela_atual = cenario6
 
 
 def main():
