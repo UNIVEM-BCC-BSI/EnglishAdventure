@@ -20,6 +20,9 @@ font = pygame.font.Font(None, 48)
 font2 = pygame.font.Font(None, 40)
 font3 = pygame.font.Font(None, 36)
 font4 = pygame.font.Font(None, 33)
+font5 = pygame.font.Font('pixelfont.ttf', 60)
+font6 = pygame.font.Font('pixelfont.ttf', 48)
+font7 = pygame.font.Font('pixelfont.ttf', 42)
 
 # Imagens
 garoto = pygame.image.load("imagens/garoto.png").convert_alpha()
@@ -45,9 +48,9 @@ class MenuPrincipal(TelaBase):
     def __init__(self):
         super().__init__()
         self.personagem_garoto = garoto
-        self.garoto_rect = self.personagem_garoto.get_rect(topleft=(850, 250))
-        self.botao_start = Button(TELA_LARG // 2 - 100, 400, 200, 50, CINZA, "START")
-        self.botao_credito = Button(TELA_LARG // 2 - 100, 470, 200, 50, CINZA, "Credits")
+        self.garoto_rect = self.personagem_garoto.get_rect(center=(625, 420))
+        self.botao_start = Button(TELA_LARG // 2 - 100, 180, 200, 50, CINZA, "START")
+        self.botao_credito = Button(TELA_LARG // 2 - 100, 250, 200, 50, CINZA, "Credits")
 
     def update(self):
         pass
@@ -55,8 +58,8 @@ class MenuPrincipal(TelaBase):
     def draw(self, tela):
         tela.blit(imagem_fundo, (0, 0))
 
-        titulo_texto = font.render("English Adventure", True, PRETO)
-        titulo_retangulo = titulo_texto.get_rect(center=(TELA_LARG // 2, 150))
+        titulo_texto = font5.render("English Adventure", True, PRETO)
+        titulo_retangulo = titulo_texto.get_rect(center=(TELA_LARG // 2, 70))
         tela.blit(titulo_texto, titulo_retangulo)
 
         # Desenha os personagens
@@ -74,7 +77,7 @@ class Button:
 
     def draw(self, tela):
         pygame.draw.rect(tela, self.cor, self.ret)
-        superficie_texto = font.render(self.texto, True, PRETO)
+        superficie_texto = font6.render(self.texto, True, PRETO)
         texto_ret = superficie_texto.get_rect(center=self.ret.center)
         tela.blit(superficie_texto, texto_ret)
 
@@ -109,8 +112,8 @@ class TelaIntro(TelaBase):
         super().__init__()
         self.indice_texto = 0
         self.textos = [
-            ("FASE 1", "Press SPACE to continue..."),
-            (f"John, é determinada(o) e com um grande espírito aventureiro",
+            ("PHASE 1", "Press SPACE to continue..."),
+            (f"John, é determinado e com um grande espírito aventureiro",
              "que nasceu em uma cidade pequena no interior do São Paulo, ",
              "e tinha o sonho de viajar pelo mundo e conhecer novas culturas.",
              f"Em um certo dia, John acaba se inscrevendo em um concurso",
@@ -140,11 +143,11 @@ class TelaIntro(TelaBase):
     def draw(self, tela):
         tela.fill(PRETO)
         if self.indice_texto == 0:
-            texto1 = font.render(self.textos[self.indice_texto][0], True, BRANCA)
+            texto1 = font5.render(self.textos[self.indice_texto][0], True, BRANCA)
             texto1_ret = texto1.get_rect(center=(TELA_LARG // 2, TELA_ALT // 2))
             tela.blit(texto1, texto1_ret)
 
-            texto2 = font2.render(self.textos[self.indice_texto][1], True, BRANCA)
+            texto2 = font6.render(self.textos[self.indice_texto][1], True, BRANCA)
             texto2_ret = texto2.get_rect(center=(TELA_LARG // 2, 550))
             tela.blit(texto2, texto2_ret)
         elif 0 < self.indice_texto < 4:
@@ -163,7 +166,7 @@ class TelaIntro(TelaBase):
                     tela.blit(texto3, texto3_ret)
                     y += 50
 
-                texto4 = font2.render(self.textos[self.indice_texto][3], True, BRANCA)
+                texto4 = font6.render(self.textos[self.indice_texto][3], True, BRANCA)
                 texto4_ret = texto4.get_rect(center=(TELA_LARG // 2, 550))
                 tela.blit(texto4, texto4_ret)
 
@@ -236,7 +239,7 @@ class Cenario1(TelaBase):
             TELA_LARG - self.rainha_imagem.get_width() - margem, TELA_ALT - self.rainha_imagem.get_height() - 50))
 
         # Calcular posição do balão de fala
-        max_texto_larg = 1200
+        max_texto_larg = 800
         texto_larg = min(max(len(text) for text in self.textos[self.indice_texto]) * 17, max_texto_larg)
         texto_alt = len(self.textos[self.indice_texto]) * 55
         x = margem + self.personagem_imagem.get_width() + (
@@ -285,12 +288,6 @@ class Desafio1(TelaBase):
                 "resp_correta": 1
             },
             {
-                "enunciado": "Preencha as lacunas com as saudações corretas:",
-                "pergunta": "___ é utilizado para cumprimentar alguém à noite.",
-                "opcoes": ["1.Hello", "2.Good Morning", "3.Good Night"],
-                "resp_correta": 2
-            },
-            {
                 "enunciado": "Reorganize as palavras para formar frases de saudação:",
                 "pergunta": "Queen Elizabeth/ night/ !/ Good / ?",
                 "opcoes": ["1.Queen Good night, Elizabeth!", "2.Good Night, Queen Elizabeth!", "3.Good Night"],
@@ -301,12 +298,6 @@ class Desafio1(TelaBase):
                 "pergunta": "good / morning / Hello / !",
                 "opcoes": ["1.Hello, good morning!", "2.Hello, Morning Good!", "3.Good Night"],
                 "resp_correta": 0
-            },
-            {
-                "enunciado": "Reorganize as palavras para formar frases de saudação:",
-                "pergunta": "afternoon / Good / !",
-                "opcoes": ["1.afternoon, good, !", "2.Good afternoon!", "3.Good Night"],
-                "resp_correta": 1
             }
         ]
         self.personagem_imagem = garoto
@@ -418,7 +409,7 @@ class Cenario2(TelaBase):
             TELA_LARG - self.rainha_imagem.get_width() - margem, TELA_ALT - self.rainha_imagem.get_height() - 50))
 
         # Calcular posição do balão de fala
-        max_texto_larg = 1230
+        max_texto_larg = 1000
         texto_larg = min(max(len(text) for text in self.textos[self.indice_texto]) * 18, max_texto_larg)
         texto_alt = len(self.textos[self.indice_texto]) * 55
         x = margem + self.personagem_imagem.get_width() + (
@@ -467,69 +458,43 @@ class Desafio2(TelaBase):
                 "resp_correta": 2
             },
             {
-                "enunciado": "Complete as lacunas com as formas corretas do verbo 'to be':",
-                "pergunta": "___ friends.",
-                "opcoes": ["1.We are", "2.You am", "3.She is"],
-                "resp_correta": 0
-            },
-            {
                 "enunciado": "Transforme as frases afirmativas em negativas:",
-                "pergunta": "You are my honored guests. →",
-                "opcoes": ["1.You is not my honored guest", "2.You not are my honored guests",
-                           "3.You are not my honored guests."],
-                "resp_correta": 2
-            },
-            {
-                "enunciado": "Transforme as frases afirmativas em negativas:",
-                "pergunta": "He is a noble guard. →",
+                "pergunta": "He is a noble guard.",
                 "opcoes": ["1.He not a noble guard.", "2.He is not a noble guard.", "3.He are not a noble guard"],
                 "resp_correta": 1
             },
             {
                 "enunciado": "Transforme as frases afirmativas em negativas:",
-                "pergunta": "We are friends and family. →",
+                "pergunta": "We are friends and family.",
                 "opcoes": ["1.We are not friends and family.", "2.We not are friends and not family.",
                            "3.We is not friends and family."],
                 "resp_correta": 0
             },
             {
                 "enunciado": "Forme perguntas com as frases dadas:",
-                "pergunta": "You are my honored guests. → ",
-                "opcoes": ["1.Is you my honored guest?", "2.Are you my honored guests?", "3.You my honored guests?"],
-                "resp_correta": 1
-            },
-            {
-                "enunciado": "Forme perguntas com as frases dadas:",
-                "pergunta": "He is a noble guard. →",
+                "pergunta": "He is a noble guard.",
                 "opcoes": ["1.Is he a noble guard", "2.Guard night he is?", "3.Is he a noble guard?"],
                 "resp_correta": 2
             },
             {
                 "enunciado": "Forme perguntas com as frases dadas:",
-                "pergunta": "We are friends and family. →",
+                "pergunta": "We are friends and family.",
                 "opcoes": ["1.Are friends and family we?", "2.Are we friends and family?",
                            "3.Is we friends and family?"],
                 "resp_correta": 1
             },
             {
                 "enunciado": "Responda às perguntas com frases completas:",
-                "pergunta": "Are you the Queen? →",
+                "pergunta": "Are you the Queen?",
                 "opcoes": ["1,Yes, I am the Queen!", "2.Yes, I the Queen!", "3.No, I is the queen."],
                 "resp_correta": 0
             },
             {
                 "enunciado": "Responda às perguntas com frases completas:",
-                "pergunta": "Is he a noble guard? →",
+                "pergunta": "Is he a noble guard?",
                 "opcoes": ["1.No, he is noble guard!", "2.No, he is not a noble guard!",
                            "3.No, she not is a noble guard."],
                 "resp_correta": 1
-            },
-            {
-                "enunciado": "Responda às perguntas com frases completas:",
-                "pergunta": "Are we friends and family?",
-                "opcoes": ["Yes, we am friends and family!", "No, we is friends and family!",
-                           "3.Yes, we are friends and family!"],
-                "resp_correta": 2
             }
         ]
         self.personagem_imagem = garoto
@@ -628,7 +593,7 @@ class Cenario3(TelaBase):
             TELA_LARG - self.rainha_imagem.get_width() - margem, TELA_ALT - self.rainha_imagem.get_height() - 50))
 
         # Calcular posição do balão de fala
-        max_texto_larg = 1200
+        max_texto_larg = 800
         texto_larg = min(max(len(text) for text in self.textos[self.indice_texto]) * 18, max_texto_larg)
         texto_alt = len(self.textos[self.indice_texto]) * 55
         x = margem + self.personagem_imagem.get_width() + (
@@ -666,29 +631,22 @@ class Desafio3(TelaBase):
         self.perguntas = [
             {
                 "enunciado": "Reorganize as palavras para formar frases afirmativas:",
-                "pergunta": "the castle / they / love. →",
+                "pergunta": "the castle / they / love.",
                 "opcoes": ["1.love the castle they", "2.Castle love the they", "3.They love the castle!"],
                 "resp_correta": 2
             },
             {
                 "enunciado": "Reorganize as palavras para formar frases afirmativas:",
-                "pergunta": "like / I /and/ the queen/ London. →",
+                "pergunta": "like / I /and/ the queen/ London.",
                 "opcoes": ["1.I like London and the queen!", "2.London and the queen like I",
                            "3.Quenn like London and me"],
                 "resp_correta": 0
             },
             {
                 "enunciado": "Reorganize as palavras para formar frases afirmativas:",
-                "pergunta": "rule / You / the kingdom. →",
+                "pergunta": "rule / You / the kingdom.",
                 "opcoes": ["1. Kingdom the you rule", "2.You rule the kingdom!", "3.rule the kingdom you!"],
                 "resp_correta": 1
-            },
-            {
-                "enunciado": "Reorganize as palavras para formar frases afirmativas:",
-                "pergunta": "English and Spanish/ We/ study and/ speak(falar) →",
-                "opcoes": ["1.We study and speak English and Spanish!", "2.We speak study and English and Spanish!",
-                           "3.English and study, Spanish we speak and"],
-                "resp_correta": 0
             }
         ]
         self.personagem_imagem = garoto
@@ -797,7 +755,7 @@ class Cenario4(TelaBase):
             TELA_LARG - self.rainha_imagem.get_width() - margem, TELA_ALT - self.rainha_imagem.get_height() - 50))
 
         # Calcular posição do balão de fala
-        max_texto_larg = 1200
+        max_texto_larg = 900
         texto_larg = min(max(len(text) for text in self.textos[self.indice_texto]) * 18, max_texto_larg)
         texto_alt = len(self.textos[self.indice_texto]) * 55
         x = margem + self.personagem_imagem.get_width() + (
@@ -846,12 +804,6 @@ class Desafio4(TelaBase):
                 "resp_correta": 2
             },
             {
-                "enunciado": "Qual a tradução correta?",
-                "pergunta": "Nós amamos dançar",
-                "opcoes": ["1.We like to play", "2.We love to dance", "3.We need to study"],
-                "resp_correta": 1
-            },
-            {
                 "enunciado": "Complete as lacunas com as frases NEGATIVAS corretas:",
                 "pergunta": "___ rule the kingdom.",
                 "opcoes": ["1.We", "2.You don’t", "3.She is"],
@@ -864,23 +816,11 @@ class Desafio4(TelaBase):
                 "resp_correta": 0
             },
             {
-                "enunciado": "Complete as lacunas com as frases NEGATIVAS corretas:",
-                "pergunta": "___ admire the architecture, but(mas) ___admire the queen!",
-                "opcoes": ["1.It is/ don’t", "2.They/ don’t", "3.We don’t/ we"],
-                "resp_correta": 2
-            },
-            {
                 "enunciado": "Transforme as frases afirmativas em perguntas:",
-                "pergunta": "You explore the gardens. →",
+                "pergunta": "You explore the gardens.",
                 "opcoes": ["1.Do you explore the gardens?", "2.You explore the gardens?",
                            "3.Do to explore the gardens!"],
                 "resp_correta": 0
-            },
-            {
-                "enunciado": "Transforme as frases afirmativas em perguntas:",
-                "pergunta": "We love to dance. →",
-                "opcoes": ["1.Do they love dance?", "2.Do you love dance?", "3.Do we love to dance?"],
-                "resp_correta": 2
             },
             {
                 "enunciado": "Transforme as frases afirmativas em perguntas:",
@@ -980,7 +920,7 @@ class Cenario5(TelaBase):
         ]
         self.personagem_imagem = garoto
         self.rainha_imagem = rainha
-        #self.guarda_imagem = guarda
+        # self.guarda_imagem = guarda
         self.requere_transicao = [6]
 
     def update(self):
@@ -998,7 +938,7 @@ class Cenario5(TelaBase):
             TELA_LARG - self.rainha_imagem.get_width() - margem, TELA_ALT - self.rainha_imagem.get_height() - 50))
 
         # Calcular posição do balão de fala
-        max_texto_larg = 1200
+        max_texto_larg = 900
         texto_larg = min(max(len(text) for text in self.textos[self.indice_texto]) * 18, max_texto_larg)
         texto_alt = len(self.textos[self.indice_texto]) * 55
         x = margem + self.personagem_imagem.get_width() + (
@@ -1048,12 +988,6 @@ class Desafio5(TelaBase):
             },
             {
                 "enunciado": "Complete as lacunas com as formas corretas para 'he', 'she' e 'it':",
-                "pergunta": "It ___ to play with a ball.",
-                "opcoes": ["1.want", "2.like", "3.loves"],
-                "resp_correta": 2
-            },
-            {
-                "enunciado": "Complete as lacunas com as formas corretas para 'he', 'she' e 'it':",
                 "pergunta": "The queen __ a crown!(curiosidade,To have(ter) vira 'HAS'!)",
                 "opcoes": ["1.to have", "2.have", "3.has"],
                 "resp_correta": 2
@@ -1063,13 +997,6 @@ class Desafio5(TelaBase):
                 "pergunta": "He rules the kingdom",
                 "opcoes": ["1.He don’t rules the kingdom.", "2.He doesn’t kingdom.", "3.He doesn’t rule the kingdom."],
                 "resp_correta": 2
-            },
-            {
-                "enunciado": "Transforme as frases afirmativas em frases negativas:",
-                "pergunta": "She admires the architecture.",
-                "opcoes": ["1.She doesn’t admire the architecture.", "2.He admire doesn’t the architecture.",
-                           "3.She don’t admire the architecture"],
-                "resp_correta": 0
             },
             {
                 "enunciado": "Transforme as frases afirmativas em frases negativas:",
@@ -1086,22 +1013,9 @@ class Desafio5(TelaBase):
             },
             {
                 "enunciado": "Forme perguntas com as frases dadas:",
-                "pergunta": "He protects the queen.",
-                "opcoes": ["1.He protect the queen?", "2.Do he protects the queen?", "3.Does he protect the queen?"],
-                "resp_correta": 2
-            },
-            {
-                "enunciado": "Forme perguntas com as frases dadas:",
                 "pergunta": "She admires the architecture.",
-                "opcoes": ["1.Do she admire architecture?", "2.Does she admire the architecture.",
+                "opcoes": ["1.Do she admire architecture?", "2.Does she admire the architecture?",
                            "3.Does she admires the architecture?"],
-                "resp_correta": 1
-            },
-            {
-                "enunciado": "Forme perguntas com as frases dadas:",
-                "pergunta": "It loves to play with a ball.",
-                "opcoes": ["1.It love play with a ball?", "2.Does it love to play with a ball?",
-                           "3.Do it loves to ball?"],
                 "resp_correta": 1
             },
             {
@@ -1199,15 +1113,12 @@ class Cenario6(TelaBase):
             ("The next one is 'WHERE', que significa 'Onde e aonde'. ",
              "Ex: Where do you live? I live in Brazil!"),
             ("Same thing, mesma coisa para quando usarmos 'WHEN' que significa ",
-             "'Quando'."),
-            ("Guarda Real: Very good!! Now, para que você possa sair do castelo precisa ",
-             "completar o Grande desafio 1! E se você passar com uma porcentagem boa, você",
-             "terá uma surpresa! Good Luck!!!!")
+             "'Quando'.")
         ]
         self.personagem_imagem = garoto
         self.rainha_imagem = rainha
         self.guarda_imagem = guarda
-        self.requere_transicao = [9]
+        self.requere_transicao = [8]
 
     def update(self):
         pass
@@ -1225,7 +1136,7 @@ class Cenario6(TelaBase):
             TELA_LARG - self.rainha_imagem.get_width() - margem, TELA_ALT - self.rainha_imagem.get_height() - 50))
 
         # Calcular posição do balão de fala
-        max_texto_larg = 1200
+        max_texto_larg = 1000
         texto_larg = min(max(len(text) for text in self.textos[self.indice_texto]) * 18, max_texto_larg)
         texto_alt = len(self.textos[self.indice_texto]) * 55
         x = margem + self.personagem_imagem.get_width() + (
@@ -1245,7 +1156,7 @@ class Cenario6(TelaBase):
             tela.blit(texto, texto_ret)
             y_offset += 45
 
-        if self.indice_texto == 9:
+        if self.indice_texto == 8:
             texto2 = font4.render("Press -> to continue...", True, PRETO)
             texto2_ret = texto2.get_rect(center=(1100, 605))
             tela.blit(texto2, texto2_ret)
@@ -1319,7 +1230,7 @@ class Desafio6(TelaBase):
                 tela.blit(opcao_texto, (pergunta_ret_x + 40, y))
                 y += 80
         else:
-            tela_atual = menu_principal
+            tela_atual = intro_desaf
 
     def lidar_mouse_button_down_event(self, pos):
         pass
@@ -1338,7 +1249,312 @@ class Desafio6(TelaBase):
         self.pergunta_atual = (self.pergunta_atual + 1) % len(self.perguntas)
 
         if self.pergunta_atual == 0:
-            tela_atual = menu_principal
+            tela_atual = intro_desaf
+
+
+class IntroDesaf(TelaBase):
+    def __init__(self):
+        super().__init__()
+        self.indice_texto = 0
+        self.textos = [
+            ("Very good!! Now, para que você possa sair do castelo ",
+             "precisa completar o THE BIG CHALLENGE! E se você passar ",
+             "terá uma grande surpresa!",
+             "Good Luck!!!!"),
+            ("THE BIG CHALLENGE 1", "Press ENTER to continue..."),
+        ]
+
+        self.requere_transicao = [1]
+        self.guarda_imagem = guarda
+
+    def update(self):
+        pass
+
+    def draw(self, tela):
+        tela.fill(PRETO)
+        if self.indice_texto == 0:
+            tela.blit(self.guarda_imagem, (1000, TELA_ALT - self.guarda_imagem.get_height() - 50))
+            y = 50
+            for texto1_ret in self.textos[self.indice_texto]:
+                texto3 = font2.render(texto1_ret, True, BRANCA)
+                texto3_ret = texto3.get_rect(center=(TELA_LARG // 2, y))
+                tela.blit(texto3, texto3_ret)
+                y += 50
+        elif self.indice_texto == 1:
+            texto1 = font5.render(self.textos[self.indice_texto][0], True, BRANCA)
+            texto1_ret = texto1.get_rect(center=(TELA_LARG // 2, TELA_ALT // 2))
+            tela.blit(texto1, texto1_ret)
+
+            texto2 = font6.render(self.textos[self.indice_texto][1], True, BRANCA)
+            texto2_ret = texto2.get_rect(center=(TELA_LARG // 2, 550))
+            tela.blit(texto2, texto2_ret)
+
+    def change_text(self):
+        if self.indice_texto in self.requere_transicao:
+            return
+        self.indice_texto = (self.indice_texto + 1) % len(self.textos)
+
+
+class GD1(TelaBase):
+    def __init__(self):
+        super().__init__()
+        self.pergunta_atual = 0
+        self.perguntas = [
+            {
+                "enunciado": "Complete as lacunas com os pronomes corretos:",
+                "pergunta": "___ am the Queen.",
+                "opcoes": ["1.You", "2.I", "3.He"],
+                "resp_correta": 1
+            },
+            {
+                "enunciado": "Complete as lacunas com os pronomes corretos:",
+                "pergunta": "___ explore the gardens.",
+                "opcoes": ["1.She", "2.He", "3.They"],
+                "resp_correta": 2
+            },
+            {
+                "enunciado": "Complete as lacunas com os pronomes corretos:",
+                "pergunta": "___ guard the gates.",
+                "opcoes": ["1.The gardener", "2.The guards", "3.The Queen"],
+                "resp_correta": 1
+            },
+            {
+                "enunciado": "Transforme as frases afirmativas em negativas:",
+                "pergunta": "I need to study English.",
+                "opcoes": ["1.I don’t need to study English!", "2.I not need study English.",
+                           "3.I not need to study English."],
+                "resp_correta": 0
+            },
+            {
+                "enunciado": "Transforme as frases afirmativas em negativas:",
+                "pergunta": "She wants to visit the museum.",
+                "opcoes": ["1.She don’t want to visit the museum.", "2.She don’t wants to visit the museum.",
+                           "3.She doesn’t want to visit the museum."],
+                "resp_correta": 2
+            },
+            {
+                "enunciado": "Transforme as frases afirmativas em negativas:",
+                "pergunta": "They want to eat pizza for dinner tonight.",
+                "opcoes": ["1.They doesn’t want to eat pizza for dinner tonight.",
+                           "2.They don’t want to eat pizza for dinner tonight.",
+                           "3.They don’t to want eat pizza for dinner tonight."],
+                "resp_correta": 1
+            },
+            {
+                "enunciado": "Transforme as frases afirmativas em negativas:",
+                "pergunta": "He loves to eat Fish and Chips.",
+                "opcoes": ["1.He don’t loves to eat Fish and Chips", "2.He doesn’t loves eat Fish and Chips",
+                           "3.He doesn’t love to eat Fish and Chips"],
+                "resp_correta": 2
+            },
+            {
+                "enunciado": "Transforme as frases afirmativas em negativas:",
+                "pergunta": "It is important to drink water. (to drink = beber)",
+                "opcoes": ["1.It is not important to drink water.", "2.It doesn’t is not important to drink water",
+                           "3.It not important to drink water"],
+                "resp_correta": 0
+            },
+            {
+                "enunciado": "Forme perguntas com as frases dadas:",
+                "pergunta": "She admires the history of London.",
+                "opcoes": ["1.Does she admire the history of London?", "2.Do she admires the history of London?",
+                           "3.Does she admires to history of London?"],
+                "resp_correta": 0
+            },
+            {
+                "enunciado": "Forme perguntas com as frases dadas:",
+                "pergunta": "He drinks a lot of coffee. (a lot = Muito)",
+                "opcoes": ["1.Does he drinks a lot of coffee?", "2.Does he drink a lot of coffee?",
+                           "3.Do he drinks a lot of coffee?"],
+                "resp_correta": 1
+            },
+            {
+                "enunciado": "Forme perguntas com as frases dadas:",
+                "pergunta": "They protect the entrance to the palace.",
+                "opcoes": ["1.Do they to protects the entrance to the palace?",
+                           "2.Does they protect the entrance to the palace?",
+                           "3.Do they protect the entrance to the palace?"],
+                "resp_correta": 2
+            },
+            {
+                "enunciado": "Forme perguntas com as frases dadas:",
+                "pergunta": "The queen has an expensive crown. (expensive = caro/cara)",
+                "opcoes": ["1.Do queen has an expensive crown?", "2.Does the queen have an expensive crown?",
+                           "3.Does the queen has an expensive crown?"],
+                "resp_correta": 1
+            },
+            {
+                "enunciado": "Forme perguntas com as frases dadas:",
+                "pergunta": "We love to dance at the park.",
+                "opcoes": ["1.Do we love to dance at the park?", "2.Does we love to dance at the park?",
+                           "3.Do we love dance at park?"],
+                "resp_correta": 0
+            },
+            {
+                "enunciado": "Responda a seguinte pergunta:",
+                "pergunta": "What is the typical British food?",
+                "opcoes": ["1.Pizza", "2.Mashed Potatoes", "3.Fish and chips"],
+                "resp_correta": 2
+            },
+            {
+                "enunciado": "Qual pergunta com 'Which' faz mais sentido?",
+                "pergunta": "*de acordo com o que você aprendeu",
+                "opcoes": ["1.Which do you like: cookies?", "2.Which do you prefer: cookies or chocolate?",
+                           "3.Which do you want to go to London?"],
+                "resp_correta": 1
+            },
+            {
+                "enunciado": "Selecione a resposta que melhor responde a seguinte pergunta:",
+                "pergunta": "When do you want to go to London? (to go = ir)",
+                "opcoes": ["1.I to go to London tomorrow", "2.I want go to Paris tomorrow.",
+                           "3.I want to go to London next week."],
+                "resp_correta": 2
+            },
+            {
+                "enunciado": "Qual é a tradução das seguintes frases?",
+                "pergunta": "O que ela gosta de comer em Londres?",
+                "opcoes": ["1.What does she like to eat in London?", "2.What do she like to drink in London?",
+                           "3.Which does she like eat in London?"],
+                "resp_correta": 0
+            },
+            {
+                "enunciado": "Qual é a tradução das seguintes frases?",
+                "pergunta": "Quando ele quer ver o Big Ben?",
+                "opcoes": ["1.Where does he want to see the Big Ben?", "2.When does he want to see the Big Ben?",
+                           "3.When does he need to see the Big Ben?"],
+                "resp_correta": 1
+            },
+            {
+                "enunciado": "Qual é a tradução das seguintes frases?",
+                "pergunta": "Ela tem 2 coroas e um castelo.",
+                "opcoes": ["1.She has one crowns and two castle.", "2.She doesn’t have two crowns and one castle.",
+                           "3.She has two crowns and one castle."],
+                "resp_correta": 2
+            }
+        ]
+        self.personagem_imagem = garoto
+        self.escolha_atual = None
+
+    def update(self):
+        pass
+
+    def draw(self, tela):
+        global tela_atual
+        tela.blit(cenario_img, (0, 0))
+        tela.blit(self.personagem_imagem, (50, TELA_ALT - self.personagem_imagem.get_height() - 50))
+
+        if self.pergunta_atual < len(self.perguntas):
+            num_opcoes = len(self.perguntas[self.pergunta_atual]["opcoes"])
+            ret_pergunta_altura = num_opcoes * 80 + 160
+            ret_pergunta_largura = 900
+            pergunta_ret_x = (TELA_LARG - ret_pergunta_largura) // 2
+            pergunta_ret_y = (TELA_ALT - ret_pergunta_altura) // 2
+
+            superficie_transparente = pygame.Surface((ret_pergunta_largura, ret_pergunta_altura), pygame.SRCALPHA)
+            superficie_transparente.fill((0, 0, 0, 128))
+            tela.blit(superficie_transparente, (pergunta_ret_x, pergunta_ret_y))
+
+            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, PRETO)
+            tela.blit(enunciado_texto, (pergunta_ret_x + 20, pergunta_ret_y + 20))
+
+            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, PRETO)
+            tela.blit(pergunta_texto, (pergunta_ret_x + 20, pergunta_ret_y + 60))
+
+            y = pergunta_ret_y + 120
+            for indice, opcao in enumerate(self.perguntas[self.pergunta_atual]["opcoes"]):
+                opcao_texto = font2.render(opcao, True, PRETO)
+                tela.blit(opcao_texto, (pergunta_ret_x + 40, y))
+                y += 80
+        else:
+            tela_atual = final
+
+    def lidar_mouse_button_down_event(self, pos):
+        pass
+
+    def lidar_keydown_event(self, event):
+        global tela_atual
+        if event.key == pygame.K_1:
+            self.escolha_atual = 0
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
+        elif event.key == pygame.K_2:
+            self.escolha_atual = 1
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
+        elif event.key == pygame.K_3:
+            self.escolha_atual = 2
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
+
+        self.pergunta_atual = (self.pergunta_atual + 1) % len(self.perguntas)
+
+        if self.pergunta_atual == 0:
+            tela_atual = final
+
+
+class Final(TelaBase):
+    def __init__(self):
+        super().__init__()
+        self.indice_texto = 0
+        self.textos = [
+            ("Rainha Elizabeth: Parabéns John, você concluiu a primeira parte",
+             "de sua jornada com excelência, continue assim e termine a sua viagem",
+             "por Londres. Guard, please! Acompanhe o jovem viajante até a saída!"),
+            ("Guard: Assim como prometido young traveler, você terá uma surpresa!",
+             "Não vou te revelar agora, porém se você pegar o subway, o metrô,",
+             "vá até King’s Cross, e entre as plataformas 9 e 10, meu amigo irá te",
+             "receber o te acompanhar para o restante da sua jornada!")
+        ]
+        self.personagem_imagem = garoto
+        self.rainha_imagem = rainha
+        self.guarda_imagem = guarda
+        self.requere_transicao = [1]
+
+    def update(self):
+        pass
+
+    def draw(self, tela):
+        tela.blit(cenario_img, (0, 0))
+
+        # Define a margem lateral
+        margem = 50
+
+        # Desenhar personagens
+        tela.blit(self.personagem_imagem, (margem, TELA_ALT - self.personagem_imagem.get_height() - 50))
+        tela.blit(self.guarda_imagem, (margem + 500, TELA_ALT - self.guarda_imagem.get_height() - 50))
+        tela.blit(self.rainha_imagem, (
+            TELA_LARG - self.rainha_imagem.get_width() - margem, TELA_ALT - self.rainha_imagem.get_height() - 50))
+
+        # Calcular posição do balão de fala
+        max_texto_larg = 900
+        texto_larg = min(max(len(text) for text in self.textos[self.indice_texto]) * 18, max_texto_larg)
+        texto_alt = len(self.textos[self.indice_texto]) * 55
+        x = margem + self.personagem_imagem.get_width() + (
+                TELA_LARG - 2 * margem - self.personagem_imagem.get_width() -
+                self.rainha_imagem.get_width() - texto_larg) // 2
+        y = TELA_ALT - self.rainha_imagem.get_height() - texto_alt - 80
+
+        # Desenhar balão de fala
+        pygame.draw.rect(tela, PRETO, (x - 5, y - 5, texto_larg + 10, texto_alt + 10), border_radius=25)
+        pygame.draw.rect(tela, BRANCA, (x, y, texto_larg, texto_alt), border_radius=25)
+
+        # Desenhar texto no balão de fala
+        y_offset = 0
+        for texto in self.textos[self.indice_texto]:
+            texto = font4.render(texto, True, PRETO)
+            texto_ret = texto.get_rect(topleft=(x + 20, y + 20 + y_offset))
+            tela.blit(texto, texto_ret)
+            y_offset += 45
+
+        if self.indice_texto == 1:
+            texto2 = font4.render("Press -> to continue...", True, PRETO)
+            texto2_ret = texto2.get_rect(center=(1100, 605))
+            tela.blit(texto2, texto2_ret)
+
+    def change_text(self):
+        if self.indice_texto in self.requere_transicao:
+            return
+        self.indice_texto = (self.indice_texto + 1) % len(self.textos)
 
 
 vidas = Vidas()
@@ -1357,7 +1573,10 @@ cenario5 = Cenario5()
 desafio5 = Desafio5()
 cenario6 = Cenario6()
 desafio6 = Desafio6()
-tela_atual = cenario6
+intro_desaf = IntroDesaf()
+grande_desafio1 = GD1()
+final = Final()
+tela_atual = final
 
 
 def main():
@@ -1421,6 +1640,15 @@ def main():
                 elif tela_atual == desafio4:
                     if event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3:
                         desafio4.lidar_keydown_event(event)
+                elif tela_atual == cenario5:
+                    if event.key == pygame.K_SPACE:
+                        cenario5.change_text()
+                    if event.key == pygame.K_RIGHT:
+                        if cenario5.indice_texto in cenario5.requere_transicao:
+                            tela_atual = desafio5
+                elif tela_atual == desafio5:
+                    if event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3:
+                        desafio5.lidar_keydown_event(event)
                 elif tela_atual == cenario6:
                     if event.key == pygame.K_SPACE:
                         cenario6.change_text()
@@ -1430,6 +1658,20 @@ def main():
                 elif tela_atual == desafio6:
                     if event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3:
                         desafio6.lidar_keydown_event(event)
+                elif tela_atual == intro_desaf:
+                    if event.key == pygame.K_SPACE:
+                        intro_desaf.change_text()
+                    elif event.key == pygame.K_RETURN:
+                        tela_atual = grande_desafio1
+                elif tela_atual == grande_desafio1:
+                    if event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3:
+                        grande_desafio1.lidar_keydown_event(event)
+                elif tela_atual == final:
+                    if event.key == pygame.K_SPACE:
+                        final.change_text()
+                    if event.key == pygame.K_RIGHT:
+                        if final.indice_texto in final.requere_transicao:
+                            tela_atual = menu_principal
         tela.fill(PRETO)
         tela_atual.draw(tela)
         vidas.draw(tela)
