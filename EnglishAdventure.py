@@ -27,7 +27,7 @@ font7 = pygame.font.Font('pixelfont.ttf', 42)
 # Imagens
 garoto = pygame.image.load("imagens/garoto.png").convert_alpha()
 rainha = pygame.image.load("imagens/rainha.png").convert_alpha()
-guarda = pygame.image.load("imagens/guarda.jpeg").convert_alpha()
+guarda = pygame.image.load("imagens/guardareal.png").convert_alpha()
 imagem_fundo = pygame.image.load("imagens/cenario_inicio.jpeg").convert_alpha()
 cenario_img = pygame.image.load("imagens/cenario1.png").convert_alpha()
 cenario2_img = pygame.image.load("imagens/insidecastle.png").convert_alpha()
@@ -199,8 +199,8 @@ class Vidas:
         if self.vidas_atual > 0:
             self.vidas_atual -= 1
         if self.vidas_atual == 0:
-            tela_atual = menu_principal
-        if tela_atual == menu_principal:
+            tela_atual = falhou
+        if tela_atual == falhou:
             self.vidas_atual = 5
 
 
@@ -1557,6 +1557,62 @@ class Final(TelaBase):
         self.indice_texto = (self.indice_texto + 1) % len(self.textos)
 
 
+class Falhou(TelaBase):
+    def __init__(self):
+        super().__init__()
+        self.indice_texto = 0
+        self.textos = [
+            ("I’m Sorry!! You lost all of your lives. ",
+             "But, não desista dos seus sonhos, você ainda tem ",
+             "um longo futuro pela frente, pratique um pouco mais ",
+             "e tente novamente.")
+        ]
+        self.personagem_imagem = garoto
+        self.rainha_imagem = rainha
+        self.guarda_imagem = guarda
+
+    def update(self):
+        pass
+
+    def draw(self, tela):
+        tela.blit(cenario_img, (0, 0))
+
+        # Define a margem lateral
+        margem = 50
+
+        # Desenhar personagens
+        tela.blit(self.personagem_imagem, (margem, TELA_ALT - self.personagem_imagem.get_height() - 50))
+        tela.blit(self.guarda_imagem, (margem + 500, TELA_ALT - self.guarda_imagem.get_height() - 50))
+        tela.blit(self.rainha_imagem, (
+            TELA_LARG - self.rainha_imagem.get_width() - margem, TELA_ALT - self.rainha_imagem.get_height() - 50))
+
+        # Calcular posição do balão de fala
+        max_texto_larg = 900
+        texto_larg = min(max(len(text) for text in self.textos[self.indice_texto]) * 18, max_texto_larg)
+        texto_alt = len(self.textos[self.indice_texto]) * 55
+        x = margem + self.personagem_imagem.get_width() + (
+                TELA_LARG - 2 * margem - self.personagem_imagem.get_width() -
+                self.rainha_imagem.get_width() - texto_larg) // 2
+        y = TELA_ALT - self.rainha_imagem.get_height() - texto_alt - 80
+
+        # Desenhar balão de fala
+        pygame.draw.rect(tela, PRETO, (x - 5, y - 5, texto_larg + 10, texto_alt + 10), border_radius=25)
+        pygame.draw.rect(tela, BRANCA, (x, y, texto_larg, texto_alt), border_radius=25)
+
+        # Desenhar texto no balão de fala
+        y_offset = 0
+        for texto in self.textos[self.indice_texto]:
+            texto = font4.render(texto, True, PRETO)
+            texto_ret = texto.get_rect(topleft=(x + 20, y + 20 + y_offset))
+            tela.blit(texto, texto_ret)
+            y_offset += 45
+
+        if self.indice_texto == 0:
+            texto2 = font4.render("Press ENTER to restart...", True, PRETO)
+            texto2_ret = texto2.get_rect(center=(1100, 605))
+            tela.blit(texto2, texto2_ret)
+
+
 vidas = Vidas()
 menu_principal = MenuPrincipal()
 tela_intro = TelaIntro()
@@ -1576,6 +1632,7 @@ desafio6 = Desafio6()
 intro_desaf = IntroDesaf()
 grande_desafio1 = GD1()
 final = Final()
+falhou = Falhou()
 tela_atual = final
 
 
@@ -1672,6 +1729,9 @@ def main():
                     if event.key == pygame.K_RIGHT:
                         if final.indice_texto in final.requere_transicao:
                             tela_atual = menu_principal
+                elif tela_atual == falhou:
+                    if event.key == pygame.K_RETURN:
+                        tela_atual = menu_principal
         tela.fill(PRETO)
         tela_atual.draw(tela)
         vidas.draw(tela)
