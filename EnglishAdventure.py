@@ -47,10 +47,8 @@ class TelaBase:
 class MenuPrincipal(TelaBase):
     def __init__(self):
         super().__init__()
-        self.personagem_garoto = garoto
-        self.garoto_rect = self.personagem_garoto.get_rect(center=(625, 420))
-        self.botao_start = Button(TELA_LARG // 2 - 100, 180, 200, 50, CINZA, "START")
-        self.botao_credito = Button(TELA_LARG // 2 - 100, 250, 200, 50, CINZA, "Credits")
+        self.botao_start = Button(TELA_LARG // 2 - 100, 300, 200, 50, CINZA, "START")
+        self.botao_credito = Button(TELA_LARG // 2 - 100, 370, 200, 50, CINZA, "Credits")
 
     def update(self):
         pass
@@ -65,7 +63,6 @@ class MenuPrincipal(TelaBase):
         # Desenha os personagens
         self.botao_start.draw(tela)
         self.botao_credito.draw(tela)
-        tela.blit(self.personagem_garoto, self.garoto_rect)
 
 
 class Button:
