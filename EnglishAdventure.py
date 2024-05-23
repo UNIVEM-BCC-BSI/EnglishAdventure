@@ -28,11 +28,11 @@ font7 = pygame.font.Font('pixelfont.ttf', 42)
 garoto = pygame.image.load("imagens/garoto.png").convert_alpha()
 rainha = pygame.image.load("imagens/rainha.png").convert_alpha()
 guarda = pygame.image.load("imagens/guardareal.png").convert_alpha()
-harrypotter = pygame.image.load("imagens/harrypotter1.png")
-hogwarts = pygame.image.load("imagens/hogwarts.jpg")
-imagem_fundo = pygame.image.load("imagens/cenario_inicio.jpg").convert_alpha()
+harrypotter = pygame.image.load("imagens/harrypotter1.png").convert_alpha()
+imagem_fundo = pygame.image.load("imagens/cenario_inicio.jpeg").convert_alpha()
 cenario_img = pygame.image.load("imagens/cenario1.png").convert_alpha()
 cenario2_img = pygame.image.load("imagens/insidecastle.png").convert_alpha()
+hogwarts = pygame.image.load("imagens/hogwarts.jpg").convert_alpha()
 
 
 class TelaBase:
@@ -49,10 +49,8 @@ class TelaBase:
 class MenuPrincipal(TelaBase):
     def __init__(self):
         super().__init__()
-        self.personagem_garoto = garoto
-        self.garoto_rect = self.personagem_garoto.get_rect(center=(625, 420))
-        self.botao_start = Button(TELA_LARG // 2 - 100, 180, 200, 50, CINZA, "START")
-        self.botao_credito = Button(TELA_LARG // 2 - 100, 250, 200, 50, CINZA, "Credits")
+        self.botao_start = Button(TELA_LARG // 2 - 100, 300, 200, 50, CINZA, "START")
+        self.botao_credito = Button(TELA_LARG // 2 - 100, 370, 200, 50, CINZA, "Credits")
 
     def update(self):
         pass
@@ -67,7 +65,6 @@ class MenuPrincipal(TelaBase):
         # Desenha os personagens
         self.botao_start.draw(tela)
         self.botao_credito.draw(tela)
-        tela.blit(self.personagem_garoto, self.garoto_rect)
 
 
 class Button:
@@ -109,7 +106,7 @@ class TelaCreditos(TelaBase):
         self.voltar_butao.draw(tela)
 
 
-class TelaIntro(TelaBase):
+class TelaIntro1(TelaBase):
     def __init__(self):
         super().__init__()
         self.indice_texto = 0
@@ -657,7 +654,7 @@ class Desafio3(TelaBase):
     def update(self):
         pass
 
-    def draw(self,tela):
+    def draw(self, tela):
         global tela_atual
         tela.blit(cenario2_img, (0, 0))
         tela.blit(self.personagem_imagem, (50, TELA_ALT - self.personagem_imagem.get_height() - 50))
@@ -730,7 +727,7 @@ class Cenario4(TelaBase):
              "'They don’t admire the architecture' (Eles não admiram a arquitetura).",
              "That simple!!!"),
             ("Para perguntar algo a alguem ou sobre alguem é tão simples quanto!",
-             "É só colocar o 'DO' no começo da frase e o ponto '?' no final!"),
+             "É só colocar o 'DO' no começo da frase e o ponto '?' no final1!"),
             ("Por exemplo: 'Do you rule the kingdom?' (Você governa o reino?),",
              "'Do we explore the gardens?' (Nós exploramos os jardins?),",
              "'Do they admire the architecture?' (Eles admiram a arquitetura?)."),
@@ -903,7 +900,7 @@ class Cenario5(TelaBase):
              "a como falar de alguem que não está na conversa."),
             ("Do you remember: 'He is, She is, It is?', então",
              "com todos os outros verbos é quase a mesma coisa, só temos",
-             "que adicionar um little detail no final.",
+             "que adicionar um little detail no final1.",
              "The letter 's' nas frases afirmativas:"),
             ("He protects the Queen! (Ele protege a rainha).",
              "The gardener (a jardineira), ela deixa o jardim bonito:",
@@ -917,7 +914,7 @@ class Cenario5(TelaBase):
              "Ex: The queen doesn't play football."),
             ("E se quisermos perguntar algo sobre alguem? Muito simples!",
              "É só colocar o 'Does' no começo e manter o resto igual, com '?'",
-             "no final. Ex: 'Does the queen play football?",
+             "no final1. Ex: 'Does the queen play football?",
              "Agora vamos praticar!")
         ]
         self.personagem_imagem = garoto
@@ -1232,7 +1229,7 @@ class Desafio6(TelaBase):
                 tela.blit(opcao_texto, (pergunta_ret_x + 40, y))
                 y += 80
         else:
-            tela_atual = intro_desaf
+            tela_atual = intro_desaf1
 
     def lidar_mouse_button_down_event(self, pos):
         pass
@@ -1251,10 +1248,10 @@ class Desafio6(TelaBase):
         self.pergunta_atual = (self.pergunta_atual + 1) % len(self.perguntas)
 
         if self.pergunta_atual == 0:
-            tela_atual = intro_desaf
+            tela_atual = intro_desaf1
 
 
-class IntroDesaf(TelaBase):
+class IntroDesaf1(TelaBase):
     def __init__(self):
         super().__init__()
         self.indice_texto = 0
@@ -1468,7 +1465,7 @@ class GD1(TelaBase):
                 tela.blit(opcao_texto, (pergunta_ret_x + 40, y))
                 y += 80
         else:
-            tela_atual = final
+            tela_atual = final1
 
     def lidar_mouse_button_down_event(self, pos):
         pass
@@ -1491,10 +1488,10 @@ class GD1(TelaBase):
         self.pergunta_atual = (self.pergunta_atual + 1) % len(self.perguntas)
 
         if self.pergunta_atual == 0:
-            tela_atual = final
+            tela_atual = final1
 
 
-class Final(TelaBase):
+class Final1(TelaBase):
     def __init__(self):
         super().__init__()
         self.indice_texto = 0
@@ -1559,43 +1556,64 @@ class Final(TelaBase):
         self.indice_texto = (self.indice_texto + 1) % len(self.textos)
 
 
-class Falhou(TelaBase):
+class Fase2(TelaBase):
     def __init__(self):
         super().__init__()
         self.indice_texto = 0
         self.textos = [
-            ("I’m Sorry!! You lost all of your lives. ",
-             "But, não desista dos seus sonhos, você ainda tem ",
-             "um longo futuro pela frente, pratique um pouco mais ",
-             "e tente novamente.")
+            ("PHASE 2", "Press SPACE to continue..."),
         ]
-        self.personagem_imagem = garoto
-        self.rainha_imagem = rainha
-        self.guarda_imagem = guarda
 
     def update(self):
         pass
 
     def draw(self, tela):
-        tela.blit(cenario_img, (0, 0))
+        tela.fill(PRETO)
+        if self.indice_texto == 0:
+            texto1 = font5.render(self.textos[self.indice_texto][0], True, BRANCA)
+            texto1_ret = texto1.get_rect(center=(TELA_LARG // 2, TELA_ALT // 2))
+            tela.blit(texto1, texto1_ret)
+
+            texto2 = font6.render(self.textos[self.indice_texto][1], True, BRANCA)
+            texto2_ret = texto2.get_rect(center=(TELA_LARG // 2, 550))
+            tela.blit(texto2, texto2_ret)
+
+
+class IntroF2(TelaBase):
+    def __init__(self):
+        super().__init__()
+        self.indice_texto = 0
+        self.textos = [
+            ("Bem-vindo a King's Cross, ela é dos principais cenários",
+             "de Harry Potter, afinal, é nela que Harry e outros jovens",
+             "bruxos embarcam no Expresso de Hogwarts e viajam para ",
+             "Escola de Magia e Bruxaria, Hogwarts."),
+            ("Ao visitar a famosa Plataforma 9¾ você se depara com um",
+             "jovem em vestimentas pretas e longas parado em frente a ",
+             "plataforma como se esperasse alguém chegar, então você",
+             "decide ir falar com ele para pedir informações.")
+        ]
+        self.personagem_imagem = garoto
+        self.harry_imagem = harrypotter
+        self.requere_transicao = [1]
+
+    def update(self):
+        pass
+
+    def draw(self, tela):
+        tela.blit(hogwarts, (0, 0))
 
         # Define a margem lateral
         margem = 50
 
-        # Desenhar personagens
-        tela.blit(self.personagem_imagem, (margem, TELA_ALT - self.personagem_imagem.get_height() - 50))
-        tela.blit(self.guarda_imagem, (margem + 500, TELA_ALT - self.guarda_imagem.get_height() - 50))
-        tela.blit(self.rainha_imagem, (
-            TELA_LARG - self.rainha_imagem.get_width() - margem, TELA_ALT - self.rainha_imagem.get_height() - 50))
-
         # Calcular posição do balão de fala
-        max_texto_larg = 900
+        max_texto_larg = 1000
         texto_larg = min(max(len(text) for text in self.textos[self.indice_texto]) * 18, max_texto_larg)
         texto_alt = len(self.textos[self.indice_texto]) * 55
         x = margem + self.personagem_imagem.get_width() + (
                 TELA_LARG - 2 * margem - self.personagem_imagem.get_width() -
-                self.rainha_imagem.get_width() - texto_larg) // 2
-        y = TELA_ALT - self.rainha_imagem.get_height() - texto_alt - 80
+                self.harry_imagem.get_width() - texto_larg) // 2
+        y = TELA_ALT - self.harry_imagem.get_height() - texto_alt - 80
 
         # Desenhar balão de fala
         pygame.draw.rect(tela, PRETO, (x - 5, y - 5, texto_larg + 10, texto_alt + 10), border_radius=25)
@@ -1609,10 +1627,15 @@ class Falhou(TelaBase):
             tela.blit(texto, texto_ret)
             y_offset += 45
 
-        if self.indice_texto == 0:
-            texto2 = font4.render("Press ENTER to restart...", True, PRETO)
+        if self.indice_texto == 1:
+            texto2 = font4.render("Press -> to continue...", True, BRANCA)
             texto2_ret = texto2.get_rect(center=(1100, 605))
             tela.blit(texto2, texto2_ret)
+
+    def change_text(self):
+        if self.indice_texto in self.requere_transicao:
+            return
+        self.indice_texto = (self.indice_texto + 1) % len(self.textos)
 
 
 class Cenario7(TelaBase):
@@ -1629,8 +1652,8 @@ class Cenario7(TelaBase):
              "É uma parte essencial do inglês que usamos para descrever ações que estão",
              "acontecendo no momento. Por exemplo:"),
             ("'I am flying on a broomstick' (Eu estou voando em uma vassoura)",
-             "Agora, vamos ver como formar o 'present continuous'. Primeiro, usamos",
-             "o verbo 'to be' no presente (am, are, is) e depois adicionamos o 'ing' na",
+             "Agora, vamos ver como formar o 'present continuous'. Primeiro, usamos o",
+             "verbo 'to be' no presente (am, are, is) e depois adicionamos o 'ing' na",
              "ação. Por exemplo:"),
             ("•I am reading a book. (Eu estou lendo um livro.)",
              "•You are listening to music. (Você está ouvindo música.)",
@@ -1647,7 +1670,6 @@ class Cenario7(TelaBase):
              "Invertemos o verb to be e a pessoa da frase, e colocamos '?' no final.",
              "Simples assim: 'ARE you listening to music?' (Você está ouvindo música?)",
              "Agora, vamos para um desafio para praticar o que aprendemos até agora!")
-
         ]
         self.personagem_imagem = garoto
         self.harry_imagem = harrypotter
@@ -1659,19 +1681,21 @@ class Cenario7(TelaBase):
     def draw(self, tela):
         tela.blit(hogwarts, (0, 0))
 
+        # Define a margem lateral
         margem = 50
 
         # Desenhar personagens
         tela.blit(self.personagem_imagem, (margem, TELA_ALT - self.personagem_imagem.get_height() - 50))
         tela.blit(self.harry_imagem, (
-        TELA_LARG - self.harry_imagem.get_width() - margem, TELA_ALT - self.harry_imagem.get_height() - 50))
+            TELA_LARG - self.harry_imagem.get_width() - margem, TELA_ALT - self.harry_imagem.get_height() - 50))
 
         # Calcular posição do balão de fala
         max_texto_larg = 850
-        texto_larg = min(max(len(text) for text in self.textos[self.indice_texto]) * 17, max_texto_larg)
+        texto_larg = min(max(len(text) for text in self.textos[self.indice_texto]) * 18, max_texto_larg)
         texto_alt = len(self.textos[self.indice_texto]) * 55
         x = margem + self.personagem_imagem.get_width() + (
-        TELA_LARG - 2 * margem - self.personagem_imagem.get_width() - self.harry_imagem.get_width() - texto_larg) // 2
+                TELA_LARG - 2 * margem - self.personagem_imagem.get_width() -
+                self.harry_imagem.get_width() - texto_larg) // 2
         y = TELA_ALT - self.harry_imagem.get_height() - texto_alt - 80
 
         # Desenhar balão de fala
@@ -1762,7 +1786,7 @@ class Desafio7(TelaBase):
         if self.pergunta_atual < len(self.perguntas):
             num_opcoes = len(self.perguntas[self.pergunta_atual]["opcoes"])
             ret_pergunta_altura = num_opcoes * 80 + 160
-            ret_pergunta_largura = 800
+            ret_pergunta_largura = 900
             pergunta_ret_x = (TELA_LARG - ret_pergunta_largura) // 2
             pergunta_ret_y = (TELA_ALT - ret_pergunta_altura) // 2
 
@@ -1801,7 +1825,6 @@ class Desafio7(TelaBase):
             self.escolha_atual = 2
             if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
                 vidas.perder_vida()
-
         self.pergunta_atual = (self.pergunta_atual + 1) % len(self.perguntas)
 
         if self.pergunta_atual == 0:
@@ -1810,7 +1833,7 @@ class Desafio7(TelaBase):
 
 vidas = Vidas()
 menu_principal = MenuPrincipal()
-tela_intro = TelaIntro()
+tela_intro1 = TelaIntro1()
 tela_creditos = TelaCreditos()
 cenario1 = Cenario1()
 desafio1 = Desafio1()
@@ -1824,14 +1847,15 @@ cenario5 = Cenario5()
 desafio5 = Desafio5()
 cenario6 = Cenario6()
 desafio6 = Desafio6()
-intro_desaf = IntroDesaf()
+intro_desaf1 = IntroDesaf1()
 grande_desafio1 = GD1()
-final = Final()
-falhou = Falhou()
+final1 = Final1()
+fase2 = Fase2()
+introf2 = IntroF2()
 cenario7 = Cenario7()
 desafio7 = Desafio7()
-tela_atual = cenario7
-
+falhou = Falhou()
+tela_atual = menu_principal
 
 
 def main():
@@ -1846,18 +1870,18 @@ def main():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if tela_atual == menu_principal:
                     if menu_principal.botao_start.is_clicked(pygame.mouse.get_pos()):
-                        tela_atual = tela_intro
+                        tela_atual = tela_intro1
                     elif menu_principal.botao_credito.is_clicked(pygame.mouse.get_pos()):
                         tela_atual = tela_creditos
                 if tela_atual == tela_creditos:
                     if tela_creditos.voltar_butao.is_clicked(pygame.mouse.get_pos()):
                         tela_atual = menu_principal
             elif event.type == pygame.KEYDOWN:
-                if tela_atual == tela_intro:
+                if tela_atual == tela_intro1:
                     if event.key == pygame.K_SPACE:
-                        tela_intro.change_text()
+                        tela_intro1.change_text()
                     elif event.key == pygame.K_RIGHT:
-                        if tela_intro.indice_texto in tela_intro.requere_transicao:
+                        if tela_intro1.indice_texto in tela_intro1.requere_transicao:
                             tela_atual = cenario1
                 elif tela_atual == cenario1:
                     if event.key == pygame.K_SPACE:
@@ -1913,23 +1937,32 @@ def main():
                 elif tela_atual == desafio6:
                     if event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3:
                         desafio6.lidar_keydown_event(event)
-                elif tela_atual == intro_desaf:
+                elif tela_atual == intro_desaf1:
                     if event.key == pygame.K_SPACE:
-                        intro_desaf.change_text()
+                        intro_desaf1.change_text()
                     elif event.key == pygame.K_RETURN:
                         tela_atual = grande_desafio1
                 elif tela_atual == grande_desafio1:
                     if event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3:
                         grande_desafio1.lidar_keydown_event(event)
-                elif tela_atual == final:
+                elif tela_atual == final1:
                     if event.key == pygame.K_SPACE:
-                        final.change_text()
+                        final1.change_text()
                     if event.key == pygame.K_RIGHT:
-                        if final.indice_texto in final.requere_transicao:
-                            tela_atual = menu_principal
+                        if final1.indice_texto in final1.requere_transicao:
+                            tela_atual = fase2
                 elif tela_atual == falhou:
                     if event.key == pygame.K_RETURN:
                         tela_atual = menu_principal
+                elif tela_atual == fase2:
+                    if event.key == pygame.K_SPACE:
+                        tela_atual = introf2
+                elif tela_atual == introf2:
+                    if event.key == pygame.K_SPACE:
+                        introf2.change_text()
+                    if event.key == pygame.K_RIGHT:
+                        if introf2.indice_texto in introf2.requere_transicao:
+                            tela_atual = cenario7
                 elif tela_atual == cenario7:
                     if event.key == pygame.K_SPACE:
                         cenario7.change_text()
