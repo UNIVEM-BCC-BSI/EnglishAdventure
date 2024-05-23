@@ -1831,6 +1831,62 @@ class Desafio7(TelaBase):
             tela_atual = menu_principal
 
 
+class Falhou(TelaBase):
+    def __init__(self):
+        super().__init__()
+        self.indice_texto = 0
+        self.textos = [
+            ("I’m Sorry!! You lost all of your lives. ",
+             "But, não desista dos seus sonhos, você ainda tem ",
+             "um longo futuro pela frente, pratique um pouco mais ",
+             "e tente novamente.")
+        ]
+        self.personagem_imagem = garoto
+        self.rainha_imagem = rainha
+        self.guarda_imagem = guarda
+
+    def update(self):
+        pass
+
+    def draw(self, tela):
+        tela.blit(cenario_img, (0, 0))
+
+        # Define a margem lateral
+        margem = 50
+
+        # Desenhar personagens
+        tela.blit(self.personagem_imagem, (margem, TELA_ALT - self.personagem_imagem.get_height() - 50))
+        tela.blit(self.guarda_imagem, (margem + 500, TELA_ALT - self.guarda_imagem.get_height() - 50))
+        tela.blit(self.rainha_imagem, (
+            TELA_LARG - self.rainha_imagem.get_width() - margem, TELA_ALT - self.rainha_imagem.get_height() - 50))
+
+        # Calcular posição do balão de fala
+        max_texto_larg = 900
+        texto_larg = min(max(len(text) for text in self.textos[self.indice_texto]) * 18, max_texto_larg)
+        texto_alt = len(self.textos[self.indice_texto]) * 55
+        x = margem + self.personagem_imagem.get_width() + (
+                TELA_LARG - 2 * margem - self.personagem_imagem.get_width() -
+                self.rainha_imagem.get_width() - texto_larg) // 2
+        y = TELA_ALT - self.rainha_imagem.get_height() - texto_alt - 80
+
+        # Desenhar balão de fala
+        pygame.draw.rect(tela, PRETO, (x - 5, y - 5, texto_larg + 10, texto_alt + 10), border_radius=25)
+        pygame.draw.rect(tela, BRANCA, (x, y, texto_larg, texto_alt), border_radius=25)
+
+        # Desenhar texto no balão de fala
+        y_offset = 0
+        for texto in self.textos[self.indice_texto]:
+            texto = font4.render(texto, True, PRETO)
+            texto_ret = texto.get_rect(topleft=(x + 20, y + 20 + y_offset))
+            tela.blit(texto, texto_ret)
+            y_offset += 45
+
+        if self.indice_texto == 0:
+            texto2 = font4.render("Press ENTER to restart...", True, PRETO)
+            texto2_ret = texto2.get_rect(center=(1100, 605))
+            tela.blit(texto2, texto2_ret)
+
+
 vidas = Vidas()
 menu_principal = MenuPrincipal()
 tela_intro1 = TelaIntro1()
