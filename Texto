@@ -1,40 +1,31 @@
-("Bem-vindo a King's Cross, ela é dos principais cenários de Harry Potter,",
-"afinal, é nela que Harry e outros jovens bruxos embarcam no Expresso de Hogwarts",
-"e viajam para Escola de Magia e Bruxaria, Hogwarts."),
-("Ao visitar a famosa Plataforma 9¾ você se depara com um jovem em vestimentas pretas",
-"e longas parado em frente a plataforma como se esperasse alguém chegar, então você",
-"decide ir falar com ele para pedir informações.")
+("Hello John, você deve estar curioso sobre como eu sei o seu nome certo?",
+             "I am Harry Potter, and my friend, the guard me disse que alguém aqui",
+             "precisaria da minha ajuda e então fui designado pela associação de bruxo",
+             "de Hogwarts para ajudá-lo na segunda parte da sua jornada por Londres."),
+            ("This is the King's Cross Station! The train station que usamos para ir ",
+             "para hogwarts and I am very excited to teach you the 'present continuous'.",
+             "É uma parte essencial do inglês que usamos para descrever ações que estão",
+             "acontecendo no momento. Por exemplo:"),
+            ("'I am flying on a broomstick' (Eu estou voando em uma vassoura)",
+             "Agora, vamos ver como formar o 'present continuous'. Primeiro, usamos o",
+             "verbo 'to be' no presente (am, are, is) e depois adicionamos o 'ing' na",
+             "ação. Por exemplo:"),
+            ("•I am reading a book. (Eu estou lendo um livro.)",
+             "•You are listening to music. (Você está ouvindo música.)",
+             "•He is studying for exams. (Ele está estudando para os exames.)",
+             "•She is playing Quidditch. (Ela está jogando Quadribol.)",
+             "•It is raining outside. (Está chovendo lá fora.)"),
+            ("•We are waiting for the train. (Nós estamos esperando pelo trem.)",
+             "•They are talking about their plans. (Eles estão conversando",
+             "sobre seus planos.)"),
+            ("Se eu quisesse falar a frase negativa dessas anteriores, é só colocar o",
+             "'NOT' entre o 'to be' e a ação+ing. Por exemplo:",
+             "'You are NOT listening to music' (Você não está ouvindo música)."),
+            ("E se eu quiser pergutar se alguém está fazendo algo ou não?",
+             "Invertemos o verb to be e a pessoa da frase, e colocamos '?' no final.",
+             "Simples assim: 'ARE you listening to music?' (Você está ouvindo música?)",
+             "Agora, vamos para um desafio para praticar o que aprendemos até agora!")
 
-("Harry Potter: Hello John, você deve estar curioso sobre como eu sei o seu nome certo?",
-"I am Harry Potter, and my friend, the guard me disse que alguém aqui precisaria da minha",
-"ajuda e então fui designado pela associação de bruxos de Hogwarts para ajudá-lo na segunda",
-"parte da jornada por Londres.")
-
-#King's Cross TRAIN
-#Jogador e Harry Potter
-Harry Potter:
-("Welcome to the King's Cross Station! I am very excited to teach you the",
-"'present continuous'. É uma parte essencial do inglês que usamos para",
-"descrever ações que estão acontecendo no momento. Por exemplo:"),
-(“'I am flying on a broomstick' (Eu estou voando em uma vassoura)",
-"Agora, vamos ver como formar o 'present continuous'. Primeiro, usamos o",
-"verbo 'to be' no presente (am, are, is) e depois adicionamos o 'ing' na",
-"ação. Por exemplo:"),
-("•I am reading a book. (Eu estou lendo um livro.)",
-"•You are listening to music. (Você está ouvindo música.)",
-"•He is studying for exams. (Ele está estudando para os exames.)",
-"•She is playing Quidditch. (Ela está jogando Quadribol.)",
-"•It is raining outside. (Está chovendo lá fora.)"),
-("•We are waiting for the train. (Nós estamos esperando pelo trem.)",
-"•They are talking about their plans. (Eles estão conversando",
-"sobre seus planos.)"),
-("Se eu quisesse falar a frase negativa dessas anteriores, é só colocar o",
-"'NOT' entre o 'to be' e a ação+ing. Por exemplo:",
-"'You are NOT listening to music' (Você não está ouvindo música)."),
-("E se eu quiser pergutar se alguém está fazendo algo ou não?",
-"Invertemos o verb to be e a pessoa da frase, e colocamos '?' no final.",
-"Simples assim: 'ARE you listening to music?' (Você está ouvindo música?)",
-"Agora, vamos para um desafio para praticar o que aprendemos até agora!")
 
 
 #Desafio 1
