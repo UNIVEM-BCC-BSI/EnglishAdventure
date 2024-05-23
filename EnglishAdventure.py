@@ -28,7 +28,9 @@ font7 = pygame.font.Font('pixelfont.ttf', 42)
 garoto = pygame.image.load("imagens/garoto.png").convert_alpha()
 rainha = pygame.image.load("imagens/rainha.png").convert_alpha()
 guarda = pygame.image.load("imagens/guardareal.png").convert_alpha()
-imagem_fundo = pygame.image.load("imagens/cenario_inicio.jpeg").convert_alpha()
+harrypotter = pygame.image.load("imagens/harrypotter1.png")
+hogwarts = pygame.image.load("imagens/hogwarts.jpg")
+imagem_fundo = pygame.image.load("imagens/cenario_inicio.jpg").convert_alpha()
 cenario_img = pygame.image.load("imagens/cenario1.png").convert_alpha()
 cenario2_img = pygame.image.load("imagens/insidecastle.png").convert_alpha()
 
@@ -47,8 +49,10 @@ class TelaBase:
 class MenuPrincipal(TelaBase):
     def __init__(self):
         super().__init__()
-        self.botao_start = Button(TELA_LARG // 2 - 100, 300, 200, 50, CINZA, "START")
-        self.botao_credito = Button(TELA_LARG // 2 - 100, 370, 200, 50, CINZA, "Credits")
+        self.personagem_garoto = garoto
+        self.garoto_rect = self.personagem_garoto.get_rect(center=(625, 420))
+        self.botao_start = Button(TELA_LARG // 2 - 100, 180, 200, 50, CINZA, "START")
+        self.botao_credito = Button(TELA_LARG // 2 - 100, 250, 200, 50, CINZA, "Credits")
 
     def update(self):
         pass
@@ -63,6 +67,7 @@ class MenuPrincipal(TelaBase):
         # Desenha os personagens
         self.botao_start.draw(tela)
         self.botao_credito.draw(tela)
+        tela.blit(self.personagem_garoto, self.garoto_rect)
 
 
 class Button:
@@ -652,7 +657,7 @@ class Desafio3(TelaBase):
     def update(self):
         pass
 
-    def draw(self, tela):
+    def draw(self,tela):
         global tela_atual
         tela.blit(cenario2_img, (0, 0))
         tela.blit(self.personagem_imagem, (50, TELA_ALT - self.personagem_imagem.get_height() - 50))
@@ -1610,6 +1615,199 @@ class Falhou(TelaBase):
             tela.blit(texto2, texto2_ret)
 
 
+class Cenario7(TelaBase):
+    def __init__(self):
+        super().__init__()
+        self.indice_texto = 0
+        self.textos = [
+            ("Hello John, você deve estar curioso sobre como eu sei o seu nome certo?",
+             "I am Harry Potter, and my friend, the guard me disse que alguém aqui",
+             "precisaria da minha ajuda e então fui designado pela associação de bruxo",
+             "de Hogwarts para ajudá-lo na segunda parte da sua jornada por Londres."),
+            ("This is the King's Cross Station! The train station que usamos para ir ",
+             "para hogwarts and I am very excited to teach you the 'present continuous'.",
+             "É uma parte essencial do inglês que usamos para descrever ações que estão",
+             "acontecendo no momento. Por exemplo:"),
+            ("'I am flying on a broomstick' (Eu estou voando em uma vassoura)",
+             "Agora, vamos ver como formar o 'present continuous'. Primeiro, usamos",
+             "o verbo 'to be' no presente (am, are, is) e depois adicionamos o 'ing' na",
+             "ação. Por exemplo:"),
+            ("•I am reading a book. (Eu estou lendo um livro.)",
+             "•You are listening to music. (Você está ouvindo música.)",
+             "•He is studying for exams. (Ele está estudando para os exames.)",
+             "•She is playing Quidditch. (Ela está jogando Quadribol.)",
+             "•It is raining outside. (Está chovendo lá fora.)"),
+            ("•We are waiting for the train. (Nós estamos esperando pelo trem.)",
+             "•They are talking about their plans. (Eles estão conversando",
+             "sobre seus planos.)"),
+            ("Se eu quisesse falar a frase negativa dessas anteriores, é só colocar o",
+             "'NOT' entre o 'to be' e a ação+ing. Por exemplo:",
+             "'You are NOT listening to music' (Você não está ouvindo música)."),
+            ("E se eu quiser pergutar se alguém está fazendo algo ou não?",
+             "Invertemos o verb to be e a pessoa da frase, e colocamos '?' no final.",
+             "Simples assim: 'ARE you listening to music?' (Você está ouvindo música?)",
+             "Agora, vamos para um desafio para praticar o que aprendemos até agora!")
+
+        ]
+        self.personagem_imagem = garoto
+        self.harry_imagem = harrypotter
+        self.requere_transicao = [6]
+
+    def update(self):
+        pass
+
+    def draw(self, tela):
+        tela.blit(hogwarts, (0, 0))
+
+        margem = 50
+
+        # Desenhar personagens
+        tela.blit(self.personagem_imagem, (margem, TELA_ALT - self.personagem_imagem.get_height() - 50))
+        tela.blit(self.harry_imagem, (
+        TELA_LARG - self.harry_imagem.get_width() - margem, TELA_ALT - self.harry_imagem.get_height() - 50))
+
+        # Calcular posição do balão de fala
+        max_texto_larg = 850
+        texto_larg = min(max(len(text) for text in self.textos[self.indice_texto]) * 17, max_texto_larg)
+        texto_alt = len(self.textos[self.indice_texto]) * 55
+        x = margem + self.personagem_imagem.get_width() + (
+        TELA_LARG - 2 * margem - self.personagem_imagem.get_width() - self.harry_imagem.get_width() - texto_larg) // 2
+        y = TELA_ALT - self.harry_imagem.get_height() - texto_alt - 80
+
+        # Desenhar balão de fala
+        pygame.draw.rect(tela, PRETO, (x - 5, y - 5, texto_larg + 10, texto_alt + 10), border_radius=25)
+        pygame.draw.rect(tela, BRANCA, (x, y, texto_larg, texto_alt), border_radius=25)
+
+        # Desenhar texto no balão de fala
+        y_offset = 0
+        for texto in self.textos[self.indice_texto]:
+            texto = font4.render(texto, True, PRETO)
+            texto_ret = texto.get_rect(topleft=(x + 20, y + 20 + y_offset))
+            tela.blit(texto, texto_ret)
+            y_offset += 45
+
+        if self.indice_texto == 6:
+            texto2 = font4.render("Press -> to continue...", True, BRANCA)
+            texto2_ret = texto2.get_rect(center=(1100, 605))
+            tela.blit(texto2, texto2_ret)
+
+    def change_text(self):
+        if self.indice_texto in self.requere_transicao:
+            return
+        self.indice_texto = (self.indice_texto + 1) % len(self.textos)
+
+
+class Desafio7(TelaBase):
+    def __init__(self):
+        super().__init__()
+        self.pergunta_atual = 0
+        self.perguntas = [
+            {
+                "enunciado": "Complete as lacunas com as formas corretas do 'present continuous':",
+                "pergunta": "I ___ (watch) a movie.",
+                "opcoes": ["1.am watching", "2.is watching", "3.are watching"],
+                "resp_correta": 0
+            },
+            {
+                "enunciado": "Complete as lacunas com as formas corretas do 'present continuous':",
+                "pergunta": "We ___ (study) for the test.",
+                "opcoes": ["1.is studying", "2.am studying", "3.are studying"],
+                "resp_correta": 2
+            },
+            {
+                "enunciado": "Complete as lacunas com as formas corretas do 'present continuous':",
+                "pergunta": "He ___ (play) video games.",
+                "opcoes": ["1.am playing", "2.is playing", "3.are playing"],
+                "resp_correta": 1
+            },
+            {
+                "enunciado": "Transforme as frases afirmativas em negativas:",
+                "pergunta": "She is dancing in the living room.",
+                "opcoes": ["1.She is not dancing in the living room.", "2.She are not dancing in the living room.",
+                           "3.She not dancing in the living room."],
+                "resp_correta": 0
+            },
+            {
+                "enunciado": "Transforme as frases afirmativas em negativas:",
+                "pergunta": "It is raining in London.",
+                "opcoes": ["1.Not is raining in London", "2.It is not rain in London", "3.It is not raining in London"],
+                "resp_correta": 2
+            },
+            {
+                "enunciado": "Forme perguntas com as frases dadas:",
+                "pergunta": "You are planning a trip.",
+                "opcoes": ["1.Am you planning a trip?", "2.Are you planning a trip?", "3.Is you planning a trip?"],
+                "resp_correta": 1
+            },
+            {
+                "enunciado": "Forme perguntas com as frases dadas:",
+                "pergunta": "He is playing video games.",
+                "opcoes": ["1.Does he play video games?", "2.Is she playing video games?",
+                           "3.Is he playing video games?"],
+                "resp_correta": 2
+            }
+
+        ]
+        self.personagem_imagem = garoto
+        self.escolha_atual = None
+
+    def update(self):
+        pass
+
+    def draw(self, tela):
+        global tela_atual
+        tela.blit(hogwarts, (0, 0))
+        tela.blit(self.personagem_imagem, (50, TELA_ALT - self.personagem_imagem.get_height() - 50))
+
+        if self.pergunta_atual < len(self.perguntas):
+            num_opcoes = len(self.perguntas[self.pergunta_atual]["opcoes"])
+            ret_pergunta_altura = num_opcoes * 80 + 160
+            ret_pergunta_largura = 800
+            pergunta_ret_x = (TELA_LARG - ret_pergunta_largura) // 2
+            pergunta_ret_y = (TELA_ALT - ret_pergunta_altura) // 2
+
+            superficie_transparente = pygame.Surface((ret_pergunta_largura, ret_pergunta_altura), pygame.SRCALPHA)
+            superficie_transparente.fill((0, 0, 0, 128))
+            tela.blit(superficie_transparente, (pergunta_ret_x, pergunta_ret_y))
+
+            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, BRANCA)
+            tela.blit(enunciado_texto, (pergunta_ret_x + 20, pergunta_ret_y + 20))
+
+            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, BRANCA)
+            tela.blit(pergunta_texto, (pergunta_ret_x + 20, pergunta_ret_y + 60))
+
+            y = pergunta_ret_y + 120
+            for indice, opcao in enumerate(self.perguntas[self.pergunta_atual]["opcoes"]):
+                opcao_texto = font2.render(opcao, True, BRANCA)
+                tela.blit(opcao_texto, (pergunta_ret_x + 40, y))
+                y += 80
+        else:
+            tela_atual = menu_principal
+
+    def lidar_mouse_button_down_event(self, pos):
+        pass
+
+    def lidar_keydown_event(self, event):
+        global tela_atual
+        if event.key == pygame.K_1:
+            self.escolha_atual = 0
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
+        elif event.key == pygame.K_2:
+            self.escolha_atual = 1
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
+        elif event.key == pygame.K_3:
+            self.escolha_atual = 2
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
+
+        self.pergunta_atual = (self.pergunta_atual + 1) % len(self.perguntas)
+
+        if self.pergunta_atual == 0:
+            tela_atual = menu_principal
+
+
 vidas = Vidas()
 menu_principal = MenuPrincipal()
 tela_intro = TelaIntro()
@@ -1630,7 +1828,10 @@ intro_desaf = IntroDesaf()
 grande_desafio1 = GD1()
 final = Final()
 falhou = Falhou()
-tela_atual = final
+cenario7 = Cenario7()
+desafio7 = Desafio7()
+tela_atual = cenario7
+
 
 
 def main():
@@ -1729,6 +1930,15 @@ def main():
                 elif tela_atual == falhou:
                     if event.key == pygame.K_RETURN:
                         tela_atual = menu_principal
+                elif tela_atual == cenario7:
+                    if event.key == pygame.K_SPACE:
+                        cenario7.change_text()
+                    if event.key == pygame.K_RIGHT:
+                        if cenario7.indice_texto in cenario7.requere_transicao:
+                            tela_atual = desafio7
+                elif tela_atual == desafio7:
+                    if event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3:
+                        desafio7.lidar_keydown_event(event)
         tela.fill(PRETO)
         tela_atual.draw(tela)
         vidas.draw(tela)
