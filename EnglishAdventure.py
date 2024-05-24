@@ -95,14 +95,14 @@ class TelaCreditos(TelaBase):
 
     def draw(self, tela):
         tela.fill(PRETO)
-        texto = ["Jeann Garçoni Alves", "Jhenifer Gonçalves Januário", "João Pedro de Oliveira Peres",
-                 "João Vitor Gaiato", "Kauan Omura Lopes", "Tamires Ledo da Silva Alves"]
-        y = 100
+        texto = ["Beatriz Almeida Pires", "Jeann Garçoni Alves", "Jhenifer Gonçalves Januário",
+                 "João Pedro de Oliveira Peres", "João Vitor Gaiato", "Kauan Omura Lopes", "Tamires Ledo da Silva Alves"]
+        y = 80
         for nome in texto:
             nome_texto = font.render(nome, True, BRANCA)
             nome_ret = nome_texto.get_rect(center=(TELA_LARG // 2, y))
             tela.blit(nome_texto, nome_ret)
-            y += 100
+            y += 80
 
         self.voltar_butao.draw(tela)
 
@@ -322,15 +322,15 @@ class Desafio1(TelaBase):
             superficie_transparente.fill((0, 0, 0, 128))
             tela.blit(superficie_transparente, (pergunta_ret_x, pergunta_ret_y))
 
-            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, PRETO)
+            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, BRANCA)
             tela.blit(enunciado_texto, (pergunta_ret_x + 20, pergunta_ret_y + 20))
 
-            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, PRETO)
+            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, BRANCA)
             tela.blit(pergunta_texto, (pergunta_ret_x + 20, pergunta_ret_y + 60))
 
             y = pergunta_ret_y + 120
             for indice, opcao in enumerate(self.perguntas[self.pergunta_atual]["opcoes"]):
-                opcao_texto = font2.render(opcao, True, PRETO)
+                opcao_texto = font2.render(opcao, True, BRANCA)
                 tela.blit(opcao_texto, (pergunta_ret_x + 40, y))
                 y += 80
         else:
@@ -519,15 +519,15 @@ class Desafio2(TelaBase):
             superficie_transparente.fill((0, 0, 0, 128))
             tela.blit(superficie_transparente, (pergunta_ret_x, pergunta_ret_y))
 
-            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, PRETO)
+            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, BRANCA)
             tela.blit(enunciado_texto, (pergunta_ret_x + 20, pergunta_ret_y + 20))
 
-            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, PRETO)
+            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, BRANCA)
             tela.blit(pergunta_texto, (pergunta_ret_x + 20, pergunta_ret_y + 60))
 
             y = pergunta_ret_y + 120
             for indice, opcao in enumerate(self.perguntas[self.pergunta_atual]["opcoes"]):
-                opcao_texto = font2.render(opcao, True, PRETO)
+                opcao_texto = font2.render(opcao, True, BRANCA)
                 tela.blit(opcao_texto, (pergunta_ret_x + 40, y))
                 y += 80
         else:
@@ -671,15 +671,15 @@ class Desafio3(TelaBase):
             superficie_transparente.fill((0, 0, 0, 128))
             tela.blit(superficie_transparente, (pergunta_ret_x, pergunta_ret_y))
 
-            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, PRETO)
+            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, BRANCA)
             tela.blit(enunciado_texto, (pergunta_ret_x + 20, pergunta_ret_y + 20))
 
-            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, PRETO)
+            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, BRANCA)
             tela.blit(pergunta_texto, (pergunta_ret_x + 20, pergunta_ret_y + 60))
 
             y = pergunta_ret_y + 120
             for indice, opcao in enumerate(self.perguntas[self.pergunta_atual]["opcoes"]):
-                opcao_texto = font2.render(opcao, True, PRETO)
+                opcao_texto = font2.render(opcao, True, BRANCA)
                 tela.blit(opcao_texto, (pergunta_ret_x + 40, y))
                 y += 80
         else:
@@ -852,15 +852,15 @@ class Desafio4(TelaBase):
             superficie_transparente.fill((0, 0, 0, 128))
             tela.blit(superficie_transparente, (pergunta_ret_x, pergunta_ret_y))
 
-            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, PRETO)
+            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, BRANCA)
             tela.blit(enunciado_texto, (pergunta_ret_x + 20, pergunta_ret_y + 20))
 
-            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, PRETO)
+            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, BRANCA)
             tela.blit(pergunta_texto, (pergunta_ret_x + 20, pergunta_ret_y + 60))
 
             y = pergunta_ret_y + 120
             for indice, opcao in enumerate(self.perguntas[self.pergunta_atual]["opcoes"]):
-                opcao_texto = font2.render(opcao, True, PRETO)
+                opcao_texto = font2.render(opcao, True, BRANCA)
                 tela.blit(opcao_texto, (pergunta_ret_x + 40, y))
                 y += 80
         else:
@@ -1048,15 +1048,15 @@ class Desafio5(TelaBase):
             superficie_transparente.fill((0, 0, 0, 128))
             tela.blit(superficie_transparente, (pergunta_ret_x, pergunta_ret_y))
 
-            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, PRETO)
+            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, BRANCA)
             tela.blit(enunciado_texto, (pergunta_ret_x + 20, pergunta_ret_y + 20))
 
-            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, PRETO)
+            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, BRANCA)
             tela.blit(pergunta_texto, (pergunta_ret_x + 20, pergunta_ret_y + 60))
 
             y = pergunta_ret_y + 120
             for indice, opcao in enumerate(self.perguntas[self.pergunta_atual]["opcoes"]):
-                opcao_texto = font2.render(opcao, True, PRETO)
+                opcao_texto = font2.render(opcao, True, BRANCA)
                 tela.blit(opcao_texto, (pergunta_ret_x + 40, y))
                 y += 80
         else:
@@ -1218,15 +1218,15 @@ class Desafio6(TelaBase):
             superficie_transparente.fill((0, 0, 0, 128))
             tela.blit(superficie_transparente, (pergunta_ret_x, pergunta_ret_y))
 
-            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, PRETO)
+            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, BRANCA)
             tela.blit(enunciado_texto, (pergunta_ret_x + 20, pergunta_ret_y + 20))
 
-            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, PRETO)
+            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, BRANCA)
             tela.blit(pergunta_texto, (pergunta_ret_x + 20, pergunta_ret_y + 60))
 
             y = pergunta_ret_y + 120
             for indice, opcao in enumerate(self.perguntas[self.pergunta_atual]["opcoes"]):
-                opcao_texto = font2.render(opcao, True, PRETO)
+                opcao_texto = font2.render(opcao, True, BRANCA)
                 tela.blit(opcao_texto, (pergunta_ret_x + 40, y))
                 y += 80
         else:
@@ -1404,7 +1404,7 @@ class GD1(TelaBase):
                 "resp_correta": 1
             },
             {
-                "enunciado": "Selecione a resposta que melhor responde a seguinte pergunta:",
+                "enunciado": "Selecione a resposta que melhor responde a pergunta:",
                 "pergunta": "When do you want to go to London? (to go = ir)",
                 "opcoes": ["1.I to go to London tomorrow", "2.I want go to Paris tomorrow.",
                            "3.I want to go to London next week."],
@@ -1454,15 +1454,15 @@ class GD1(TelaBase):
             superficie_transparente.fill((0, 0, 0, 128))
             tela.blit(superficie_transparente, (pergunta_ret_x, pergunta_ret_y))
 
-            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, PRETO)
+            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, BRANCA)
             tela.blit(enunciado_texto, (pergunta_ret_x + 20, pergunta_ret_y + 20))
 
-            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, PRETO)
+            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, BRANCA)
             tela.blit(pergunta_texto, (pergunta_ret_x + 20, pergunta_ret_y + 60))
 
             y = pergunta_ret_y + 120
             for indice, opcao in enumerate(self.perguntas[self.pergunta_atual]["opcoes"]):
-                opcao_texto = font2.render(opcao, True, PRETO)
+                opcao_texto = font2.render(opcao, True, BRANCA)
                 tela.blit(opcao_texto, (pergunta_ret_x + 40, y))
                 y += 80
         else:
@@ -1728,19 +1728,19 @@ class Desafio7(TelaBase):
         self.pergunta_atual = 0
         self.perguntas = [
             {
-                "enunciado": "Complete as lacunas com as formas corretas do 'present continuous':",
+                "enunciado": "Complete as lacunas com as formas corretas:",
                 "pergunta": "I ___ (watch) a movie.",
                 "opcoes": ["1.am watching", "2.is watching", "3.are watching"],
                 "resp_correta": 0
             },
             {
-                "enunciado": "Complete as lacunas com as formas corretas do 'present continuous':",
+                "enunciado": "Complete as lacunas com as formas corretas:",
                 "pergunta": "We ___ (study) for the test.",
                 "opcoes": ["1.is studying", "2.am studying", "3.are studying"],
                 "resp_correta": 2
             },
             {
-                "enunciado": "Complete as lacunas com as formas corretas do 'present continuous':",
+                "enunciado": "Complete as lacunas com as formas corretas:",
                 "pergunta": "He ___ (play) video games.",
                 "opcoes": ["1.am playing", "2.is playing", "3.are playing"],
                 "resp_correta": 1
@@ -2430,38 +2430,38 @@ class GD2(TelaBase):
         self.pergunta_atual = 0
         self.perguntas = [
             {
-                "enunciado": "Complete the blank spaces to form affirmative sentences using the present continuous:",
+                "enunciado": "Complete the blank spaces to form affirmative sentences:",
                 "pergunta": "They ________ a play.",
                 "opcoes": ["1.is watching", "2.are watching", "3.am watching"],
                 "resp_correta": 1
             },
             {
-                "enunciado": "Complete the blank spaces to form affirmative sentences using the present continuous:",
+                "enunciado": "Complete the blank spaces to form affirmative sentences:",
                 "pergunta": "We ______ lunch at the Tower Bridge.",
                 "opcoes": ["1.are having", "2.is cooking", "3.there is having"],
                 "resp_correta": 0
             },
             {
-                "enunciado": "Complete the blank spaces to form affirmative sentences using the present continuous:",
+                "enunciado": "Complete the blank spaces to form affirmative sentences:",
                 "pergunta": "She is taking pictures near the Big Ben.",
                 "opcoes": ["1.is takes", "2.are taking", "3.is taking"],
                 "resp_correta": 2
             },
             {
-                "enunciado": "Sentences into Questions! Como as frases ficariam se fossem perguntas?",
+                "enunciado": "Como as frases ficariam se fossem perguntas?",
                 "pergunta": "She is reading a book.",
                 "opcoes": ["1.Is she reading a book?", "2.Is reading she a book?", "3.Reads she a book?"],
                 "resp_correta": 0
             },
             {
-                "enunciado": "Sentences into Questions! Como as frases ficariam se fossem perguntas?",
+                "enunciado": "Como as frases ficariam se fossem perguntas?",
                 "pergunta": "They are visiting the Tower Bridge.",
                 "opcoes": ["1.Is they visiting the Tower Bridge?", "2.Are visiting they the Tower Bridge?",
                            "3.Are they visiting the Tower Bridge?"],
                 "resp_correta": 2
             },
             {
-                "enunciado": "Sentences into Questions! Como as frases ficariam se fossem perguntas?",
+                "enunciado": "Como as frases ficariam se fossem perguntas?",
                 "pergunta": "We are eating at a restaurant.",
                 "opcoes": ["1.Is we eating at a restaurant?", "2.Are we eating at a restaurant?",
                            "3.Eating we at a restaurant?"],
@@ -2667,16 +2667,11 @@ class Falhou(TelaBase):
         pass
 
     def draw(self, tela):
-        tela.blit(cenario_img, (0, 0))
+        tela.blit(imagem_fundo, (0, 0))
 
         # Define a margem lateral
         margem = 50
 
-        # Desenhar personagens
-        tela.blit(self.personagem_imagem, (margem, TELA_ALT - self.personagem_imagem.get_height() - 50))
-        tela.blit(self.guarda_imagem, (margem + 500, TELA_ALT - self.guarda_imagem.get_height() - 50))
-        tela.blit(self.rainha_imagem, (
-            TELA_LARG - self.rainha_imagem.get_width() - margem, TELA_ALT - self.rainha_imagem.get_height() - 50))
 
         # Calcular posição do balão de fala
         max_texto_larg = 900
@@ -2739,7 +2734,7 @@ intro_desaf2 = IntroDesaf2()
 grande_desafio2 = GD2()
 final2 = Final2()
 falhou = Falhou()
-tela_atual = cenario10
+tela_atual = menu_principal
 
 
 def main():
