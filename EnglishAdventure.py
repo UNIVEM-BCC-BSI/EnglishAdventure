@@ -5,7 +5,7 @@ pygame.init()
 
 # Tela
 TELA_LARG = 1250
-TELA_ALT = 650
+TELA_ALT = 625
 tela = pygame.display.set_mode((TELA_LARG, TELA_ALT))
 pygame.display.set_caption("English Adventure")
 
@@ -33,6 +33,7 @@ imagem_fundo = pygame.image.load("imagens/cenario_inicio.jpeg").convert_alpha()
 cenario_img = pygame.image.load("imagens/cenario1.png").convert_alpha()
 cenario2_img = pygame.image.load("imagens/insidecastle.png").convert_alpha()
 hogwarts = pygame.image.load("imagens/hogwarts.jpg").convert_alpha()
+london_eye = pygame.image.load("imagens/london eye.png").convert_alpha()
 
 
 class TelaBase:
@@ -1806,7 +1807,7 @@ class Desafio7(TelaBase):
                 tela.blit(opcao_texto, (pergunta_ret_x + 40, y))
                 y += 80
         else:
-            tela_atual = menu_principal
+            tela_atual = cenario8
 
     def lidar_mouse_button_down_event(self, pos):
         pass
@@ -1828,7 +1829,824 @@ class Desafio7(TelaBase):
         self.pergunta_atual = (self.pergunta_atual + 1) % len(self.perguntas)
 
         if self.pergunta_atual == 0:
-            tela_atual = menu_principal
+            tela_atual = cenario8
+
+
+class Cenario8(TelaBase):
+    def __init__(self):
+        super().__init__()
+        self.indice_texto = 0
+        self.textos = [
+            ("Hello again, John! Here we are, at the wonderful Big Ben! Torre que",
+             "tem 96 metros de altura e 11 andares. E é provavelmente o relógio mais",
+             "famoso do mundo. Antes de avançarmos, vamos relembrar as WH questions que",
+             "você já aprendeu com o guarda e ver como elas ficam com o 'to be + verb + ing'",
+             "e aprender duas novas: 'Why'(por que) e 'How'(como). Vamos lá:"),
+            ("•What (o que) - Pergunta sobre coisas ou objetos.",
+             "Ex: What is your name? (Qual é o seu nome?)",
+             "•Which (qual) - Pergunta sobre opções ou escolhas.",
+             "Ex: Which do you want: pasta or croissant? (Qual você quer: massa ou croissant?)"),
+            ("•Where (onde) - Pergunta sobre lugares ou localização.",
+             "Ex: Where is your sister going? (Aonde a sua irmã está indo?)",
+             "•When (quando) - Pergunta sobre o tempo ou horário.",
+             "Ex: When are we going to the beach? (Quando nós vamos à praia?)"),
+            ("Agora, vamos às novas:",
+             "•Why (porque) - Pergunta sobre a razão ou motivo de algo.",
+             "Ex: Why do you want to learn English? (Porque você quer aprender Ingles?)",
+             "•A resposta para 'Why' será 'because'. Que significa 'porque', porém para resposta!",
+             "Ex: Because I want to travel around the world! (Porque eu quero viajar",
+             "ao redor do mundo!)"),
+            ("•How (como) - Pergunta sobre o método ou maneira de fazer algo.",
+             "Ex: How do you go to the gym? (Como você vai à academia?)",
+             "Agora que relembramos e aprendemos as novas, vamos praticar um pouco",
+             "com o cenário ao nosso redor. A seguir você terá que responder algumas perguntas,",
+             "não tão fáceis, e para avançarmos para o próximo destino você deve acerta-las!")
+
+        ]
+        self.personagem_imagem = garoto
+        self.harry_imagem = harrypotter
+        self.requere_transicao = [4]
+
+    def update(self):
+        pass
+
+    def draw(self, tela):
+        tela.blit(hogwarts, (0, 0))
+
+        # Define a margem lateral
+        margem = 50
+
+        # Desenhar personagens
+        tela.blit(self.personagem_imagem, (margem, TELA_ALT - self.personagem_imagem.get_height() - 50))
+        tela.blit(self.harry_imagem, (
+            TELA_LARG - self.harry_imagem.get_width() - margem, TELA_ALT - self.harry_imagem.get_height() - 50))
+
+        # Calcular posição do balão de fala
+        max_texto_larg = 1000
+        texto_larg = min(max(len(text) for text in self.textos[self.indice_texto]) * 18, max_texto_larg)
+        texto_alt = len(self.textos[self.indice_texto]) * 55
+        x = margem + self.personagem_imagem.get_width() + (
+                TELA_LARG - 2 * margem - self.personagem_imagem.get_width() -
+                self.harry_imagem.get_width() - texto_larg) // 2
+        y = TELA_ALT - self.harry_imagem.get_height() - texto_alt - 80
+
+        # Desenhar balão de fala
+        pygame.draw.rect(tela, PRETO, (x - 5, y - 5, texto_larg + 10, texto_alt + 10), border_radius=25)
+        pygame.draw.rect(tela, BRANCA, (x, y, texto_larg, texto_alt), border_radius=25)
+
+        # Desenhar texto no balão de fala
+        y_offset = 0
+        for texto in self.textos[self.indice_texto]:
+            texto = font4.render(texto, True, PRETO)
+            texto_ret = texto.get_rect(topleft=(x + 20, y + 20 + y_offset))
+            tela.blit(texto, texto_ret)
+            y_offset += 45
+
+        if self.indice_texto == 4:
+            texto2 = font4.render("Press -> to continue...", True, BRANCA)
+            texto2_ret = texto2.get_rect(center=(1100, 605))
+            tela.blit(texto2, texto2_ret)
+
+    def change_text(self):
+        if self.indice_texto in self.requere_transicao:
+            return
+        self.indice_texto = (self.indice_texto + 1) % len(self.textos)
+
+
+class Desafio8(TelaBase):
+    def __init__(self):
+        super().__init__()
+        self.pergunta_atual = 0
+        self.perguntas = [
+            {
+                "enunciado": "Answer the questions:",
+                "pergunta": "What are the people doing near the Big Ben?",
+                "opcoes": ["1.They are sleeping.", "2.They are taking pictures.", "3.They are swimming."],
+                "resp_correta": 1
+            },
+            {
+                "enunciado": "Answer the questions:",
+                "pergunta": "Which landmark are we seeing?",
+                "opcoes": ["1.The Statue of Liberty.", "2.The Eiffel Tower.", "3.The Big Ben."],
+                "resp_correta": 2
+            },
+            {
+                "enunciado": "Answer the questions:",
+                "pergunta": "Why are people near the Big Ben?",
+                "opcoes": ["1.Because they are lost.", "2.Because it is a famous tourist attraction!",
+                           "3.Because it's raining."],
+                "resp_correta": 1
+            },
+            {
+                "enunciado": "Answer the questions:",
+                "pergunta": "How do people usually travel to the Big Ben?",
+                "opcoes": ["1.By spaceship.", "2.By broomstick.", "3.By walking or taking public transportation."],
+                "resp_correta": 2
+            }
+
+        ]
+        self.personagem_imagem = garoto
+        self.escolha_atual = None
+
+    def update(self):
+        pass
+
+    def draw(self, tela):
+        global tela_atual
+        tela.blit(hogwarts, (0, 0))
+        tela.blit(self.personagem_imagem, (50, TELA_ALT - self.personagem_imagem.get_height() - 50))
+
+        if self.pergunta_atual < len(self.perguntas):
+            num_opcoes = len(self.perguntas[self.pergunta_atual]["opcoes"])
+            ret_pergunta_altura = num_opcoes * 80 + 160
+            ret_pergunta_largura = 900
+            pergunta_ret_x = (TELA_LARG - ret_pergunta_largura) // 2
+            pergunta_ret_y = (TELA_ALT - ret_pergunta_altura) // 2
+
+            superficie_transparente = pygame.Surface((ret_pergunta_largura, ret_pergunta_altura), pygame.SRCALPHA)
+            superficie_transparente.fill((0, 0, 0, 128))
+            tela.blit(superficie_transparente, (pergunta_ret_x, pergunta_ret_y))
+
+            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, BRANCA)
+            tela.blit(enunciado_texto, (pergunta_ret_x + 20, pergunta_ret_y + 20))
+
+            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, BRANCA)
+            tela.blit(pergunta_texto, (pergunta_ret_x + 20, pergunta_ret_y + 60))
+
+            y = pergunta_ret_y + 120
+            for indice, opcao in enumerate(self.perguntas[self.pergunta_atual]["opcoes"]):
+                opcao_texto = font2.render(opcao, True, BRANCA)
+                tela.blit(opcao_texto, (pergunta_ret_x + 40, y))
+                y += 80
+        else:
+            tela_atual = cenario9
+
+    def lidar_mouse_button_down_event(self, pos):
+        pass
+
+    def lidar_keydown_event(self, event):
+        global tela_atual
+        if event.key == pygame.K_1:
+            self.escolha_atual = 0
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
+        elif event.key == pygame.K_2:
+            self.escolha_atual = 1
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
+        elif event.key == pygame.K_3:
+            self.escolha_atual = 2
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
+        self.pergunta_atual = (self.pergunta_atual + 1) % len(self.perguntas)
+
+        if self.pergunta_atual == 0:
+            tela_atual = cenario9
+
+
+class Cenario9(TelaBase):
+    def __init__(self):
+        super().__init__()
+        self.indice_texto = 0
+        self.textos = [
+            ("This is the Tower Bridge, one of the most famous bridge! And today,",
+             "vamos mergulhar no uso de 'there to be'(há ou existe) e 'to have'(ter).",
+             "Essas duas estruturas são essenciais para descrever a existência de algo",
+             "ou alguém, mas são usadas em situações um pouco diferentes."),
+            ("Primeiro, vamos falar sobre 'there to be'. Usamos 'there to be' para",
+             "falar sobre a existência de algo em um local específico. Se queremos",
+             "falar sobre a existência de somente uma coisa, usaremos o There IS,",
+             "e de duas ou mais coisas o There ARE. Por exemplo:"),
+            ("•'There is a bridge over the river.'(Há uma ponte sobre o rio.)",
+             "•'There are many tourists near the bridge.'(Há muitos turistas perto",
+             "da ponte.)",
+             "•'There is a big castle near the mountains.'(Existe um grande castelo",
+             "perto das montanhas.)"),
+            ("PARA FAZER PERGUNTAS, INVERTEMOS:",
+             "Is there/Are there",
+             "Ex: IS there a bridge over the river?(Existe uma ponte sobre o rio?"),
+            ("Agora, vamos abordar 'to have'. Usamos 'to have' para indicar posse",
+             "ou obrigação. Por exemplo:"),
+            ("•'I have a ticket to visit the Tower Bridge.' (Eu tenho um ingresso",
+             "para visitar a Tower Bridge.)",
+             "•'She has to have a map to find her way.' (Ela precisa ter um mapa",
+             "para encontrar o caminho.)",
+             "Agora, vamos praticar com algumas atividades!")
+
+        ]
+        self.personagem_imagem = garoto
+        self.harry_imagem = harrypotter
+        self.requere_transicao = [5]
+
+    def update(self):
+        pass
+
+    def draw(self, tela):
+        tela.blit(hogwarts, (0, 0))
+
+        # Define a margem lateral
+        margem = 50
+
+        # Desenhar personagens
+        tela.blit(self.personagem_imagem, (margem, TELA_ALT - self.personagem_imagem.get_height() - 50))
+        tela.blit(self.harry_imagem, (
+            TELA_LARG - self.harry_imagem.get_width() - margem, TELA_ALT - self.harry_imagem.get_height() - 50))
+
+        # Calcular posição do balão de fala
+        max_texto_larg = 1000
+        texto_larg = min(max(len(text) for text in self.textos[self.indice_texto]) * 18, max_texto_larg)
+        texto_alt = len(self.textos[self.indice_texto]) * 55
+        x = margem + self.personagem_imagem.get_width() + (
+                TELA_LARG - 2 * margem - self.personagem_imagem.get_width() -
+                self.harry_imagem.get_width() - texto_larg) // 2
+        y = TELA_ALT - self.harry_imagem.get_height() - texto_alt - 80
+
+        # Desenhar balão de fala
+        pygame.draw.rect(tela, PRETO, (x - 5, y - 5, texto_larg + 10, texto_alt + 10), border_radius=25)
+        pygame.draw.rect(tela, BRANCA, (x, y, texto_larg, texto_alt), border_radius=25)
+
+        # Desenhar texto no balão de fala
+        y_offset = 0
+        for texto in self.textos[self.indice_texto]:
+            texto = font4.render(texto, True, PRETO)
+            texto_ret = texto.get_rect(topleft=(x + 20, y + 20 + y_offset))
+            tela.blit(texto, texto_ret)
+            y_offset += 45
+
+        if self.indice_texto == 5:
+            texto2 = font4.render("Press -> to continue...", True, BRANCA)
+            texto2_ret = texto2.get_rect(center=(1100, 605))
+            tela.blit(texto2, texto2_ret)
+
+    def change_text(self):
+        if self.indice_texto in self.requere_transicao:
+            return
+        self.indice_texto = (self.indice_texto + 1) % len(self.textos)
+
+
+class Desafio9(TelaBase):
+    def __init__(self):
+        super().__init__()
+        self.pergunta_atual = 0
+        self.perguntas = [
+            {
+                "enunciado": "Complete as frases com 'there to be' ou 'to have'.",
+                "pergunta": "___ one boat on the river.",
+                "opcoes": ["1.There is", "2.There are", "3.Have"],
+                "resp_correta": 0
+            },
+            {
+                "enunciado": "Complete as frases com 'there to be' ou 'to have'.",
+                "pergunta": "___ a lot of animals behind this mountain.",
+                "opcoes": ["1.There is", "2.To have", "3.There are"],
+                "resp_correta": 2
+            },
+            {
+                "enunciado": "Responda a pergunta com a melhor resposta possível:",
+                "pergunta": "What is there in your bedroom?",
+                "opcoes": ["1.There are one bed.", "2.There to have one bed.", "3.There is a bed."],
+                "resp_correta": 2
+            },
+            {
+                "enunciado": "Responda a pergunta com a melhor resposta possível:",
+                "pergunta": "Why is there a boy flying on a broomstick?",
+                "opcoes": ["1.Because he is Harry Potter.", "2.why he plays quidditch.",
+                           "3.Because he is a soccer player."],
+                "resp_correta": 0
+            }
+
+        ]
+        self.personagem_imagem = garoto
+        self.escolha_atual = None
+
+    def update(self):
+        pass
+
+    def draw(self, tela):
+        global tela_atual
+        tela.blit(hogwarts, (0, 0))
+        tela.blit(self.personagem_imagem, (50, TELA_ALT - self.personagem_imagem.get_height() - 50))
+
+        if self.pergunta_atual < len(self.perguntas):
+            num_opcoes = len(self.perguntas[self.pergunta_atual]["opcoes"])
+            ret_pergunta_altura = num_opcoes * 80 + 160
+            ret_pergunta_largura = 900
+            pergunta_ret_x = (TELA_LARG - ret_pergunta_largura) // 2
+            pergunta_ret_y = (TELA_ALT - ret_pergunta_altura) // 2
+
+            superficie_transparente = pygame.Surface((ret_pergunta_largura, ret_pergunta_altura), pygame.SRCALPHA)
+            superficie_transparente.fill((0, 0, 0, 128))
+            tela.blit(superficie_transparente, (pergunta_ret_x, pergunta_ret_y))
+
+            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, BRANCA)
+            tela.blit(enunciado_texto, (pergunta_ret_x + 20, pergunta_ret_y + 20))
+
+            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, BRANCA)
+            tela.blit(pergunta_texto, (pergunta_ret_x + 20, pergunta_ret_y + 60))
+
+            y = pergunta_ret_y + 120
+            for indice, opcao in enumerate(self.perguntas[self.pergunta_atual]["opcoes"]):
+                opcao_texto = font2.render(opcao, True, BRANCA)
+                tela.blit(opcao_texto, (pergunta_ret_x + 40, y))
+                y += 80
+        else:
+            tela_atual = cenario10
+
+    def lidar_mouse_button_down_event(self, pos):
+        pass
+
+    def lidar_keydown_event(self, event):
+        global tela_atual
+        if event.key == pygame.K_1:
+            self.escolha_atual = 0
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
+        elif event.key == pygame.K_2:
+            self.escolha_atual = 1
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
+        elif event.key == pygame.K_3:
+            self.escolha_atual = 2
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
+        self.pergunta_atual = (self.pergunta_atual + 1) % len(self.perguntas)
+
+        if self.pergunta_atual == 0:
+            tela_atual = cenario10
+
+
+class Cenario10(TelaBase):
+    def __init__(self):
+        super().__init__()
+        self.indice_texto = 0
+        self.textos = [
+            ("This is the London Eye, um dos lugares mais movimentados de Londres!",
+             "Aqui, as pessoas sempre se divertem na roda gigante com vista para",
+             "Londres quase inteira."),
+            ("Here, vou te ensinar rapidamente sobre os",
+             "advérbios de frequência em inglês. Eles nos indicam com que frequência",
+             "algo ocorre."),
+            ("Alguns são 'always'(sempre), 'usually'(realmente), 'sometimes'(às vezes),",
+             "'rarely'(raramente) e 'never'(nunca). Por exemplo, 'I always wake up early'",
+             "(Eu sempre acordo cedo) ou 'I rarely eat fast food'(Eu raramente como",
+             "fast food). Agora, vamos praticar!")
+
+        ]
+        self.personagem_imagem = garoto
+        self.harry_imagem = harrypotter
+        self.requere_transicao = [2]
+
+    def update(self):
+        pass
+
+    def draw(self, tela):
+        tela.blit(london_eye, (0, 0))
+
+        # Define a margem lateral
+        margem = 50
+
+        # Desenhar personagens
+        tela.blit(self.personagem_imagem, (margem, TELA_ALT - self.personagem_imagem.get_height() - 50))
+        tela.blit(self.harry_imagem, (
+            TELA_LARG - self.harry_imagem.get_width() - margem, TELA_ALT - self.harry_imagem.get_height() - 50))
+
+        # Calcular posição do balão de fala
+        max_texto_larg = 1000
+        texto_larg = min(max(len(text) for text in self.textos[self.indice_texto]) * 18, max_texto_larg)
+        texto_alt = len(self.textos[self.indice_texto]) * 55
+        x = margem + self.personagem_imagem.get_width() + (
+                TELA_LARG - 2 * margem - self.personagem_imagem.get_width() -
+                self.harry_imagem.get_width() - texto_larg) // 2
+        y = TELA_ALT - self.harry_imagem.get_height() - texto_alt - 80
+
+        # Desenhar balão de fala
+        pygame.draw.rect(tela, PRETO, (x - 5, y - 5, texto_larg + 10, texto_alt + 10), border_radius=25)
+        pygame.draw.rect(tela, BRANCA, (x, y, texto_larg, texto_alt), border_radius=25)
+
+        # Desenhar texto no balão de fala
+        y_offset = 0
+        for texto in self.textos[self.indice_texto]:
+            texto = font4.render(texto, True, PRETO)
+            texto_ret = texto.get_rect(topleft=(x + 20, y + 20 + y_offset))
+            tela.blit(texto, texto_ret)
+            y_offset += 45
+
+        if self.indice_texto == 2:
+            texto2 = font4.render("Press -> to continue...", True, PRETO)
+            texto2_ret = texto2.get_rect(center=(1100, 605))
+            tela.blit(texto2, texto2_ret)
+
+    def change_text(self):
+        if self.indice_texto in self.requere_transicao:
+            return
+        self.indice_texto = (self.indice_texto + 1) % len(self.textos)
+
+
+class Desafio10(TelaBase):
+    def __init__(self):
+        super().__init__()
+        self.pergunta_atual = 0
+        self.perguntas = [
+            {
+                "enunciado": "Complete as lacunas com a resposta correta:",
+                "pergunta": "Harry Potter (sempre) flies on his broomstick.",
+                "opcoes": ["1.always", "2.never", "3.sometimes"],
+                "resp_correta": 0
+            },
+            {
+                "enunciado": "Complete as lacunas com a resposta correta:",
+                "pergunta": "We (as vezes) have pizza for dinner.",
+                "opcoes": ["1.rarely", "2.always", "3.sometimes"],
+                "resp_correta": 2
+            },
+            {
+                "enunciado": "Complete as lacunas com a resposta correta:",
+                "pergunta": "The train (geralmente) arrives on time at platform 9 ¾.",
+                "opcoes": ["1.rarely", "2.usually", "3.always"],
+                "resp_correta": 1
+            }
+
+        ]
+        self.personagem_imagem = garoto
+        self.escolha_atual = None
+
+    def update(self):
+        pass
+
+    def draw(self, tela):
+        global tela_atual
+        tela.blit(london_eye, (0, 0))
+        tela.blit(self.personagem_imagem, (50, TELA_ALT - self.personagem_imagem.get_height() - 50))
+
+        if self.pergunta_atual < len(self.perguntas):
+            num_opcoes = len(self.perguntas[self.pergunta_atual]["opcoes"])
+            ret_pergunta_altura = num_opcoes * 80 + 160
+            ret_pergunta_largura = 900
+            pergunta_ret_x = (TELA_LARG - ret_pergunta_largura) // 2
+            pergunta_ret_y = (TELA_ALT - ret_pergunta_altura) // 2
+
+            superficie_transparente = pygame.Surface((ret_pergunta_largura, ret_pergunta_altura), pygame.SRCALPHA)
+            superficie_transparente.fill((0, 0, 0, 128))
+            tela.blit(superficie_transparente, (pergunta_ret_x, pergunta_ret_y))
+
+            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, BRANCA)
+            tela.blit(enunciado_texto, (pergunta_ret_x + 20, pergunta_ret_y + 20))
+
+            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, BRANCA)
+            tela.blit(pergunta_texto, (pergunta_ret_x + 20, pergunta_ret_y + 60))
+
+            y = pergunta_ret_y + 120
+            for indice, opcao in enumerate(self.perguntas[self.pergunta_atual]["opcoes"]):
+                opcao_texto = font2.render(opcao, True, BRANCA)
+                tela.blit(opcao_texto, (pergunta_ret_x + 40, y))
+                y += 80
+        else:
+            tela_atual = cenario11
+
+    def lidar_mouse_button_down_event(self, pos):
+        pass
+
+    def lidar_keydown_event(self, event):
+        global tela_atual
+        if event.key == pygame.K_1:
+            self.escolha_atual = 0
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
+        elif event.key == pygame.K_2:
+            self.escolha_atual = 1
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
+        elif event.key == pygame.K_3:
+            self.escolha_atual = 2
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
+        self.pergunta_atual = (self.pergunta_atual + 1) % len(self.perguntas)
+
+        if self.pergunta_atual == 0:
+            tela_atual = cenario11
+
+
+class Cenario11(TelaBase):
+    def __init__(self):
+        super().__init__()
+        self.indice_texto = 0
+        self.textos = [
+            ("A pergunta mais comum quando alguém quer saber com que frequência",
+             "algo é feito é: HOW OFTEN (Com que frequência)"),
+            ("Para respondermos que fazemos algo 1 vez, usamos 'ONCE',",
+             "2 vezes, usamos 'TWICE', e acima de 3 colocamos o numero e 'TIMES',",
+             "ex: three times, four times, five times..."),
+            ("Ex: A- How often do you go to the gym?",
+             "(Com que frequência você vai à academia?)",
+             "B- I go to the gym twice a week.",
+             "(Eu vou a academia duas vezes por semana.)"),
+            ("Very good, young witch!!!",
+             "Now we are ready for the next BIG CHALLENGE number 2:")
+
+        ]
+        self.personagem_imagem = garoto
+        self.harry_imagem = harrypotter
+        self.requere_transicao = [3]
+
+    def update(self):
+        pass
+
+    def draw(self, tela):
+        tela.blit(london_eye, (0, 0))
+
+        # Define a margem lateral
+        margem = 50
+
+        # Desenhar personagens
+        tela.blit(self.personagem_imagem, (margem, TELA_ALT - self.personagem_imagem.get_height() - 50))
+        tela.blit(self.harry_imagem, (
+            TELA_LARG - self.harry_imagem.get_width() - margem, TELA_ALT - self.harry_imagem.get_height() - 50))
+
+        # Calcular posição do balão de fala
+        max_texto_larg = 1000
+        texto_larg = min(max(len(text) for text in self.textos[self.indice_texto]) * 18, max_texto_larg)
+        texto_alt = len(self.textos[self.indice_texto]) * 55
+        x = margem + self.personagem_imagem.get_width() + (
+                TELA_LARG - 2 * margem - self.personagem_imagem.get_width() -
+                self.harry_imagem.get_width() - texto_larg) // 2
+        y = TELA_ALT - self.harry_imagem.get_height() - texto_alt - 80
+
+        # Desenhar balão de fala
+        pygame.draw.rect(tela, PRETO, (x - 5, y - 5, texto_larg + 10, texto_alt + 10), border_radius=25)
+        pygame.draw.rect(tela, BRANCA, (x, y, texto_larg, texto_alt), border_radius=25)
+
+        # Desenhar texto no balão de fala
+        y_offset = 0
+        for texto in self.textos[self.indice_texto]:
+            texto = font4.render(texto, True, PRETO)
+            texto_ret = texto.get_rect(topleft=(x + 20, y + 20 + y_offset))
+            tela.blit(texto, texto_ret)
+            y_offset += 45
+
+        if self.indice_texto == 3:
+            texto2 = font4.render("Press -> to continue...", True, BRANCA)
+            texto2_ret = texto2.get_rect(center=(1100, 605))
+            tela.blit(texto2, texto2_ret)
+
+    def change_text(self):
+        if self.indice_texto in self.requere_transicao:
+            return
+        self.indice_texto = (self.indice_texto + 1) % len(self.textos)
+
+
+class IntroDesaf2(TelaBase):
+    def __init__(self):
+        super().__init__()
+        self.indice_texto = 0
+        self.textos = [
+            ("THE BIG CHALLENGE 2", "Press ENTER to continue..."),
+        ]
+
+        self.requere_transicao = [0]
+
+    def update(self):
+        pass
+
+    def draw(self, tela):
+        tela.fill(PRETO)
+        if self.indice_texto == 0:
+            texto1 = font5.render(self.textos[self.indice_texto][0], True, BRANCA)
+            texto1_ret = texto1.get_rect(center=(TELA_LARG // 2, TELA_ALT // 2))
+            tela.blit(texto1, texto1_ret)
+
+            texto2 = font6.render(self.textos[self.indice_texto][1], True, BRANCA)
+            texto2_ret = texto2.get_rect(center=(TELA_LARG // 2, 550))
+            tela.blit(texto2, texto2_ret)
+
+    def change_text(self):
+        if self.indice_texto in self.requere_transicao:
+            return
+        self.indice_texto = (self.indice_texto + 1) % len(self.textos)
+
+
+class GD2(TelaBase):
+    def __init__(self):
+        super().__init__()
+        self.pergunta_atual = 0
+        self.perguntas = [
+            {
+                "enunciado": "Complete the blank spaces to form affirmative sentences using the present continuous:",
+                "pergunta": "They ________ a play.",
+                "opcoes": ["1.is watching", "2.are watching", "3.am watching"],
+                "resp_correta": 1
+            },
+            {
+                "enunciado": "Complete the blank spaces to form affirmative sentences using the present continuous:",
+                "pergunta": "We ______ lunch at the Tower Bridge.",
+                "opcoes": ["1.are having", "2.is cooking", "3.there is having"],
+                "resp_correta": 0
+            },
+            {
+                "enunciado": "Complete the blank spaces to form affirmative sentences using the present continuous:",
+                "pergunta": "She is taking pictures near the Big Ben.",
+                "opcoes": ["1.is takes", "2.are taking", "3.is taking"],
+                "resp_correta": 2
+            },
+            {
+                "enunciado": "Sentences into Questions! Como as frases ficariam se fossem perguntas?",
+                "pergunta": "She is reading a book.",
+                "opcoes": ["1.Is she reading a book?", "2.Is reading she a book?", "3.Reads she a book?"],
+                "resp_correta": 0
+            },
+            {
+                "enunciado": "Sentences into Questions! Como as frases ficariam se fossem perguntas?",
+                "pergunta": "They are visiting the Tower Bridge.",
+                "opcoes": ["1.Is they visiting the Tower Bridge?", "2.Are visiting they the Tower Bridge?",
+                           "3.Are they visiting the Tower Bridge?"],
+                "resp_correta": 2
+            },
+            {
+                "enunciado": "Sentences into Questions! Como as frases ficariam se fossem perguntas?",
+                "pergunta": "We are eating at a restaurant.",
+                "opcoes": ["1.Is we eating at a restaurant?", "2.Are we eating at a restaurant?",
+                           "3.Eating we at a restaurant?"],
+                "resp_correta": 1
+            },
+            {
+                "enunciado": "Answer the question:",
+                "pergunta": "What do you do at the King's Cross Station?",
+                "opcoes": ["1.I travel by train.", "2.I see animals.", "3.I play football with my friends."],
+                "resp_correta": 0
+            },
+            {
+                "enunciado": "Answer the question:",
+                "pergunta": "Where is the Tower Bridge located?",
+                "opcoes": ["1.The tower bridge is in Edinburgh.", "2.The tower bridge is in London.",
+                           "3.The tower bridge is in Manchester."],
+                "resp_correta": 1
+            },
+            {
+                "enunciado": "Answer the question:",
+                "pergunta": "Why are tourists attracted to the London Eye?",
+                "opcoes": ["1.Because of the street performers.", "2.Because of the view.",
+                           "3.Because of the tall buildings."],
+                "resp_correta": 1
+            },
+            {
+                "enunciado": "Answer the question:",
+                "pergunta": "How often do tourists visit Big Ben?",
+                "opcoes": ["1.Tourists visit the Big Ben every day.", "2.Tourists visit the Big Ben once a month.",
+                           "3.Tourists visit the Big Ben once a year."],
+                "resp_correta": 0
+            },
+            {
+                "enunciado": "Translating...",
+                "pergunta": "Eu estou esperando pelo trem em King's Cross Station.",
+                "opcoes": ["1.I am waiting for the train at King's Cross Station.",
+                           "2.I am waiting the train at King's Cross Station.",
+                           "3.I am waiting the train in King's Cross Station."],
+                "resp_correta": 0
+            },
+            {
+                "enunciado": "Translating...",
+                "pergunta": "Eles estão estudando inglês em Londres.",
+                "opcoes": ["1.They are studying English at London.", "2.They are studying English in London.",
+                           "3.They are studying English on London."],
+                "resp_correta": 1
+            },
+            {
+                "enunciado": "Translating...",
+                "pergunta": "Ela está tirando fotos perto da Tower Bridge.",
+                "opcoes": ["1.She is taking pictures near the Tower Bridge.",
+                           "2.She is taking pictures near to the Tower Bridge.",
+                           "3.he is taking pictures near at the Tower Bridge."],
+                "resp_correta": 0
+            },
+            {
+                "enunciado": "Answer the question:",
+                "pergunta": "Which iconic landmark is located at the King's Cross Station?",
+                "opcoes": ["1.Platform 9¾", "2.Tower of London", "3.Buckingham Palace"],
+                "resp_correta": 0
+            },
+            {
+                "enunciado": "Answer the question:",
+                "pergunta": "",
+                "opcoes": ["1.Trafalgar Square", "2.Westminster Abbey", "3.Buckingham Palace"],
+                "resp_correta": 2
+            }
+        ]
+        self.personagem_imagem = garoto
+        self.escolha_atual = None
+
+    def update(self):
+        pass
+
+    def draw(self, tela):
+        global tela_atual
+        tela.blit(london_eye, (0, 0))
+        tela.blit(self.personagem_imagem, (50, TELA_ALT - self.personagem_imagem.get_height() - 50))
+
+        if self.pergunta_atual < len(self.perguntas):
+            num_opcoes = len(self.perguntas[self.pergunta_atual]["opcoes"])
+            ret_pergunta_altura = num_opcoes * 80 + 160
+            ret_pergunta_largura = 900
+            pergunta_ret_x = (TELA_LARG - ret_pergunta_largura) // 2
+            pergunta_ret_y = (TELA_ALT - ret_pergunta_altura) // 2
+
+            superficie_transparente = pygame.Surface((ret_pergunta_largura, ret_pergunta_altura), pygame.SRCALPHA)
+            superficie_transparente.fill((0, 0, 0, 128))
+            tela.blit(superficie_transparente, (pergunta_ret_x, pergunta_ret_y))
+
+            enunciado_texto = font2.render(self.perguntas[self.pergunta_atual]["enunciado"], True, BRANCA)
+            tela.blit(enunciado_texto, (pergunta_ret_x + 20, pergunta_ret_y + 20))
+
+            pergunta_texto = font2.render(self.perguntas[self.pergunta_atual]["pergunta"], True, BRANCA)
+            tela.blit(pergunta_texto, (pergunta_ret_x + 20, pergunta_ret_y + 60))
+
+            y = pergunta_ret_y + 120
+            for indice, opcao in enumerate(self.perguntas[self.pergunta_atual]["opcoes"]):
+                opcao_texto = font2.render(opcao, True, BRANCA)
+                tela.blit(opcao_texto, (pergunta_ret_x + 40, y))
+                y += 80
+        else:
+            tela_atual = final2
+
+    def lidar_mouse_button_down_event(self, pos):
+        pass
+
+    def lidar_keydown_event(self, event):
+        global tela_atual
+        if event.key == pygame.K_1:
+            self.escolha_atual = 0
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
+        elif event.key == pygame.K_2:
+            self.escolha_atual = 1
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
+        elif event.key == pygame.K_3:
+            self.escolha_atual = 2
+            if self.escolha_atual != self.perguntas[self.pergunta_atual]["resp_correta"]:
+                vidas.perder_vida()
+
+        self.pergunta_atual = (self.pergunta_atual + 1) % len(self.perguntas)
+
+        if self.pergunta_atual == 0:
+            tela_atual = final2
+
+
+class Final2(TelaBase):
+    def __init__(self):
+        super().__init__()
+        self.indice_texto = 0
+        self.textos = [
+            ("Congratulations!!! You finished one more Challenge with success!!!",
+             "E talvez você possa se tornar um grande bruxo no futuro, continue assim",
+             "e talvez mais para frente nos encontramos novamente em sua aventura pelo Mundo")
+        ]
+        self.personagem_imagem = garoto
+        self.harry_imagem = harrypotter
+        self.requere_transicao = [0]
+
+    def update(self):
+        pass
+
+    def draw(self, tela):
+        tela.blit(hogwarts, (0, 0))
+
+        # Define a margem lateral
+        margem = 50
+
+        # Desenhar personagens
+        tela.blit(self.personagem_imagem, (margem, TELA_ALT - self.personagem_imagem.get_height() - 50))
+        tela.blit(self.harry_imagem, (
+            TELA_LARG - self.harry_imagem.get_width() - margem, TELA_ALT - self.harry_imagem.get_height() - 50))
+
+        # Calcular posição do balão de fala
+        max_texto_larg = 900
+        texto_larg = min(max(len(text) for text in self.textos[self.indice_texto]) * 18, max_texto_larg)
+        texto_alt = len(self.textos[self.indice_texto]) * 55
+        x = margem + self.personagem_imagem.get_width() + (
+                TELA_LARG - 2 * margem - self.personagem_imagem.get_width() -
+                self.harry_imagem.get_width() - texto_larg) // 2
+        y = TELA_ALT - self.harry_imagem.get_height() - texto_alt - 80
+
+        # Desenhar balão de fala
+        pygame.draw.rect(tela, PRETO, (x - 5, y - 5, texto_larg + 10, texto_alt + 10), border_radius=25)
+        pygame.draw.rect(tela, BRANCA, (x, y, texto_larg, texto_alt), border_radius=25)
+
+        # Desenhar texto no balão de fala
+        y_offset = 0
+        for texto in self.textos[self.indice_texto]:
+            texto = font4.render(texto, True, PRETO)
+            texto_ret = texto.get_rect(topleft=(x + 20, y + 20 + y_offset))
+            tela.blit(texto, texto_ret)
+            y_offset += 45
+
+        if self.indice_texto == 0:
+            texto2 = font4.render("Press -> to continue...", True, PRETO)
+            texto2_ret = texto2.get_rect(center=(1100, 605))
+            tela.blit(texto2, texto2_ret)
+
+    def change_text(self):
+        if self.indice_texto in self.requere_transicao:
+            return
+        self.indice_texto = (self.indice_texto + 1) % len(self.textos)
 
 
 class Falhou(TelaBase):
@@ -1910,8 +2728,18 @@ fase2 = Fase2()
 introf2 = IntroF2()
 cenario7 = Cenario7()
 desafio7 = Desafio7()
+cenario8 = Cenario8()
+desafio8 = Desafio8()
+cenario9 = Cenario9()
+desafio9 = Desafio9()
+cenario10 = Cenario10()
+desafio10 = Desafio10()
+cenario11 = Cenario11()
+intro_desaf2 = IntroDesaf2()
+grande_desafio2 = GD2()
+final2 = Final2()
 falhou = Falhou()
-tela_atual = menu_principal
+tela_atual = cenario10
 
 
 def main():
@@ -2028,6 +2856,53 @@ def main():
                 elif tela_atual == desafio7:
                     if event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3:
                         desafio7.lidar_keydown_event(event)
+                elif tela_atual == cenario8:
+                    if event.key == pygame.K_SPACE:
+                        cenario8.change_text()
+                    if event.key == pygame.K_RIGHT:
+                        if cenario8.indice_texto in cenario8.requere_transicao:
+                            tela_atual = desafio8
+                elif tela_atual == desafio8:
+                    if event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3:
+                        desafio8.lidar_keydown_event(event)
+                elif tela_atual == cenario9:
+                    if event.key == pygame.K_SPACE:
+                        cenario9.change_text()
+                    if event.key == pygame.K_RIGHT:
+                        if cenario9.indice_texto in cenario9.requere_transicao:
+                            tela_atual = desafio9
+                elif tela_atual == desafio9:
+                    if event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3:
+                        desafio9.lidar_keydown_event(event)
+                elif tela_atual == cenario10:
+                    if event.key == pygame.K_SPACE:
+                        cenario10.change_text()
+                    if event.key == pygame.K_RIGHT:
+                        if cenario10.indice_texto in cenario10.requere_transicao:
+                            tela_atual = desafio10
+                elif tela_atual == desafio10:
+                    if event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3:
+                        desafio10.lidar_keydown_event(event)
+                elif tela_atual == cenario11:
+                    if event.key == pygame.K_SPACE:
+                        cenario11.change_text()
+                    if event.key == pygame.K_RIGHT:
+                        if cenario11.indice_texto in cenario11.requere_transicao:
+                            tela_atual = intro_desaf2
+                elif tela_atual == intro_desaf2:
+                    if event.key == pygame.K_SPACE:
+                        intro_desaf2.change_text()
+                    elif event.key == pygame.K_RETURN:
+                        tela_atual = grande_desafio2
+                elif tela_atual == grande_desafio2:
+                    if event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3:
+                        grande_desafio2.lidar_keydown_event(event)
+                elif tela_atual == final2:
+                    if event.key == pygame.K_SPACE:
+                        final2.change_text()
+                    if event.key == pygame.K_RIGHT:
+                        if final2.indice_texto in final2.requere_transicao:
+                            tela_atual = menu_principal
         tela.fill(PRETO)
         tela_atual.draw(tela)
         vidas.draw(tela)
