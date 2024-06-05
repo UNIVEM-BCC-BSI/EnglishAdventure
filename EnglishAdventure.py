@@ -33,6 +33,7 @@ imagem_fundo = pygame.image.load("imagens/cenario_inicio.jpeg").convert_alpha()
 cenario_img = pygame.image.load("imagens/cenario1.png").convert_alpha()
 cenario2_img = pygame.image.load("imagens/insidecastle.png").convert_alpha()
 hogwarts = pygame.image.load("imagens/hogwarts.jpg").convert_alpha()
+big_ben = pygame.image.load("imagens/fundo big ben.png").convert_alpha()
 london_eye = pygame.image.load("imagens/london eye.png").convert_alpha()
 
 
@@ -44,6 +45,9 @@ class TelaBase:
         pass
 
     def draw(self, tela):
+        pass
+
+    def play(self):
         pass
 
 
@@ -66,6 +70,10 @@ class MenuPrincipal(TelaBase):
         # Desenha os personagens
         self.botao_start.draw(tela)
         self.botao_credito.draw(tela)
+
+    def play(self):
+        pygame.mixer.music.load('musicainicio.mp3')
+        pygame.mixer.music.play(-1)
 
 
 class Button:
@@ -96,7 +104,8 @@ class TelaCreditos(TelaBase):
     def draw(self, tela):
         tela.fill(PRETO)
         texto = ["Beatriz Almeida Pires", "Jeann Garçoni Alves", "Jhenifer Gonçalves Januário",
-                 "João Pedro de Oliveira Peres", "João Vitor Gaiato", "Kauan Omura Lopes", "Tamires Ledo da Silva Alves"]
+                 "João Pedro de Oliveira Peres", "João Vitor Gaiato", "Kauan Omura Lopes",
+                 "Tamires Ledo da Silva Alves"]
         y = 80
         for nome in texto:
             nome_texto = font.render(nome, True, BRANCA)
@@ -169,6 +178,10 @@ class TelaIntro1(TelaBase):
                 texto4 = font6.render(self.textos[self.indice_texto][3], True, BRANCA)
                 texto4_ret = texto4.get_rect(center=(TELA_LARG // 2, 550))
                 tela.blit(texto4, texto4_ret)
+
+    def play(self):
+        pygame.mixer.music.load('musicaprincipal.mp3')
+        pygame.mixer.music.play(-1)
 
     def change_text(self):
         if self.indice_texto in self.requere_transicao:
@@ -1633,6 +1646,10 @@ class IntroF2(TelaBase):
             texto2_ret = texto2.get_rect(center=(1100, 605))
             tela.blit(texto2, texto2_ret)
 
+    def play(self):
+        pygame.mixer.music.load('musicaharry.mp3')
+        pygame.mixer.music.play(-1)
+
     def change_text(self):
         if self.indice_texto in self.requere_transicao:
             return
@@ -1715,6 +1732,10 @@ class Cenario7(TelaBase):
             texto2 = font4.render("Press -> to continue...", True, BRANCA)
             texto2_ret = texto2.get_rect(center=(1100, 605))
             tela.blit(texto2, texto2_ret)
+
+    def play(self):
+        pygame.mixer.music.load('musicaharry.mp3')
+        pygame.mixer.music.play(-1)
 
     def change_text(self):
         if self.indice_texto in self.requere_transicao:
@@ -1871,7 +1892,7 @@ class Cenario8(TelaBase):
         pass
 
     def draw(self, tela):
-        tela.blit(hogwarts, (0, 0))
+        tela.blit(big_ben, (0, 0))
 
         # Define a margem lateral
         margem = 50
@@ -1953,7 +1974,7 @@ class Desafio8(TelaBase):
 
     def draw(self, tela):
         global tela_atual
-        tela.blit(hogwarts, (0, 0))
+        tela.blit(big_ben, (0, 0))
         tela.blit(self.personagem_imagem, (50, TELA_ALT - self.personagem_imagem.get_height() - 50))
 
         if self.pergunta_atual < len(self.perguntas):
@@ -2735,6 +2756,8 @@ grande_desafio2 = GD2()
 final2 = Final2()
 falhou = Falhou()
 tela_atual = menu_principal
+pygame.mixer.music.load('musicainicio.mp3')
+pygame.mixer.music.play(-1)
 
 
 def main():
@@ -2748,8 +2771,10 @@ def main():
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if tela_atual == menu_principal:
+                    menu_principal.play()
                     if menu_principal.botao_start.is_clicked(pygame.mouse.get_pos()):
                         tela_atual = tela_intro1
+                        tela_intro1.play()
                     elif menu_principal.botao_credito.is_clicked(pygame.mouse.get_pos()):
                         tela_atual = tela_creditos
                 if tela_atual == tela_creditos:
@@ -2833,9 +2858,11 @@ def main():
                 elif tela_atual == falhou:
                     if event.key == pygame.K_RETURN:
                         tela_atual = menu_principal
+                        menu_principal.play()
                 elif tela_atual == fase2:
                     if event.key == pygame.K_SPACE:
                         tela_atual = introf2
+                        introf2.play()
                 elif tela_atual == introf2:
                     if event.key == pygame.K_SPACE:
                         introf2.change_text()
@@ -2898,6 +2925,7 @@ def main():
                     if event.key == pygame.K_RIGHT:
                         if final2.indice_texto in final2.requere_transicao:
                             tela_atual = menu_principal
+                            menu_principal.play()
         tela.fill(PRETO)
         tela_atual.draw(tela)
         vidas.draw(tela)
