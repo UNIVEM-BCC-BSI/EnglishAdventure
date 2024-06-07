@@ -20,21 +20,21 @@ font = pygame.font.Font(None, 48)
 font2 = pygame.font.Font(None, 40)
 font3 = pygame.font.Font(None, 36)
 font4 = pygame.font.Font(None, 33)
-font5 = pygame.font.Font('pixelfont.ttf', 60)
-font6 = pygame.font.Font('pixelfont.ttf', 48)
-font7 = pygame.font.Font('pixelfont.ttf', 42)
+font5 = pygame.font.Font('arquivos/musicas/pixelfont.ttf', 60)
+font6 = pygame.font.Font('arquivos/musicas/pixelfont.ttf', 48)
+font7 = pygame.font.Font('arquivos/musicas/pixelfont.ttf', 42)
 
 # Imagens
-garoto = pygame.image.load("imagens/garoto.png").convert_alpha()
-rainha = pygame.image.load("imagens/rainha.png").convert_alpha()
-guarda = pygame.image.load("imagens/guardareal.png").convert_alpha()
-harrypotter = pygame.image.load("imagens/harrypotter1.png").convert_alpha()
-imagem_fundo = pygame.image.load("imagens/cenario_inicio.jpeg").convert_alpha()
-cenario_img = pygame.image.load("imagens/cenario1.png").convert_alpha()
-cenario2_img = pygame.image.load("imagens/insidecastle.png").convert_alpha()
-hogwarts = pygame.image.load("imagens/hogwarts.jpg").convert_alpha()
-big_ben = pygame.image.load("imagens/fundo big ben.png").convert_alpha()
-london_eye = pygame.image.load("imagens/london eye.png").convert_alpha()
+garoto = pygame.image.load("arquivos/imagens/garoto.png").convert_alpha()
+rainha = pygame.image.load("arquivos/imagens/rainha.png").convert_alpha()
+guarda = pygame.image.load("arquivos/imagens/guardareal.png").convert_alpha()
+harrypotter = pygame.image.load("arquivos/imagens/harrypotter1.png").convert_alpha()
+imagem_fundo = pygame.image.load("arquivos/imagens/cenario_inicio.jpeg").convert_alpha()
+cenario_img = pygame.image.load("arquivos/imagens/cenario1.png").convert_alpha()
+cenario2_img = pygame.image.load("arquivos/imagens/insidecastle.png").convert_alpha()
+hogwarts = pygame.image.load("arquivos/imagens/hogwarts.jpg").convert_alpha()
+big_ben = pygame.image.load("arquivos/imagens/fundo big ben.png").convert_alpha()
+london_eye = pygame.image.load("arquivos/imagens/london eye.png").convert_alpha()
 
 
 class TelaBase:
@@ -72,7 +72,7 @@ class MenuPrincipal(TelaBase):
         self.botao_credito.draw(tela)
 
     def play(self):
-        pygame.mixer.music.load('musicainicio.mp3')
+        pygame.mixer.music.load('arquivos/musicas/musicainicio.mp3')
         pygame.mixer.music.play(-1)
 
 
@@ -180,7 +180,7 @@ class TelaIntro1(TelaBase):
                 tela.blit(texto4, texto4_ret)
 
     def play(self):
-        pygame.mixer.music.load('musicaprincipal.mp3')
+        pygame.mixer.music.load('arquivos/musicas/MusicaFundo.mp3')
         pygame.mixer.music.play(-1)
 
     def change_text(self):
@@ -193,8 +193,8 @@ class Vidas:
     def __init__(self):
         self.max_vidas = 5
         self.vidas_atual = self.max_vidas
-        self.coracao_cheio = pygame.image.load("imagens/coracaocheio.png").convert_alpha()
-        self.coracao_vazio = pygame.image.load("imagens/coracaovazio.png").convert_alpha()
+        self.coracao_cheio = pygame.image.load("arquivos/imagens/coracaocheio.png").convert_alpha()
+        self.coracao_vazio = pygame.image.load("arquivos/imagens/coracaovazio.png").convert_alpha()
         self.coracao_larg = self.coracao_cheio.get_width()
         self.coracao_alt = self.coracao_cheio.get_height()
         self.espacamento = 10
@@ -1647,7 +1647,7 @@ class IntroF2(TelaBase):
             tela.blit(texto2, texto2_ret)
 
     def play(self):
-        pygame.mixer.music.load('musicaharry.mp3')
+        pygame.mixer.music.load('arquivos/musicas/musicaharry.mp3')
         pygame.mixer.music.play(-1)
 
     def change_text(self):
@@ -1734,7 +1734,7 @@ class Cenario7(TelaBase):
             tela.blit(texto2, texto2_ret)
 
     def play(self):
-        pygame.mixer.music.load('musicaharry.mp3')
+        pygame.mixer.music.load('arquivos/musicas/musicaharry.mp3')
         pygame.mixer.music.play(-1)
 
     def change_text(self):
@@ -2756,7 +2756,7 @@ grande_desafio2 = GD2()
 final2 = Final2()
 falhou = Falhou()
 tela_atual = menu_principal
-pygame.mixer.music.load('musicainicio.mp3')
+pygame.mixer.music.load('arquivos/musicas/musicainicio.mp3')
 pygame.mixer.music.play(-1)
 
 
