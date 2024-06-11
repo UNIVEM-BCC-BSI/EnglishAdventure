@@ -35,6 +35,9 @@ cenario2_img = pygame.image.load("arquivos/imagens/insidecastle.png").convert_al
 hogwarts = pygame.image.load("arquivos/imagens/hogwarts.jpg").convert_alpha()
 big_ben = pygame.image.load("arquivos/imagens/fundo big ben.png").convert_alpha()
 london_eye = pygame.image.load("arquivos/imagens/london eye.png").convert_alpha()
+trem = pygame.image.load("arquivos/imagens/trem.jpg")
+tower_bridge = pygame.image.load("arquivos/imagens/tower_bridge.jpg")
+cenario_c_guarda_img = pygame.image.load("arquivos/imagens/cenario_c_guarda.jpg")
 
 
 class TelaBase:
@@ -933,14 +936,13 @@ class Cenario5(TelaBase):
         ]
         self.personagem_imagem = garoto
         self.rainha_imagem = rainha
-        # self.guarda_imagem = guarda
         self.requere_transicao = [6]
 
     def update(self):
         pass
 
     def draw(self, tela):
-        tela.blit(cenario_img, (0, 0))
+        tela.blit(cenario_c_guarda_img, (0, 0))
 
         # Define a margem lateral
         margem = 50
@@ -1697,7 +1699,7 @@ class Cenario7(TelaBase):
         pass
 
     def draw(self, tela):
-        tela.blit(hogwarts, (0, 0))
+        tela.blit(trem, (0, 0))
 
         # Define a margem lateral
         margem = 50
@@ -1802,7 +1804,7 @@ class Desafio7(TelaBase):
 
     def draw(self, tela):
         global tela_atual
-        tela.blit(hogwarts, (0, 0))
+        tela.blit(trem, (0, 0))
         tela.blit(self.personagem_imagem, (50, TELA_ALT - self.personagem_imagem.get_height() - 50))
 
         if self.pergunta_atual < len(self.perguntas):
@@ -2063,7 +2065,7 @@ class Cenario9(TelaBase):
         pass
 
     def draw(self, tela):
-        tela.blit(hogwarts, (0, 0))
+        tela.blit(tower_bridge, (0, 0))
 
         # Define a margem lateral
         margem = 50
@@ -2145,7 +2147,7 @@ class Desafio9(TelaBase):
 
     def draw(self, tela):
         global tela_atual
-        tela.blit(hogwarts, (0, 0))
+        tela.blit(tower_bridge, (0, 0))
         tela.blit(self.personagem_imagem, (50, TELA_ALT - self.personagem_imagem.get_height() - 50))
 
         if self.pergunta_atual < len(self.perguntas):
