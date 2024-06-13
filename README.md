@@ -8,26 +8,16 @@ O projeto nos desafiou a aprender Python do zero, abrangendo conceitos de funç�
 
 ### Como acessar o jogo:
 
-1. Baixe todos os arquivos do diretório "jogo_executavel".
+1. Baixe todos os arquivos da pasta "jogo_executavel".
 2. Após baixar os arquivos para o seu computador, descompacte-os (se necessário).
-3. Execute o jogo
+3. Execute o jogo.
 4. Ignore qualquer mensagem de aviso, pois elas não afetarão o seu computador.
-
-## Contribuição
-
-Se você deseja contribuir com o projeto, siga os passos abaixo:
-
-1. Faça um fork do repositório.
-2. Crie uma branch para sua feature.
-3. Commit suas alterações.
-4. Envie para o branch.
-5. Abra um Pull Request.
-
+5. Após iniciar o jogo, você terá apenas 5 vidas, então cuidado para não perder todas e voltar ao começo do desafio, hahaha!
 
 ## Autores
 
-- **João Vitor e Jeann Alves ** - *João Vitor* - [(https://github.com/seu-usuario](https://github.com/JoaoGaiato))
-- **Outros Colaboradores**
+- **Desenvolvedor - João Vitor** - *João Vitor* - [GitHub](https://github.com/JoaoGaiato)
+- **Desenvolvedor - Jeann Alves** - *Jeann Alves* - [GitHub](https://github.com/JeannAlves)
 
 ## Agradecimentos
 
