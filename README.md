@@ -26,7 +26,7 @@ Se você deseja contribuir com o projeto, siga os passos abaixo:
 
 ## Autores
 
-- **Seu Nome** - *Desenvolvedor Principal* - [Seu Perfil](https://github.com/seu-usuario)
+- **João Vitor e Jeann Alves ** - *João Vitor* - [JoaoGaiato](https://github.com/seu-usuario](https://github.com/JoaoGaiato))
 - **Outros Colaboradores**
 
 ## Agradecimentos
