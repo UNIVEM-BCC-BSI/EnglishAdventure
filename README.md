@@ -26,7 +26,7 @@ Se você deseja contribuir com o projeto, siga os passos abaixo:
 
 ## Autores
 
-- **João Vitor e Jeann Alves ** - *João Vitor* - [JoaoGaiato](https://github.com/seu-usuario](https://github.com/JoaoGaiato))
+- **João Vitor e Jeann Alves ** - *João Vitor* - [(https://github.com/seu-usuario](https://github.com/JoaoGaiato))
 - **Outros Colaboradores**
 
 ## Agradecimentos
