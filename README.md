@@ -8,8 +8,8 @@ O projeto nos desafiou a aprender Python do zero, abrangendo conceitos de funç�
 
 ### Como acessar o jogo:
 
-1. Baixe todos os arquivos da pasta "jogo_executavel".
-2. Após baixar os arquivos para o seu computador, descompacte-os (se necessário).
+1. Baixe todos os arquivos da pasta "arquivos.zip".
+2. Após baixar os arquivos para o seu computador, descompacte-os (se necessário) e clique em "extrair tudo".
 3. Execute o jogo.
 4. Ignore qualquer mensagem de aviso, pois elas não afetarão o seu computador.
 5. Após iniciar o jogo, você terá apenas 5 vidas, então cuidado para não perder todas e voltar ao começo do desafio, hahaha!
