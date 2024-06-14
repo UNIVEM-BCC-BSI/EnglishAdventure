@@ -2,7 +2,7 @@
 
 ## Descrição
 
-"EnglishAdventure" é um jogo educativo em Python criado para auxiliar professores no ensino de inglês de forma interativa e divertida. Desenvolvido por estudantes do 1º semestre do curso de Ciência da Computação, o jogo utiliza a biblioteca Pygame e é direcionado a alunos do Ensino Fundamental II.
+"EnglishAdventure" é um jogo educativo em Python criado para auxiliar professores no ensino de inglês, em parceria com o Colégio Água Viva-Marília-SP, de forma interativa e divertida. Desenvolvido por estudantes do 1º semestre do curso de Ciência da Computação, o jogo utiliza a biblioteca Pygame e é direcionado a alunos do Ensino Fundamental II.
 
 O projeto nos desafiou a aprender Python do zero, abrangendo conceitos de funções, orientação a objetos e o uso da Pygame. Enfrentamos o desafio de aprender uma nova linguagem de programação e desenvolver um projeto completo em um curto período. A experiência resultou em um aprendizado profundo em Python e desenvolvimento de jogos, culminando em um jogo funcional que superou nossas expectativas e foi bem recebido pelos usuários. O jogo não só auxilia no aprendizado do inglês, mas também proporciona diversão através dos desafios propostos.
 
