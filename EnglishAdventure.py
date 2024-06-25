@@ -20,9 +20,9 @@ font = pygame.font.Font(None, 48)
 font2 = pygame.font.Font(None, 40)
 font3 = pygame.font.Font(None, 36)
 font4 = pygame.font.Font(None, 33)
-font5 = pygame.font.Font('arquivos/musicas/pixelfont.ttf', 60)
-font6 = pygame.font.Font('arquivos/musicas/pixelfont.ttf', 48)
-font7 = pygame.font.Font('arquivos/musicas/pixelfont.ttf', 42)
+font5 = pygame.font.Font('pixelfont.ttf', 60)
+font6 = pygame.font.Font('pixelfont.ttf', 48)
+font7 = pygame.font.Font('pixelfont.ttf', 42)
 
 # Imagens
 garoto = pygame.image.load("arquivos/imagens/garoto.png").convert_alpha()
