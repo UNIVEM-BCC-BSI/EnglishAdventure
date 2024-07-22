@@ -18,6 +18,7 @@ O projeto nos desafiou a aprender Python do zero, abrangendo conceitos de funç�
 
 - **Desenvolvedor - Jeann Alves** - *Jeann Alves* - [GitHub](https://github.com/JeannAlves12)
 - **Desenvolvedor - João Vitor** - *João Vitor* - [GitHub](https://github.com/JoaoGaiato)
+- **Design Gráfico - Jhenifer Januário**- *Jhenifer Januário* - [GitHub](https://github.com/JheniferJanuario)
 
 ### Agradecimentos
 
